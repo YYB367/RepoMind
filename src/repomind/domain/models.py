@@ -26,7 +26,10 @@ def parse_timestamp(value: object, *, allow_date: bool = False) -> datetime:
         raise ValueError("expected ISO 8601 string or timezone-aware datetime")
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("datetime must include timezone (Z or UTC offset)")
-    return parsed.astimezone(timezone.utc)
+    try:
+        return parsed.astimezone(timezone.utc)
+    except OverflowError as exc:
+        raise ValueError("datetime outside supported UTC range") from exc
 
 
 class Contract(BaseModel):
