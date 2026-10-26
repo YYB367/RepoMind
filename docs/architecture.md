@@ -61,15 +61,15 @@ SQLite 保存事件内容、原始 JSON、时间、来源和替代关系；不�
 
 Query 必须包含 project_id、predicate、as_of；subject 默认 `project`。CLI `--field` 为 predicate 的用户入口。as_of 接受含时区时间戳或 `YYYY-MM-DD`；日期表示 UTC 当日 23:59:59.999999。known_at 可选，采用相同日期规则，表示可使用的观察记录截止时间；默认不限制。
 
-1. 数据库按完整作用域键筛选；retriever 不跨项目回退。
-2. 按 `effective_at <= as_of` 筛选事实；若指定 known_at，再要求 `observed_at <= known_at`。计划只作为计划 ID 说明，不进入事实状态。
+1. SQLiteMemoryStore.list_events(query) 按完整作用域键及可选 known_at 筛选全部该键历史；retriever 不跨项目回退。
+2. Resolver 按 `effective_at <= as_of` 筛选事实；若指定 known_at，候选已满足 `observed_at <= known_at`。plan_event_ids 仅展示 observed_at <= as_of 的可见计划，未来计划生效日期不影响展示；计划绝不进入事实状态。
 3. 应用当前可见 correct 的显式替代关系。被替代的旧事件仍留在账本。
 4. 剩余事实选择最大的 effective_at。该时间所有事件 value 相同则返回 ok，并联合所有支持证据；存在不同值则返回 insufficient_evidence 和冲突证据。
 5. 没有事实返回 unknown，reason 区分缺记录与只有计划。事件 ID 或文件顺序不能打破冲突；observed_at 较晚不能自动证明同时间事实更可信。
 
 默认历史查询是“用当前所有已知记录重建过去的有效状态”。`known_at` 回答“当时所知”。例如 5 月纠正 1 月错误：查询 2 月默认使用纠正值；指定 known_at=2 月则仍返回当时的旧值。4 月新生效的数据库事实不会因为纠正了 1 月事实而丢失。
 
-QueryResult 至少含 status（ok / unknown / insufficient_evidence）、value（仅 ok 非空）、reason、evidence、considered_event_ids。Evidence 包含 event_id、source_id、project_id 以及事实键和值、时间，足以回查账本。plan_event_ids 若提供只表示已观察计划，不代表计划已生效。冲突值不通过字符串拼接伪造成确定答案。
+QueryResult 至少含 status（ok / unknown / insufficient_evidence）、value（仅 ok 非空）、reason、evidence、considered_event_ids。evidence 为完整 Event 列表，仅含最终活跃候选；包含 event_id、source_id、project_id 以及事实键和值、时间，足以回查账本。被纠错目标仅保留于存储及 considered_event_ids，不作为直接答案证据。plan_event_ids 若提供只表示已观察计划，不代表计划已生效。冲突值不通过字符串拼接伪造成确定答案。
 
 ## 评测边界
 
@@ -85,3 +85,4 @@ QueryResult 至少含 status（ok / unknown / insufficient_evidence）、value�
 - Harness²、Dream-RSI：本轮仅依据用户提供的规划归档理解为候选策略评估和历史重放方向，未检索或核验论文原文，不据此作技术事实或效果断言；不实施优化循环。
 
 V1.1 仅规划事件入口前的事实提取与检索候选增强，仍须保留隔离、时间规则和来源契约。V1.2 及以后必须独立授权并通过对应验收。V1 验收后停止开发。
+

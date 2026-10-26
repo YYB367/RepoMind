@@ -1,0 +1,57 @@
+{
+  "dataset_version": "1.0.0",
+  "frozen_on": "2026-10-26",
+  "oracle": "Manually authored expected values and evidence IDs; no RepoMind implementation or output used.",
+  "event_count": 60,
+  "project_counts": {
+    "CampusRecruit": 20,
+    "ShopLedger": 20,
+    "BuildPilot": 20
+  },
+  "question_count": 48,
+  "split_counts": {
+    "dev": 32,
+    "holdout": 16
+  },
+  "category_counts": {
+    "basic": 8,
+    "temporal": 8,
+    "state": 8,
+    "cross_session": 8,
+    "isolation": 8,
+    "unknown": 8
+  },
+  "split_category_counts": {
+    "dev": {
+      "basic": 6,
+      "temporal": 5,
+      "state": 5,
+      "cross_session": 6,
+      "isolation": 5,
+      "unknown": 5
+    },
+    "holdout": {
+      "basic": 2,
+      "temporal": 3,
+      "state": 3,
+      "cross_session": 2,
+      "isolation": 3,
+      "unknown": 3
+    }
+  },
+  "holdout_policy": "BuildPilot absent from development questions; shared rules remain. Holdout opened once after development validation, no answer changes to fit output.",
+  "files": {
+    "fixtures/conversations.jsonl": {
+      "rows": 60,
+      "sha256": "4542212c9842d1ba32a10fa492eed573db56bb77698d7bb68fb4ecd13e8bac69"
+    },
+    "dev/questions.jsonl": {
+      "rows": 32,
+      "sha256": "7820c63c1891be167e61e55354a378d20e62568c057351528f27c63bfd080c8b"
+    },
+    "holdout/questions.jsonl": {
+      "rows": 16,
+      "sha256": "7eb44b226979fbe1b48c35ffe69124d3f4e87d63caf3ef018bdc1eed46c0be7d"
+    }
+  }
+}
