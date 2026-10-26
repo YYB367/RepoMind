@@ -1,0 +1,2137 @@
+{
+  "report_version": "1.0",
+  "generated_at": "2026-10-26T11:08:45.859994+00:00",
+  "strategy": "latest_observation_baseline",
+  "config": {
+    "events_path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\fixtures\\conversations.jsonl",
+    "dataset_path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\holdout\\questions.jsonl",
+    "events_sha256": "4542212c9842d1ba32a10fa492eed573db56bb77698d7bb68fb4ecd13e8bac69",
+    "dataset_sha256": "7eb44b226979fbe1b48c35ffe69124d3f4e87d63caf3ef018bdc1eed46c0be7d",
+    "python_version": "3.12.14",
+    "repomind_version": "1.0.0",
+    "pydantic_version": "2.14.1",
+    "sqlite_version": "3.53.1",
+    "database": "fresh temporary SQLite; removed after scoring",
+    "import": {
+      "imported": 60,
+      "duplicates": 0
+    },
+    "scoring": "all queries: exact status/value + exact event ID set + ledger citation validity",
+    "date_policy": "date-only queries mean end-of-day UTC; known_at is optional",
+    "baseline_policy": "same scope; observed_at<=as_of and known_at if given; max(observed_at,event_id); ignores event_type/effective_at/correction links",
+    "failure_stage_precedence": [
+      "invalid provenance",
+      "missing retrieval candidates",
+      "incorrect resolution",
+      "wrong evidence selection"
+    ],
+    "project_leakage_unit": "number of queries containing any out-of-project candidate/citation"
+  },
+  "metrics": {
+    "total": 16,
+    "correct": 8,
+    "accuracy": 0.5,
+    "answer_accuracy": 0.5625,
+    "categories": {
+      "basic": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "cross_session": {
+        "total": 2,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "isolation": {
+        "total": 3,
+        "correct": 2,
+        "accuracy": 0.6666666666666666
+      },
+      "state": {
+        "total": 3,
+        "correct": 1,
+        "accuracy": 0.3333333333333333
+      },
+      "temporal": {
+        "total": 3,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "unknown": {
+        "total": 3,
+        "correct": 3,
+        "accuracy": 1.0
+      }
+    },
+    "query_total": 24,
+    "unknown_correct": 3,
+    "unknown_expected_count": 3,
+    "unknown_information_handling_rate": 1.0,
+    "refusal_correct": 3,
+    "refusal_expected_count": 5,
+    "refusal_correctness": 0.6,
+    "project_leakage_count": 0,
+    "citation_valid": 15,
+    "citation_total": 19,
+    "source_citation_correctness": 0.7894736842105263,
+    "evidence_match_count": 15,
+    "evidence_match_rate": 0.625,
+    "runtime_seconds": 0.04131110000889748
+  },
+  "failures": [
+    {
+      "question_id": "H-T01",
+      "category": "temporal",
+      "description": "迟到观察不改变实际生效边界的包含关系。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": true,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-15T00:00:00Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B06"
+          ]
+        }
+      ],
+      "runtime_seconds": 0.00021639998885802925
+    },
+    {
+      "question_id": "H-T02",
+      "category": "temporal",
+      "description": "精确时间在完成生效之前一秒。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-14T23:59:59Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "B01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "citation is not effective at as_of; plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00019869999960064888
+    },
+    {
+      "question_id": "H-T03",
+      "category": "temporal",
+      "description": "使用观察截止时间保留迟到记录之前的知识。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-15T23:59:59.999999Z",
+            "known_at": "2026-03-19T23:59:59Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "B01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00019869999960064888
+    },
+    {
+      "question_id": "H-S02",
+      "category": "state",
+      "description": "只依据已观察到的相互冲突队列事件拒答。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": "2026-02-03T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "event_ids": [
+              "B13",
+              "B14"
+            ]
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B13",
+            "B14"
+          ]
+        }
+      ],
+      "runtime_seconds": 7.249999907799065e-05
+    },
+    {
+      "question_id": "H-S03",
+      "category": "state",
+      "description": "后续纠错消除冲突且保留同值证据。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": "2026-02-04T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "NATS",
+            "event_ids": [
+              "B13",
+              "B15"
+            ]
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B13",
+            "B15"
+          ]
+        }
+      ],
+      "runtime_seconds": 7.319998985622078e-05
+    },
+    {
+      "question_id": "H-C01",
+      "category": "cross_session",
+      "description": "联合三个会话事实并忽略尚未完成的 CI 计划。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B06",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-20T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05",
+              "B06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "deployment",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "VM",
+            "event_ids": [
+              "B20"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "VM",
+            "evidence": [
+              {
+                "event_id": "B20",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "deployment",
+                "value": "VM",
+                "event_type": "complete",
+                "observed_at": "2026-04-15T00:00:00Z",
+                "effective_at": "2026-04-15T00:00:00Z",
+                "source_id": "build-session-16",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B04",
+              "B20"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "ci",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Jenkins",
+            "event_ids": [
+              "B07"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "CircleCI",
+            "evidence": [
+              {
+                "event_id": "B18",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "ci",
+                "value": "CircleCI",
+                "event_type": "plan",
+                "observed_at": "2026-03-01T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "build-session-14",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B07",
+              "B18"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B18",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0006262000097194687
+    },
+    {
+      "question_id": "H-C02",
+      "category": "cross_session",
+      "description": "以当前知识联合重建三个会话的历史配置。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "workers",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "8",
+            "event_ids": [
+              "B09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "4",
+            "evidence": [
+              {
+                "event_id": "B08",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "workers",
+                "value": "4",
+                "event_type": "declare",
+                "observed_at": "2026-01-08T00:00:00Z",
+                "effective_at": "2026-01-08T00:00:00Z",
+                "source_id": "build-session-05",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B08"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B09"
+          ]
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "language",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Python 3.11",
+            "event_ids": [
+              "B03"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Python 3.11",
+            "evidence": [
+              {
+                "event_id": "B03",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "language",
+                "value": "Python 3.11",
+                "event_type": "declare",
+                "observed_at": "2026-01-04T00:00:00Z",
+                "effective_at": "2026-01-04T00:00:00Z",
+                "source_id": "build-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B03"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "cache",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Redis",
+            "event_ids": [
+              "B11"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Redis",
+            "evidence": [
+              {
+                "event_id": "B11",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "cache",
+                "value": "Redis",
+                "event_type": "declare",
+                "observed_at": "2026-01-09T00:00:00Z",
+                "effective_at": "2026-01-09T00:00:00Z",
+                "source_id": "build-session-07",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B11"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0004344000044511631
+    },
+    {
+      "question_id": "H-I03",
+      "category": "isolation",
+      "description": "别的项目的区域同值佐证不能掩盖本项目冲突。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "region",
+            "as_of": "2026-01-12T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "event_ids": [
+              "B16",
+              "B17"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "eu-west-1",
+            "evidence": [
+              {
+                "event_id": "B16",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "region",
+                "value": "eu-west-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-12T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "build-session-12",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B17"
+          ]
+        },
+        {
+          "passed": false,
+          "answer_correct": true,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "region",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "event_ids": [
+              "S15",
+              "S16"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "evidence": [
+              {
+                "event_id": "S16",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "region",
+                "value": "ap-east-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-13T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "shop-session-11",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "S15",
+              "S16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.000327600006130524
+    }
+  ],
+  "cases": [
+    {
+      "question_id": "H-B01",
+      "category": "basic",
+      "description": "召回构建项目的初始数据库。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-01-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "B01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "B01",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-04T00:00:00Z",
+                "effective_at": "2026-01-04T00:00:00Z",
+                "source_id": "build-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00035909999860450625
+    },
+    {
+      "question_id": "H-B02",
+      "category": "basic",
+      "description": "召回构建项目缓存。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "cache",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Redis",
+            "event_ids": [
+              "B11"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Redis",
+            "evidence": [
+              {
+                "event_id": "B11",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "cache",
+                "value": "Redis",
+                "event_type": "declare",
+                "observed_at": "2026-01-09T00:00:00Z",
+                "effective_at": "2026-01-09T00:00:00Z",
+                "source_id": "build-session-07",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B11"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00017050000315066427
+    },
+    {
+      "question_id": "H-T01",
+      "category": "temporal",
+      "description": "迟到观察不改变实际生效边界的包含关系。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": true,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-15T00:00:00Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B06"
+          ]
+        }
+      ],
+      "runtime_seconds": 0.00021639998885802925
+    },
+    {
+      "question_id": "H-T02",
+      "category": "temporal",
+      "description": "精确时间在完成生效之前一秒。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-14T23:59:59Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "B01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "citation is not effective at as_of; plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00019869999960064888
+    },
+    {
+      "question_id": "H-T03",
+      "category": "temporal",
+      "description": "使用观察截止时间保留迟到记录之前的知识。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-15T23:59:59.999999Z",
+            "known_at": "2026-03-19T23:59:59Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "B01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B05",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "plan",
+                "observed_at": "2026-02-10T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-03",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B05",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00019869999960064888
+    },
+    {
+      "question_id": "H-S01",
+      "category": "state",
+      "description": "纠错观察前不会提前采用修正值。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "workers",
+            "as_of": "2026-01-08T23:59:59.999999Z",
+            "known_at": "2026-02-07T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "4",
+            "event_ids": [
+              "B08"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "4",
+            "evidence": [
+              {
+                "event_id": "B08",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "workers",
+                "value": "4",
+                "event_type": "declare",
+                "observed_at": "2026-01-08T00:00:00Z",
+                "effective_at": "2026-01-08T00:00:00Z",
+                "source_id": "build-session-05",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B08"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00015979999443516135
+    },
+    {
+      "question_id": "H-S02",
+      "category": "state",
+      "description": "只依据已观察到的相互冲突队列事件拒答。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": "2026-02-03T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "event_ids": [
+              "B13",
+              "B14"
+            ]
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B13",
+            "B14"
+          ]
+        }
+      ],
+      "runtime_seconds": 7.249999907799065e-05
+    },
+    {
+      "question_id": "H-S03",
+      "category": "state",
+      "description": "后续纠错消除冲突且保留同值证据。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": "2026-02-04T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "NATS",
+            "event_ids": [
+              "B13",
+              "B15"
+            ]
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B13",
+            "B15"
+          ]
+        }
+      ],
+      "runtime_seconds": 7.319998985622078e-05
+    },
+    {
+      "question_id": "H-C01",
+      "category": "cross_session",
+      "description": "联合三个会话事实并忽略尚未完成的 CI 计划。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B06",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-20T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05",
+              "B06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "deployment",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "VM",
+            "event_ids": [
+              "B20"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "VM",
+            "evidence": [
+              {
+                "event_id": "B20",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "deployment",
+                "value": "VM",
+                "event_type": "complete",
+                "observed_at": "2026-04-15T00:00:00Z",
+                "effective_at": "2026-04-15T00:00:00Z",
+                "source_id": "build-session-16",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B04",
+              "B20"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": false,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "ci",
+            "as_of": "2026-04-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Jenkins",
+            "event_ids": [
+              "B07"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "CircleCI",
+            "evidence": [
+              {
+                "event_id": "B18",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "ci",
+                "value": "CircleCI",
+                "event_type": "plan",
+                "observed_at": "2026-03-01T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "build-session-14",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B07",
+              "B18"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 1,
+          "citation_issues": [
+            {
+              "event_id": "B18",
+              "reason": "plan cannot support an implemented fact"
+            }
+          ],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0006262000097194687
+    },
+    {
+      "question_id": "H-C02",
+      "category": "cross_session",
+      "description": "以当前知识联合重建三个会话的历史配置。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "workers",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "8",
+            "event_ids": [
+              "B09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "4",
+            "evidence": [
+              {
+                "event_id": "B08",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "workers",
+                "value": "4",
+                "event_type": "declare",
+                "observed_at": "2026-01-08T00:00:00Z",
+                "effective_at": "2026-01-08T00:00:00Z",
+                "source_id": "build-session-05",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B08"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B09"
+          ]
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "language",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Python 3.11",
+            "event_ids": [
+              "B03"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Python 3.11",
+            "evidence": [
+              {
+                "event_id": "B03",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "language",
+                "value": "Python 3.11",
+                "event_type": "declare",
+                "observed_at": "2026-01-04T00:00:00Z",
+                "effective_at": "2026-01-04T00:00:00Z",
+                "source_id": "build-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B03"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "cache",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Redis",
+            "event_ids": [
+              "B11"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Redis",
+            "evidence": [
+              {
+                "event_id": "B11",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "cache",
+                "value": "Redis",
+                "event_type": "declare",
+                "observed_at": "2026-01-09T00:00:00Z",
+                "effective_at": "2026-01-09T00:00:00Z",
+                "source_id": "build-session-07",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B11"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0004344000044511631
+    },
+    {
+      "question_id": "H-I01",
+      "category": "isolation",
+      "description": "构建项目沙盒和默认主体的同名事实隔离。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "sandbox",
+            "predicate": "database",
+            "as_of": "2026-03-30T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "B19"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "B19",
+                "project_id": "BuildPilot",
+                "subject": "sandbox",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-15T00:00:00Z",
+                "effective_at": "2026-01-15T00:00:00Z",
+                "source_id": "build-session-15",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B19"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-30T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B06",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-20T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05",
+              "B06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0003612000000430271
+    },
+    {
+      "question_id": "H-I02",
+      "category": "isolation",
+      "description": "三个项目在同一天分别引用各自迁移证据。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "C06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "C06",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "complete",
+                "observed_at": "2026-04-02T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "campus-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "S06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "S06",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-03T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "shop-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "S01",
+              "S05",
+              "S06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "B06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "B06",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-20T00:00:00Z",
+                "effective_at": "2026-03-15T00:00:00Z",
+                "source_id": "build-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B01",
+              "B05",
+              "B06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0007211999909486622
+    },
+    {
+      "question_id": "H-I03",
+      "category": "isolation",
+      "description": "别的项目的区域同值佐证不能掩盖本项目冲突。",
+      "passed": false,
+      "answers": [
+        {
+          "passed": false,
+          "answer_correct": false,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "retrieval",
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "region",
+            "as_of": "2026-01-12T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "event_ids": [
+              "B16",
+              "B17"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "eu-west-1",
+            "evidence": [
+              {
+                "event_id": "B16",
+                "project_id": "BuildPilot",
+                "subject": "project",
+                "predicate": "region",
+                "value": "eu-west-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-12T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "build-session-12",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "B16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": [
+            "B17"
+          ]
+        },
+        {
+          "passed": false,
+          "answer_correct": true,
+          "evidence_correct": false,
+          "provenance_correct": true,
+          "failure_stage": "provenance",
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "region",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "event_ids": [
+              "S15",
+              "S16"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "evidence": [
+              {
+                "event_id": "S16",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "region",
+                "value": "ap-east-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-13T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "shop-session-11",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "baseline: latest observation; ignores event type/effective time",
+            "considered_event_ids": [
+              "S15",
+              "S16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.000327600006130524
+    },
+    {
+      "question_id": "H-U01",
+      "category": "unknown",
+      "description": "构建项目监控方案没有记录。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "monitoring",
+            "as_of": "2026-02-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 4.640000406652689e-05
+    },
+    {
+      "question_id": "H-U02",
+      "category": "unknown",
+      "description": "沙盒主体没有 CI 事实。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "sandbox",
+            "predicate": "ci",
+            "as_of": "2026-02-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 4.369999805931002e-05
+    },
+    {
+      "question_id": "H-U03",
+      "category": "unknown",
+      "description": "首次部署前一秒没有有效部署事实。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "BuildPilot",
+            "subject": "project",
+            "predicate": "deployment",
+            "as_of": "2026-01-04T23:59:59Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "baseline: no observed record",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 6.259999645408243e-05
+    }
+  ]
+}

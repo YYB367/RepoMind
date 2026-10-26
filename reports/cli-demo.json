@@ -1,0 +1,185 @@
+{
+  "independent_processes": 6,
+  "all_passed": true,
+  "steps": [
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "import",
+        "data/fixtures/conversations.jsonl"
+      ],
+      "exit_code": 0,
+      "result": {
+        "imported": 60,
+        "duplicates": 0,
+        "total_events": 60,
+        "db": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3"
+      }
+    },
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "import",
+        "data/fixtures/conversations.jsonl"
+      ],
+      "exit_code": 0,
+      "result": {
+        "imported": 0,
+        "duplicates": 60,
+        "total_events": 60,
+        "db": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3"
+      }
+    },
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "query",
+        "--project",
+        "CampusRecruit",
+        "--field",
+        "database",
+        "--as-of",
+        "2026-02-01"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "ok",
+        "value": "MySQL",
+        "evidence": [
+          {
+            "event_id": "C01",
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "value": "MySQL",
+            "event_type": "declare",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "effective_at": "2026-01-01T00:00:00Z",
+            "source_id": "campus-session-01",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "C01",
+          "C05",
+          "C06"
+        ],
+        "plan_event_ids": []
+      }
+    },
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "query",
+        "--project",
+        "CampusRecruit",
+        "--field",
+        "database",
+        "--as-of",
+        "2026-03-15"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "ok",
+        "value": "MySQL",
+        "evidence": [
+          {
+            "event_id": "C01",
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "value": "MySQL",
+            "event_type": "declare",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "effective_at": "2026-01-01T00:00:00Z",
+            "source_id": "campus-session-01",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "C01",
+          "C05",
+          "C06"
+        ],
+        "plan_event_ids": [
+          "C05"
+        ]
+      }
+    },
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "query",
+        "--project",
+        "CampusRecruit",
+        "--field",
+        "database",
+        "--as-of",
+        "2026-04-10"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "ok",
+        "value": "PostgreSQL",
+        "evidence": [
+          {
+            "event_id": "C06",
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "value": "PostgreSQL",
+            "event_type": "complete",
+            "observed_at": "2026-04-02T00:00:00Z",
+            "effective_at": "2026-04-01T00:00:00Z",
+            "source_id": "campus-session-04",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "C01",
+          "C05",
+          "C06"
+        ],
+        "plan_event_ids": [
+          "C05"
+        ]
+      }
+    },
+    {
+      "command": [
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Scripts\\repomind.exe",
+        "--db",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\cli-demo-5hj6h62n\\memory.sqlite3",
+        "query",
+        "--project",
+        "UnrecordedProject",
+        "--field",
+        "database",
+        "--as-of",
+        "2026-04-10"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": []
+      }
+    }
+  ]
+}
