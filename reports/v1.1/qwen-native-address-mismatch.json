@@ -1,0 +1,18 @@
+{
+  "live": true,
+  "passed": false,
+  "error": "provider HTTP 404; request rejected",
+  "stage_goal": "V1.1 native Qwen embedding protocol smoke test",
+  "runtime_seconds": 0.36360730000888,
+  "provider": {
+    "name": "dashscope-native:qwen3.7-text-embedding-flash",
+    "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+    "model": "qwen3.7-text-embedding-flash",
+    "dimension": 1024,
+    "fingerprint": "dashscope-cd09d5a5b5df2cf69bc4882dccd25f24dab2c693afc41cb0fd39138bfc8a36c2",
+    "text_type_policy": "documents=document;queries=query",
+    "batch_limit": 20,
+    "request_count": 1,
+    "usage": {}
+  }
+}

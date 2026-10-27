@@ -1,0 +1,31 @@
+{
+  "stage_goal": "V1.1 Qwen embedding protocol smoke test",
+  "live": true,
+  "passed": true,
+  "dimension": 1024,
+  "document_count": 2,
+  "cosines": [
+    0.696068595118309,
+    0.5006334225620865
+  ],
+  "runtime_seconds": 0.9492591000016546,
+  "provider": {
+    "name": "openai:chat=unset;embedding=qwen3.7-text-embedding-flash;format=json_schema",
+    "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+    "request_count": 2,
+    "usage": {
+      "prompt_tokens": 61,
+      "total_tokens": 61
+    },
+    "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+    "chat_model": null,
+    "embedding_model": "qwen3.7-text-embedding-flash",
+    "api_style": "openai",
+    "chat_format": null,
+    "timeout_seconds": 60.0,
+    "max_response_bytes": 1000000,
+    "max_request_bytes": 2000000,
+    "max_completion_tokens": 2048,
+    "embedding_dimensions": 1024
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "stage_goal": "V1.1 preserve frozen input bytes in clean Git distribution",
+  "all_passed": true,
+  "files": [
+    {
+      "path": "data/fixtures/conversations.jsonl",
+      "sha256": "4542212c9842d1ba32a10fa492eed573db56bb77698d7bb68fb4ecd13e8bac69",
+      "matches": true
+    },
+    {
+      "path": "data/dev/questions.jsonl",
+      "sha256": "7820c63c1891be167e61e55354a378d20e62568c057351528f27c63bfd080c8b",
+      "matches": true
+    },
+    {
+      "path": "data/holdout/questions.jsonl",
+      "sha256": "7eb44b226979fbe1b48c35ffe69124d3f4e87d63caf3ef018bdc1eed46c0be7d",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/seed-events.jsonl",
+      "sha256": "e783d9e1d58594be22f696b134357cb14c992c7231e2146f6d5eb7b9504c1009",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/gold-events.jsonl",
+      "sha256": "f9e79374996530b0bfd0184036649cf5518533d21f108dac7381a6370607ed34",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/dev/cases.jsonl",
+      "sha256": "4a5edee69ab281d8319f309b8039cb8b98e41f6af4cd28dfa19fe6eddd38ff4d",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/holdout/cases.jsonl",
+      "sha256": "b1bb89fbb43dc391a3da517a0a223d88829729f2ed7bb4dd045f5e26b2f8e749",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/extraction-responses.jsonl",
+      "sha256": "a0be12df7ba625789bb4970c54edb92668c7474f762a91c8be2847f6f3964152",
+      "matches": true
+    },
+    {
+      "path": "data/v1.1/recorded-vectors.json",
+      "sha256": "5bd847b0403fe01417c2435c9aa85d03c27e131832dcabc4e8128e737895447a",
+      "matches": true
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "stage_goal": "V1.1 live CLI ingestion, hybrid query and source-idempotent reapplication",
+  "all_passed": true,
+  "independent_processes": 6,
+  "cached_reapplication": true,
+  "steps": [
+    {
+      "args": [
+        "ingest",
+        "examples/v1.1-sources.jsonl",
+        "--output",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.jsonl",
+        "--apply"
+      ],
+      "exit_code": 0,
+      "result": {
+        "provider": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object",
+        "applied": true,
+        "import": {
+          "imported": 4,
+          "duplicates": 0
+        },
+        "events": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.jsonl",
+        "audit": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.audit.json",
+        "event_count": 4,
+        "source_count": 3,
+        "abstentions": 0
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "CampusDemo",
+        "--field",
+        "database",
+        "--as-of",
+        "2026-03-15"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "ok",
+        "value": "MySQL",
+        "evidence": [
+          {
+            "event_id": "nl-0deb43c09cd376fe1258865173396536",
+            "project_id": "CampusDemo",
+            "subject": "project",
+            "predicate": "database",
+            "value": "MySQL",
+            "event_type": "declare",
+            "observed_at": "2026-03-01T09:00:00Z",
+            "effective_at": "2026-03-01T09:00:00Z",
+            "source_id": "demo-march",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "nl-0deb43c09cd376fe1258865173396536",
+          "nl-1b9d9a9f43b9c25c04a0b5d711e738b2",
+          "nl-a4f3305bc6593403077cddda4970da49",
+          "nl-dab07bc5c7a7116f844cc0f66000268b"
+        ],
+        "plan_event_ids": [
+          "nl-a4f3305bc6593403077cddda4970da49"
+        ]
+      }
+    },
+    {
+      "args": [
+        "index",
+        "--project",
+        "CampusDemo"
+      ],
+      "exit_code": 0,
+      "result": {
+        "project_id": "CampusDemo",
+        "count": 1,
+        "requested": 1,
+        "cached": 0,
+        "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+        "known_at": null
+      }
+    },
+    {
+      "args": [
+        "search",
+        "--project",
+        "CampusDemo",
+        "--text",
+        "Which database is in use?",
+        "--as-of",
+        "2026-04-10",
+        "--mode",
+        "hybrid"
+      ],
+      "exit_code": 0,
+      "result": {
+        "project_id": "CampusDemo",
+        "query": "Which database is in use?",
+        "mode": "hybrid",
+        "as_of": "2026-04-10T23:59:59.999999+00:00",
+        "known_at": null,
+        "top_k": 5,
+        "min_cosine": 0.55,
+        "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+        "indexed_documents": 1,
+        "hits": [
+          {
+            "subject": "project",
+            "predicate": "database",
+            "score": 0.01639344262295082,
+            "lexical_score": 0.07254762501100116,
+            "semantic_score": 0.41502487282257894,
+            "result": {
+              "status": "ok",
+              "value": "PostgreSQL",
+              "evidence": [
+                {
+                  "event_id": "nl-1b9d9a9f43b9c25c04a0b5d711e738b2",
+                  "project_id": "CampusDemo",
+                  "subject": "project",
+                  "predicate": "database",
+                  "value": "PostgreSQL",
+                  "event_type": "complete",
+                  "observed_at": "2026-04-05T09:00:00Z",
+                  "effective_at": "2026-04-01T00:00:00Z",
+                  "source_id": "demo-april",
+                  "supersedes_event_id": null
+                }
+              ],
+              "reason": "latest_effective_fact",
+              "considered_event_ids": [
+                "nl-0deb43c09cd376fe1258865173396536",
+                "nl-1b9d9a9f43b9c25c04a0b5d711e738b2",
+                "nl-a4f3305bc6593403077cddda4970da49",
+                "nl-dab07bc5c7a7116f844cc0f66000268b"
+              ],
+              "plan_event_ids": [
+                "nl-a4f3305bc6593403077cddda4970da49"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "source",
+        "--project",
+        "CampusDemo",
+        "--source-id",
+        "demo-april"
+      ],
+      "exit_code": 0,
+      "result": {
+        "status": "ok",
+        "source": {
+          "project_id": "CampusDemo",
+          "source_id": "demo-april",
+          "observed_at": "2026-04-05T09:00:00Z",
+          "text": "CampusDemo 已于 2026-04-01T00:00:00Z 完成 database 迁移，现在使用 PostgreSQL。"
+        },
+        "provenance": [
+          {
+            "event_id": "nl-1b9d9a9f43b9c25c04a0b5d711e738b2",
+            "project_id": "CampusDemo",
+            "source_id": "demo-april",
+            "evidence_text": "CampusDemo 已于 2026-04-01T00:00:00Z 完成 database 迁移，现在使用 PostgreSQL。",
+            "provider": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object"
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "ingest",
+        "examples/v1.1-sources.jsonl",
+        "--output",
+        "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.jsonl",
+        "--apply"
+      ],
+      "exit_code": 0,
+      "result": {
+        "provider": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object",
+        "applied": true,
+        "import": {
+          "imported": 0,
+          "duplicates": 4
+        },
+        "events": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.jsonl",
+        "audit": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\tmp\\v11-live-cli-s09eq0o9\\candidates.audit.json",
+        "event_count": 4,
+        "source_count": 3,
+        "abstentions": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "stage_goal": "V1.1 DeepSeek extraction protocol smoke test",
+  "live": true,
+  "passed": true,
+  "memory": {
+    "events": [
+      {
+        "event_id": "nl-4656fc05c99fb9a35cafe1c6dddaa132",
+        "project_id": "LiveSmoke",
+        "subject": "project",
+        "predicate": "database",
+        "value": "MySQL",
+        "event_type": "plan",
+        "observed_at": "2026-04-10T09:00:00Z",
+        "effective_at": "2026-04-10T09:00:00Z",
+        "source_id": "live-smoke-2026-10-27",
+        "supersedes_event_id": null
+      },
+      {
+        "event_id": "nl-bd513cf71ae16569879ead19f272bb32",
+        "project_id": "LiveSmoke",
+        "subject": "project",
+        "predicate": "database",
+        "value": "PostgreSQL",
+        "event_type": "declare",
+        "observed_at": "2026-04-10T09:00:00Z",
+        "effective_at": "2026-04-10T09:00:00Z",
+        "source_id": "live-smoke-2026-10-27",
+        "supersedes_event_id": null
+      }
+    ],
+    "evidence_by_event": {
+      "nl-4656fc05c99fb9a35cafe1c6dddaa132": "计划下个月迁移到 MySQL，目前尚未执行。",
+      "nl-bd513cf71ae16569879ead19f272bb32": "项目当前数据库是 PostgreSQL。"
+    },
+    "source": {
+      "project_id": "LiveSmoke",
+      "source_id": "live-smoke-2026-10-27",
+      "observed_at": "2026-04-10T09:00:00Z",
+      "text": "项目当前数据库是 PostgreSQL。计划下个月迁移到 MySQL，目前尚未执行。"
+    },
+    "provider": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object",
+    "abstain_reason": null
+  },
+  "runtime_seconds": 1.497062199996435,
+  "provider": {
+    "name": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object",
+    "fingerprint": "openai-compatible-83311ef5799a5777bac725539a1eb5747f747343282ef4efaf26301fe1e2e238",
+    "request_count": 1,
+    "usage": {
+      "prompt_tokens": 663,
+      "completion_tokens": 126,
+      "total_tokens": 789
+    },
+    "base_url": "https://api.deepseek.com",
+    "chat_model": "deepseek-flash",
+    "embedding_model": null,
+    "api_style": "deepseek",
+    "chat_format": "json_object",
+    "timeout_seconds": 60.0,
+    "max_response_bytes": 1000000,
+    "max_request_bytes": 2000000,
+    "max_completion_tokens": 2048,
+    "embedding_dimensions": null
+  }
+}

@@ -1,0 +1,3 @@
+{"project_id":"CampusDemo","source_id":"demo-january","observed_at":"2026-01-05T09:00:00Z","text":"CampusDemo 当前 database 使用 MySQL。"}
+{"project_id":"CampusDemo","source_id":"demo-march","observed_at":"2026-03-01T09:00:00Z","text":"CampusDemo 计划将 database 迁移到 PostgreSQL，目前尚未实施，当前仍使用 MySQL。"}
+{"project_id":"CampusDemo","source_id":"demo-april","observed_at":"2026-04-05T09:00:00Z","text":"CampusDemo 已于 2026-04-01T00:00:00Z 完成 database 迁移，现在使用 PostgreSQL。"}

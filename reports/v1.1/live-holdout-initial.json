@@ -1,0 +1,1819 @@
+{
+  "stage_goal": "V1.1：分别验证有来源的事实提取、人工事件检索和端到端记忆回答",
+  "report_version": "1.1",
+  "generated_at": "2026-10-27T08:49:25.606830+00:00",
+  "validation": {
+    "status": "live_pipeline_measured",
+    "offline_test_double": false,
+    "live_extraction": true,
+    "real_semantic_quality": true,
+    "recorded_extraction": false,
+    "recorded_embeddings": false,
+    "search_mode": "hybrid",
+    "core_tests": "not executed by this runner; require separate pytest evidence",
+    "release_gate_scope": "predeclared numeric metrics only; independent holdout, core regression, and real services require separate acceptance",
+    "claim": "真实提取与独立 Embedding 流水线已测量；完整发布仍需外部核心回归与独立保留集验收。"
+  },
+  "metrics": {
+    "all_passed": true,
+    "release_gate_passed": true,
+    "gate_checks": {
+      "extraction_precision": true,
+      "extraction_recall": true,
+      "gold_retrieval_recall_at_3": true,
+      "end_to_end_accuracy": true,
+      "source_validity": true,
+      "project_leakage": true
+    },
+    "extraction": {
+      "expected_facts": 7,
+      "predicted_facts": 7,
+      "matched_facts": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_cases": 6,
+      "total_cases": 6,
+      "exact_case_accuracy": 1.0,
+      "abstention_cases": 1,
+      "correct_abstentions": 1,
+      "quote_valid": 7,
+      "quote_total": 7
+    },
+    "retrieval": {
+      "total_queries": 8,
+      "correct": 8,
+      "accuracy": 1.0,
+      "key_queries": 7,
+      "recalled_at_3": 7,
+      "recall_at_3": 1.0,
+      "top1_key_correct": 7,
+      "top1_key_accuracy": 1.0,
+      "no_key_queries": 1,
+      "no_key_correct": 1,
+      "no_key_rejection_rate": 1.0,
+      "unknown_expected_count": 1,
+      "unknown_correct": 1,
+      "unknown_information_handling_rate": 1.0,
+      "citation_valid": 8,
+      "citation_total": 8,
+      "source_validity": 1.0,
+      "project_leakage_count": 0
+    },
+    "end_to_end": {
+      "total_queries": 8,
+      "correct": 8,
+      "accuracy": 1.0,
+      "key_queries": 7,
+      "recalled_at_3": 7,
+      "recall_at_3": 1.0,
+      "top1_key_correct": 7,
+      "top1_key_accuracy": 1.0,
+      "no_key_queries": 1,
+      "no_key_correct": 1,
+      "no_key_rejection_rate": 1.0,
+      "unknown_expected_count": 1,
+      "unknown_correct": 1,
+      "unknown_information_handling_rate": 1.0,
+      "citation_valid": 8,
+      "citation_total": 8,
+      "source_validity": 1.0,
+      "project_leakage_count": 0
+    },
+    "source_validity": 1.0,
+    "source_valid_checks": 23,
+    "source_total_checks": 23,
+    "project_leakage_count": 0,
+    "runtime_seconds": 17.43497539999953,
+    "failure_stage_counts": {}
+  },
+  "config": {
+    "inputs": {
+      "seeds": {
+        "path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\v1.1\\seed-events.jsonl",
+        "sha256": "e783d9e1d58594be22f696b134357cb14c992c7231e2146f6d5eb7b9504c1009"
+      },
+      "gold_events": {
+        "path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\v1.1\\gold-events.jsonl",
+        "sha256": "f9e79374996530b0bfd0184036649cf5518533d21f108dac7381a6370607ed34"
+      },
+      "dataset": {
+        "path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\v1.1\\holdout\\cases.jsonl",
+        "sha256": "b1bb89fbb43dc391a3da517a0a223d88829729f2ed7bb4dd045f5e26b2f8e749"
+      }
+    },
+    "dataset_split": "holdout",
+    "python_version": "3.12.14",
+    "repomind_source_version": "1.1.0rc1",
+    "implementation_sha256": "ed112d8593e32ec65c704b8946378afcdd842c892936109ede3b749b5f86e002",
+    "repomind_installed_version": "1.1.0rc1",
+    "pydantic_version": "2.14.1",
+    "sqlite_version": "3.53.1",
+    "extraction_provider": {
+      "name": "deepseek:chat=deepseek-flash;embedding=unset;format=json_object",
+      "fingerprint": "openai-compatible-83311ef5799a5777bac725539a1eb5747f747343282ef4efaf26301fe1e2e238",
+      "request_count": 6,
+      "usage": {
+        "prompt_tokens": 9322,
+        "completion_tokens": 705,
+        "total_tokens": 10027
+      },
+      "extraction_prompt_sha256": "a8ef170c9dd2cad7f265bbb891091d696e17e8ce99c7d8b24b289b2b634a267a",
+      "base_url": "https://api.deepseek.com",
+      "chat_model": "deepseek-flash",
+      "embedding_model": null,
+      "api_style": "deepseek",
+      "chat_format": "json_object",
+      "timeout_seconds": 60.0,
+      "max_response_bytes": 1000000,
+      "max_request_bytes": 2000000,
+      "max_completion_tokens": 2048,
+      "embedding_dimensions": null
+    },
+    "embedding_provider": {
+      "name": "openai:chat=unset;embedding=qwen3.7-text-embedding-flash;format=json_schema",
+      "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+      "request_count": 20,
+      "usage": {
+        "prompt_tokens": 1126,
+        "total_tokens": 1126
+      },
+      "extraction_prompt_sha256": "a8ef170c9dd2cad7f265bbb891091d696e17e8ce99c7d8b24b289b2b634a267a",
+      "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+      "chat_model": null,
+      "embedding_model": "qwen3.7-text-embedding-flash",
+      "api_style": "openai",
+      "chat_format": null,
+      "timeout_seconds": 60.0,
+      "max_response_bytes": 1000000,
+      "max_request_bytes": 2000000,
+      "max_completion_tokens": 2048,
+      "embedding_dimensions": 1024
+    },
+    "search_mode": "hybrid",
+    "top_k": 3,
+    "min_cosine": 0.55,
+    "ingestion_policy": "ingest every split source into seeds-only actual ledger before any query; gold retrieval ledger is separate",
+    "extraction_scoring": "whole fact set including trusted source/project/observation, effective time, type, correction target; exact source substring independently audited",
+    "query_scoring": "ranked key + top1 status/value + exact source-ID set + every cited ledger event valid",
+    "zero_denominator_policy": "null/N/A; lack of positive samples does not satisfy a numeric release gate",
+    "release_thresholds": {
+      "extraction_precision_min": 0.9,
+      "extraction_recall_min": 0.85,
+      "gold_retrieval_recall_at_3_min": 0.9,
+      "end_to_end_accuracy_min": 0.8,
+      "source_validity_required": 1.0,
+      "project_leakage_max": 0
+    },
+    "semantic_claim_boundary": "recorded vectors and lexical search cannot establish real embedding quality"
+  },
+  "extraction_cases": [
+    {
+      "case_id": "holdout-01",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-01",
+        "observed_at": "2026-03-01T11:00:00Z",
+        "text": "TaskHarbor 计划于 2026-04-01T00:00:00Z 把 database 迁移为 PostgreSQL；尚未完成。"
+      },
+      "expected_count": 1,
+      "predicted_count": 1,
+      "matched_count": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 1,
+      "quote_total": 1,
+      "quote_checks": [
+        {
+          "event_id": "nl-f03ce26049083625208fa1fb1fd7a873",
+          "valid": true,
+          "quote": "TaskHarbor 计划于 2026-04-01T00:00:00Z 把 database 迁移为 PostgreSQL；尚未完成。"
+        }
+      ],
+      "actual_events": [
+        {
+          "event_id": "nl-f03ce26049083625208fa1fb1fd7a873",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "database",
+          "value": "PostgreSQL",
+          "event_type": "plan",
+          "observed_at": "2026-03-01T11:00:00Z",
+          "effective_at": "2026-04-01T00:00:00Z",
+          "source_id": "source-holdout-01",
+          "supersedes_event_id": null
+        }
+      ]
+    },
+    {
+      "case_id": "holdout-02",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-02",
+        "observed_at": "2026-04-07T10:00:00Z",
+        "text": "TaskHarbor 数据库迁移已在 2026-04-02T00:00:00Z 完成，database 现在为 PostgreSQL。"
+      },
+      "expected_count": 1,
+      "predicted_count": 1,
+      "matched_count": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 1,
+      "quote_total": 1,
+      "quote_checks": [
+        {
+          "event_id": "nl-c2fa429a11d172b417b08a4c78542747",
+          "valid": true,
+          "quote": "TaskHarbor 数据库迁移已在 2026-04-02T00:00:00Z 完成，database 现在为 PostgreSQL。"
+        }
+      ],
+      "actual_events": [
+        {
+          "event_id": "nl-c2fa429a11d172b417b08a4c78542747",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "database",
+          "value": "PostgreSQL",
+          "event_type": "complete",
+          "observed_at": "2026-04-07T10:00:00Z",
+          "effective_at": "2026-04-02T00:00:00Z",
+          "source_id": "source-holdout-02",
+          "supersedes_event_id": null
+        }
+      ]
+    },
+    {
+      "case_id": "holdout-03",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-03",
+        "observed_at": "2026-05-01T10:00:00Z",
+        "text": "TaskHarbor 的 harbor-framework-0 记错了：从 2026-01-05T00:00:00Z 起 framework 实际为 Gin，Echo 是错误记录，请作纠正。"
+      },
+      "expected_count": 1,
+      "predicted_count": 1,
+      "matched_count": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 1,
+      "quote_total": 1,
+      "quote_checks": [
+        {
+          "event_id": "nl-19724ce757f72f2b827e94000c0e5e84",
+          "valid": true,
+          "quote": "从 2026-01-05T00:00:00Z 起 framework 实际为 Gin，Echo 是错误记录，请作纠正"
+        }
+      ],
+      "actual_events": [
+        {
+          "event_id": "nl-19724ce757f72f2b827e94000c0e5e84",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "framework",
+          "value": "Gin",
+          "event_type": "correct",
+          "observed_at": "2026-05-01T10:00:00Z",
+          "effective_at": "2026-01-05T00:00:00Z",
+          "source_id": "source-holdout-03",
+          "supersedes_event_id": "harbor-framework-0"
+        }
+      ]
+    },
+    {
+      "case_id": "holdout-04",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-04",
+        "observed_at": "2026-02-21T09:00:00Z",
+        "text": "TaskHarbor 两份记录互相矛盾：第一份声明从 2026-02-20T00:00:00Z 起 language 为 Go 1.24；第二份声明从 2026-02-20T00:00:00Z 起 language 为 Go 1.25。两条均为声明，没有谁替代谁。"
+      },
+      "expected_count": 2,
+      "predicted_count": 2,
+      "matched_count": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 2,
+      "quote_total": 2,
+      "quote_checks": [
+        {
+          "event_id": "nl-2d1bdcb25692904e230f75431386094f",
+          "valid": true,
+          "quote": "第一份声明从 2026-02-20T00:00:00Z 起 language 为 Go 1.24"
+        },
+        {
+          "event_id": "nl-9303243dd18b405252e761e0f7c7b62f",
+          "valid": true,
+          "quote": "第二份声明从 2026-02-20T00:00:00Z 起 language 为 Go 1.25"
+        }
+      ],
+      "actual_events": [
+        {
+          "event_id": "nl-2d1bdcb25692904e230f75431386094f",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "language",
+          "value": "Go 1.24",
+          "event_type": "declare",
+          "observed_at": "2026-02-21T09:00:00Z",
+          "effective_at": "2026-02-20T00:00:00Z",
+          "source_id": "source-holdout-04",
+          "supersedes_event_id": null
+        },
+        {
+          "event_id": "nl-9303243dd18b405252e761e0f7c7b62f",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "language",
+          "value": "Go 1.25",
+          "event_type": "declare",
+          "observed_at": "2026-02-21T09:00:00Z",
+          "effective_at": "2026-02-20T00:00:00Z",
+          "source_id": "source-holdout-04",
+          "supersedes_event_id": null
+        }
+      ]
+    },
+    {
+      "case_id": "holdout-05",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-05",
+        "observed_at": "2026-03-04T12:00:00Z",
+        "text": "有人向 TaskHarbor 推荐 Elasticsearch，但没有被采纳，也没有形成计划。这不是项目已经使用该服务的记录。"
+      },
+      "expected_count": 0,
+      "predicted_count": 0,
+      "matched_count": 0,
+      "precision": null,
+      "recall": null,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 0,
+      "quote_total": 0,
+      "quote_checks": [],
+      "actual_events": []
+    },
+    {
+      "case_id": "holdout-06",
+      "passed": true,
+      "error": null,
+      "source": {
+        "project_id": "TaskHarbor",
+        "source_id": "source-holdout-06",
+        "observed_at": "2026-02-10T09:00:00Z",
+        "text": "TaskHarbor 当前 test_runner 为 go test，ci 为 Buildkite。"
+      },
+      "expected_count": 2,
+      "predicted_count": 2,
+      "matched_count": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "missing_facts": [],
+      "extra_facts": [],
+      "quote_valid": 2,
+      "quote_total": 2,
+      "quote_checks": [
+        {
+          "event_id": "nl-156b8ec14d89719dbd46420a1c642df2",
+          "valid": true,
+          "quote": "ci 为 Buildkite"
+        },
+        {
+          "event_id": "nl-5ad9aa55dae9239e70b080a3416d3bd7",
+          "valid": true,
+          "quote": "TaskHarbor 当前 test_runner 为 go test"
+        }
+      ],
+      "actual_events": [
+        {
+          "event_id": "nl-156b8ec14d89719dbd46420a1c642df2",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "ci",
+          "value": "Buildkite",
+          "event_type": "declare",
+          "observed_at": "2026-02-10T09:00:00Z",
+          "effective_at": "2026-02-10T09:00:00Z",
+          "source_id": "source-holdout-06",
+          "supersedes_event_id": null
+        },
+        {
+          "event_id": "nl-5ad9aa55dae9239e70b080a3416d3bd7",
+          "project_id": "TaskHarbor",
+          "subject": "project",
+          "predicate": "test_runner",
+          "value": "go test",
+          "event_type": "declare",
+          "observed_at": "2026-02-10T09:00:00Z",
+          "effective_at": "2026-02-10T09:00:00Z",
+          "source_id": "source-holdout-06",
+          "supersedes_event_id": null
+        }
+      ]
+    }
+  ],
+  "query_cases": [
+    {
+      "case_id": "holdout-01",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor 的 database 在三月是什么？",
+          "as_of": "2026-03-15T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "MariaDB",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "MariaDB",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-db-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor 的 database 在三月是什么？",
+          "mode": "hybrid",
+          "as_of": "2026-03-15T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.07372097807744857,
+              "semantic_score": 0.49856432237762166,
+              "result": {
+                "status": "ok",
+                "value": "MariaDB",
+                "evidence": [
+                  {
+                    "event_id": "harbor-db-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "MariaDB",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "synthetic-holdout-01-1",
+                  "synthetic-holdout-02-1"
+                ],
+                "plan_event_ids": [
+                  "synthetic-holdout-01-1"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor 的 database 在三月是什么？",
+          "as_of": "2026-03-15T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "MariaDB",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "MariaDB",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-db-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor 的 database 在三月是什么？",
+          "mode": "hybrid",
+          "as_of": "2026-03-15T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.07372097807744857,
+              "semantic_score": 0.4886082266146628,
+              "result": {
+                "status": "ok",
+                "value": "MariaDB",
+                "evidence": [
+                  {
+                    "event_id": "harbor-db-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "MariaDB",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "nl-c2fa429a11d172b417b08a4c78542747",
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ],
+                "plan_event_ids": [
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-02",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "Which database does TaskHarbor use now?",
+          "as_of": "2026-04-10T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "PostgreSQL",
+          "expected_source_ids": [
+            "source-holdout-02"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "PostgreSQL",
+        "actual_source_ids": [
+          "source-holdout-02"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "synthetic-holdout-02-1",
+            "source_id": "source-holdout-02",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "Which database does TaskHarbor use now?",
+          "mode": "hybrid",
+          "as_of": "2026-04-10T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.08512565307587487,
+              "semantic_score": 0.5024252577016073,
+              "result": {
+                "status": "ok",
+                "value": "PostgreSQL",
+                "evidence": [
+                  {
+                    "event_id": "synthetic-holdout-02-1",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "PostgreSQL",
+                    "event_type": "complete",
+                    "observed_at": "2026-04-07T10:00:00Z",
+                    "effective_at": "2026-04-02T00:00:00Z",
+                    "source_id": "source-holdout-02",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "synthetic-holdout-01-1",
+                  "synthetic-holdout-02-1"
+                ],
+                "plan_event_ids": [
+                  "synthetic-holdout-01-1"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "Which database does TaskHarbor use now?",
+          "as_of": "2026-04-10T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "PostgreSQL",
+          "expected_source_ids": [
+            "source-holdout-02"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "PostgreSQL",
+        "actual_source_ids": [
+          "source-holdout-02"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "nl-c2fa429a11d172b417b08a4c78542747",
+            "source_id": "source-holdout-02",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "Which database does TaskHarbor use now?",
+          "mode": "hybrid",
+          "as_of": "2026-04-10T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.08512565307587487,
+              "semantic_score": 0.4985201177083943,
+              "result": {
+                "status": "ok",
+                "value": "PostgreSQL",
+                "evidence": [
+                  {
+                    "event_id": "nl-c2fa429a11d172b417b08a4c78542747",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "PostgreSQL",
+                    "event_type": "complete",
+                    "observed_at": "2026-04-07T10:00:00Z",
+                    "effective_at": "2026-04-02T00:00:00Z",
+                    "source_id": "source-holdout-02",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "nl-c2fa429a11d172b417b08a4c78542747",
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ],
+                "plan_event_ids": [
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-02",
+      "query_index": 2,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "What was the database before completion?",
+          "as_of": "2026-03-20T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "MariaDB",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "MariaDB",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-db-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "What was the database before completion?",
+          "mode": "hybrid",
+          "as_of": "2026-03-20T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.08512565307587487,
+              "semantic_score": 0.3888394712712236,
+              "result": {
+                "status": "ok",
+                "value": "MariaDB",
+                "evidence": [
+                  {
+                    "event_id": "harbor-db-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "MariaDB",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "synthetic-holdout-01-1",
+                  "synthetic-holdout-02-1"
+                ],
+                "plan_event_ids": [
+                  "synthetic-holdout-01-1"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "What was the database before completion?",
+          "as_of": "2026-03-20T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "database"
+          ],
+          "expected_status": "ok",
+          "expected_value": "MariaDB",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "MariaDB",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-db-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "What was the database before completion?",
+          "mode": "hybrid",
+          "as_of": "2026-03-20T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "database",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.08512565307587487,
+              "semantic_score": 0.3857813766668682,
+              "result": {
+                "status": "ok",
+                "value": "MariaDB",
+                "evidence": [
+                  {
+                    "event_id": "harbor-db-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "database",
+                    "value": "MariaDB",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-db-0",
+                  "nl-c2fa429a11d172b417b08a4c78542747",
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ],
+                "plan_event_ids": [
+                  "nl-f03ce26049083625208fa1fb1fd7a873"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-03",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "What framework was used in February?",
+          "as_of": "2026-02-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "framework"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Gin",
+          "expected_source_ids": [
+            "source-holdout-03"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Gin",
+        "actual_source_ids": [
+          "source-holdout-03"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "synthetic-holdout-03-1",
+            "source_id": "source-holdout-03",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "What framework was used in February?",
+          "mode": "hybrid",
+          "as_of": "2026-02-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "framework",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.11785113019775793,
+              "semantic_score": 0.42415211041846806,
+              "result": {
+                "status": "ok",
+                "value": "Gin",
+                "evidence": [
+                  {
+                    "event_id": "synthetic-holdout-03-1",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "framework",
+                    "value": "Gin",
+                    "event_type": "correct",
+                    "observed_at": "2026-05-01T10:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "source-holdout-03",
+                    "supersedes_event_id": "harbor-framework-0"
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-framework-0",
+                  "synthetic-holdout-03-1"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "What framework was used in February?",
+          "as_of": "2026-02-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "framework"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Gin",
+          "expected_source_ids": [
+            "source-holdout-03"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Gin",
+        "actual_source_ids": [
+          "source-holdout-03"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "nl-19724ce757f72f2b827e94000c0e5e84",
+            "source_id": "source-holdout-03",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "What framework was used in February?",
+          "mode": "hybrid",
+          "as_of": "2026-02-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "framework",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.11785113019775793,
+              "semantic_score": 0.41524890392253083,
+              "result": {
+                "status": "ok",
+                "value": "Gin",
+                "evidence": [
+                  {
+                    "event_id": "nl-19724ce757f72f2b827e94000c0e5e84",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "framework",
+                    "value": "Gin",
+                    "event_type": "correct",
+                    "observed_at": "2026-05-01T10:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "source-holdout-03",
+                    "supersedes_event_id": "harbor-framework-0"
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-framework-0",
+                  "nl-19724ce757f72f2b827e94000c0e5e84"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-03",
+      "query_index": 2,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "二月当时知道的 framework 是什么？",
+          "as_of": "2026-02-01T23:59:59.999999Z",
+          "known_at": "2026-02-01T23:59:59.999999Z",
+          "expected_key": [
+            "project",
+            "framework"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Echo",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Echo",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-framework-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "二月当时知道的 framework 是什么？",
+          "mode": "hybrid",
+          "as_of": "2026-02-01T23:59:59.999999+00:00",
+          "known_at": "2026-02-01T23:59:59.999999+00:00",
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 3,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "framework",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.1259881576697424,
+              "semantic_score": 0.45223755213174505,
+              "result": {
+                "status": "ok",
+                "value": "Echo",
+                "evidence": [
+                  {
+                    "event_id": "harbor-framework-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "framework",
+                    "value": "Echo",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-framework-0"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "二月当时知道的 framework 是什么？",
+          "as_of": "2026-02-01T23:59:59.999999Z",
+          "known_at": "2026-02-01T23:59:59.999999Z",
+          "expected_key": [
+            "project",
+            "framework"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Echo",
+          "expected_source_ids": [
+            "seed-harbor-jan"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Echo",
+        "actual_source_ids": [
+          "seed-harbor-jan"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "harbor-framework-0",
+            "source_id": "seed-harbor-jan",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "二月当时知道的 framework 是什么？",
+          "mode": "hybrid",
+          "as_of": "2026-02-01T23:59:59.999999+00:00",
+          "known_at": "2026-02-01T23:59:59.999999+00:00",
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 3,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "framework",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.1259881576697424,
+              "semantic_score": 0.4495024399481818,
+              "result": {
+                "status": "ok",
+                "value": "Echo",
+                "evidence": [
+                  {
+                    "event_id": "harbor-framework-0",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "framework",
+                    "value": "Echo",
+                    "event_type": "declare",
+                    "observed_at": "2026-01-05T00:00:00Z",
+                    "effective_at": "2026-01-05T00:00:00Z",
+                    "source_id": "seed-harbor-jan",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "harbor-framework-0"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-04",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "Which language version is confirmed for TaskHarbor?",
+          "as_of": "2026-03-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "language"
+          ],
+          "expected_status": "insufficient_evidence",
+          "expected_value": null,
+          "expected_source_ids": [
+            "source-holdout-04"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "insufficient_evidence",
+        "actual_value": null,
+        "actual_source_ids": [
+          "source-holdout-04"
+        ],
+        "citation_valid": 2,
+        "citation_total": 2,
+        "citation_checks": [
+          {
+            "event_id": "synthetic-holdout-04-1",
+            "source_id": "source-holdout-04",
+            "valid": true,
+            "problems": []
+          },
+          {
+            "event_id": "synthetic-holdout-04-2",
+            "source_id": "source-holdout-04",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "Which language version is confirmed for TaskHarbor?",
+          "mode": "hybrid",
+          "as_of": "2026-03-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "language",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.055131784641997125,
+              "semantic_score": 0.44538986141279213,
+              "result": {
+                "status": "insufficient_evidence",
+                "value": null,
+                "evidence": [
+                  {
+                    "event_id": "synthetic-holdout-04-1",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "language",
+                    "value": "Go 1.24",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-21T09:00:00Z",
+                    "effective_at": "2026-02-20T00:00:00Z",
+                    "source_id": "source-holdout-04",
+                    "supersedes_event_id": null
+                  },
+                  {
+                    "event_id": "synthetic-holdout-04-2",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "language",
+                    "value": "Go 1.25",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-21T09:00:00Z",
+                    "effective_at": "2026-02-20T00:00:00Z",
+                    "source_id": "source-holdout-04",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "conflicting_effective_facts",
+                "considered_event_ids": [
+                  "harbor-lang-0",
+                  "synthetic-holdout-04-1",
+                  "synthetic-holdout-04-2"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "Which language version is confirmed for TaskHarbor?",
+          "as_of": "2026-03-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "language"
+          ],
+          "expected_status": "insufficient_evidence",
+          "expected_value": null,
+          "expected_source_ids": [
+            "source-holdout-04"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "insufficient_evidence",
+        "actual_value": null,
+        "actual_source_ids": [
+          "source-holdout-04"
+        ],
+        "citation_valid": 2,
+        "citation_total": 2,
+        "citation_checks": [
+          {
+            "event_id": "nl-2d1bdcb25692904e230f75431386094f",
+            "source_id": "source-holdout-04",
+            "valid": true,
+            "problems": []
+          },
+          {
+            "event_id": "nl-9303243dd18b405252e761e0f7c7b62f",
+            "source_id": "source-holdout-04",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "Which language version is confirmed for TaskHarbor?",
+          "mode": "hybrid",
+          "as_of": "2026-03-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "language",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.055131784641997125,
+              "semantic_score": 0.4511116202221354,
+              "result": {
+                "status": "insufficient_evidence",
+                "value": null,
+                "evidence": [
+                  {
+                    "event_id": "nl-2d1bdcb25692904e230f75431386094f",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "language",
+                    "value": "Go 1.24",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-21T09:00:00Z",
+                    "effective_at": "2026-02-20T00:00:00Z",
+                    "source_id": "source-holdout-04",
+                    "supersedes_event_id": null
+                  },
+                  {
+                    "event_id": "nl-9303243dd18b405252e761e0f7c7b62f",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "language",
+                    "value": "Go 1.25",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-21T09:00:00Z",
+                    "effective_at": "2026-02-20T00:00:00Z",
+                    "source_id": "source-holdout-04",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "conflicting_effective_facts",
+                "considered_event_ids": [
+                  "harbor-lang-0",
+                  "nl-2d1bdcb25692904e230f75431386094f",
+                  "nl-9303243dd18b405252e761e0f7c7b62f"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout-05",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor 的 search_engine 用 Elasticsearch 吗？",
+          "as_of": "2026-04-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": null,
+          "expected_status": "unknown",
+          "expected_value": null,
+          "expected_source_ids": []
+        },
+        "rank": null,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "unknown",
+        "actual_value": null,
+        "actual_source_ids": [],
+        "citation_valid": 0,
+        "citation_total": 0,
+        "citation_checks": [],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor 的 search_engine 用 Elasticsearch 吗？",
+          "mode": "hybrid",
+          "as_of": "2026-04-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": []
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor 的 search_engine 用 Elasticsearch 吗？",
+          "as_of": "2026-04-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": null,
+          "expected_status": "unknown",
+          "expected_value": null,
+          "expected_source_ids": []
+        },
+        "rank": null,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "unknown",
+        "actual_value": null,
+        "actual_source_ids": [],
+        "citation_valid": 0,
+        "citation_total": 0,
+        "citation_checks": [],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor 的 search_engine 用 Elasticsearch 吗？",
+          "mode": "hybrid",
+          "as_of": "2026-04-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": []
+        }
+      }
+    },
+    {
+      "case_id": "holdout-06",
+      "query_index": 1,
+      "retrieval": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor currently uses which ci service?",
+          "as_of": "2026-04-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "ci"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Buildkite",
+          "expected_source_ids": [
+            "source-holdout-06"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Buildkite",
+        "actual_source_ids": [
+          "source-holdout-06"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "synthetic-holdout-06-2",
+            "source_id": "source-holdout-06",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor currently uses which ci service?",
+          "mode": "hybrid",
+          "as_of": "2026-04-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "ci",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.1543033499620919,
+              "semantic_score": 0.3946881468688873,
+              "result": {
+                "status": "ok",
+                "value": "Buildkite",
+                "evidence": [
+                  {
+                    "event_id": "synthetic-holdout-06-2",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "ci",
+                    "value": "Buildkite",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-10T09:00:00Z",
+                    "effective_at": "2026-02-10T09:00:00Z",
+                    "source_id": "source-holdout-06",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "synthetic-holdout-06-2"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      },
+      "end_to_end": {
+        "passed": true,
+        "failure_stage": null,
+        "error": null,
+        "query": {
+          "project_id": "TaskHarbor",
+          "text": "TaskHarbor currently uses which ci service?",
+          "as_of": "2026-04-01T23:59:59.999999Z",
+          "known_at": null,
+          "expected_key": [
+            "project",
+            "ci"
+          ],
+          "expected_status": "ok",
+          "expected_value": "Buildkite",
+          "expected_source_ids": [
+            "source-holdout-06"
+          ]
+        },
+        "rank": 1,
+        "recalled_at_3": true,
+        "top1_correct": true,
+        "answer_correct": true,
+        "sources_correct": true,
+        "actual_status": "ok",
+        "actual_value": "Buildkite",
+        "actual_source_ids": [
+          "source-holdout-06"
+        ],
+        "citation_valid": 1,
+        "citation_total": 1,
+        "citation_checks": [
+          {
+            "event_id": "nl-156b8ec14d89719dbd46420a1c642df2",
+            "source_id": "source-holdout-06",
+            "valid": true,
+            "problems": []
+          }
+        ],
+        "project_leakage": false,
+        "leaked_event_ids": [],
+        "schema_issues": [],
+        "response": {
+          "project_id": "TaskHarbor",
+          "query": "TaskHarbor currently uses which ci service?",
+          "mode": "hybrid",
+          "as_of": "2026-04-01T23:59:59.999999+00:00",
+          "known_at": null,
+          "top_k": 3,
+          "min_cosine": 0.55,
+          "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+          "indexed_documents": 5,
+          "hits": [
+            {
+              "subject": "project",
+              "predicate": "ci",
+              "score": 0.01639344262295082,
+              "lexical_score": 0.1543033499620919,
+              "semantic_score": 0.3882819602558162,
+              "result": {
+                "status": "ok",
+                "value": "Buildkite",
+                "evidence": [
+                  {
+                    "event_id": "nl-156b8ec14d89719dbd46420a1c642df2",
+                    "project_id": "TaskHarbor",
+                    "subject": "project",
+                    "predicate": "ci",
+                    "value": "Buildkite",
+                    "event_type": "declare",
+                    "observed_at": "2026-02-10T09:00:00Z",
+                    "effective_at": "2026-02-10T09:00:00Z",
+                    "source_id": "source-holdout-06",
+                    "supersedes_event_id": null
+                  }
+                ],
+                "reason": "latest_effective_fact",
+                "considered_event_ids": [
+                  "nl-156b8ec14d89719dbd46420a1c642df2"
+                ],
+                "plan_event_ids": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "failures": []
+}

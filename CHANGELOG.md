@@ -1,4 +1,34 @@
-# RepoMind 1.0.0 — 2026-10-26
+# 阶段目标：RepoMind 1.1.0 Intelligent Memory — 2026-10-27
+
+本阶段在V1的时间/来源内核上增加自然语言候选提取、独立Embedding与混合检索、分阶段评测。技术原因、原理、变更取舍与迁移说明见docs/v1.1-technologies.md及ADR0005–0010；完整结果见reports/v1.1/acceptance.md。
+
+## V1.1 新增/修改
+
+- `AGENTS.md`、`docs/delivery-standard.md`：保存用户持续要求，交付先列阶段目标，再解释原理、选择理由和变更。
+- `docs/v1.1-stage-plan.md`、`docs/v1.1-technologies.md`：实施契约、原理、公式、比较和局限。
+- `docs/decisions/0005`–`0010`：提取、检索、schema2、DeepSeek差异、Qwen原生/兼容协议、开发集校准。
+- `src/repomind/intelligence/models.py`：可信来源封装、候选及来源绑定。
+- `intelligence/providers.py`：受限HTTP、DeepSeek/OpenAI兼容输出、独立Embedding、实际usage和安全诊断。
+- `intelligence/dashscope.py`：原生DashScope向量协议及独立配置工厂。
+- `intelligence/extraction.py`：引文、纠错、时间和稳定事件ID。
+- `intelligence/ingestion.py`：来源读取、可审核候选、已存来源/批次重复复用。
+- `intelligence/config.py`：字面.env读取、安全状态与显式检索门槛。
+- `intelligence/search.py`：属性文档、快照缓存、词法/余弦/RRF与完整V1解析。
+- `intelligence/replay.py`：明确标记为测试替身的精确hash向量回放。
+- `src/repomind/adapters/sqlite.py`：保留events，增量新增来源、引文、向量缓存，原子写入与范围读取。
+- `src/repomind/cli.py`：新增config/ingest/index/search/source/eval-intelligence；保留原import/query/eval。
+- `src/repomind/evaluation/intelligent.py`：提取、人工事件检索、端到端三路径独立评分与失败归因。
+- `data/v1.1/`：3项目、9seed、29gold事件、12/6案例、16/8查询、人工回放及冻结manifest。
+- `examples/v1.1-sources.jsonl`：可直接运行的合成示例。
+- 新增提取、Provider、索引、DashScope协议、集成、评测、来源幂等、回放与数据身份测试，最终共311项通过。
+- `reports/v1.1/`：初始失败、校准后真实dev、首次真实/离线holdout、V1回归、311项JUnit、CLI演示和分发复现。
+- `README.md`、`.env.example`、`.gitignore`、`.gitattributes`、`pyproject.toml`及包版本：运行/配置、密钥排除、冻结字节保持和1.1.0发布。
+
+本轮真实Qwen采用用户实际compatible-mode端点，模型仍qwen3.7-text-embedding-flash；未把Key写入交付物。V1.2及之后未实施；旧V1数据、报告和压缩包保留。
+
+---
+
+# RepoMind 1.0.0 — 2026-10-26（历史记录）
 
 本轮完成 P0 与 V1 Memory MVP。起始工作区为空；全部产品文件为新增，原始规划文件未修改。
 

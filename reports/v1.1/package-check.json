@@ -1,0 +1,12 @@
+{
+  "stage_goal": "V1.1 package and credential exclusion verification",
+  "all_passed": true,
+  "version": "1.1.0",
+  "installed_module": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\acceptance-venv\\Lib\\site-packages\\repomind\\__init__.py",
+  "implementation_sha256": "e17132d739b8cb0ada913315a55709db6cd5b4d59a3616b901073bef550c198f",
+  "source_and_installed_code_identical": true,
+  "wheel_sha256": "8ca5aa3a3a85409aadc55b91566e730e0f3279beacabb9bdb52da768ddd1b668",
+  "public_files_checked": 113,
+  "credential_values_found": false,
+  "private_env_included": false
+}
