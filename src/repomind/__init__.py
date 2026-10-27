@@ -1,3 +1,3 @@
-"""RepoMind V1: structured memory, without external model calls."""
+"""RepoMind: grounded intelligent retrieval around an auditable temporal core."""
 
-__version__ = "1.0.0"
+__version__ = "1.1.0rc1"

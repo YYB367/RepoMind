@@ -1,6 +1,7 @@
 """Append-only event ledger with serialized, all-or-nothing imports."""
 
 import json
+import math
 from pathlib import Path
 import sqlite3
 
@@ -12,10 +13,11 @@ class SQLiteMemoryStore:
     def __init__(self, path: str | Path):
         self.connection = sqlite3.connect(str(path), isolation_level=None, timeout=10)
         self.connection.row_factory = sqlite3.Row
+        self.connection.execute("PRAGMA foreign_keys=ON")
         try:
             self.connection.execute("BEGIN IMMEDIATE")
             version = self.connection.execute("PRAGMA user_version").fetchone()[0]
-            if version not in (0, 1):
+            if version not in (0, 1, 2):
                 raise ValueError(f"unsupported database schema version {version}")
             self.connection.execute("""CREATE TABLE IF NOT EXISTS events (
                 event_id TEXT PRIMARY KEY,
@@ -33,7 +35,24 @@ class SQLiteMemoryStore:
             )""")
             self.connection.execute("""CREATE INDEX IF NOT EXISTS events_scope
                 ON events(project_id, subject, predicate, observed_at)""")
-            self.connection.execute("PRAGMA user_version=1")
+            self.connection.execute("""CREATE TABLE IF NOT EXISTS nl_sources (
+                project_id TEXT NOT NULL, source_id TEXT NOT NULL,
+                content_hash TEXT NOT NULL, source_json TEXT NOT NULL,
+                PRIMARY KEY (project_id, source_id)
+            )""")
+            self.connection.execute("""CREATE TABLE IF NOT EXISTS extraction_provenance (
+                event_id TEXT PRIMARY KEY REFERENCES events(event_id),
+                project_id TEXT NOT NULL, source_id TEXT NOT NULL,
+                evidence_text TEXT NOT NULL, provider TEXT NOT NULL,
+                FOREIGN KEY (project_id, source_id) REFERENCES nl_sources(project_id, source_id)
+            )""")
+            self.connection.execute("""CREATE TABLE IF NOT EXISTS memory_vectors (
+                project_id TEXT NOT NULL, subject TEXT NOT NULL, predicate TEXT NOT NULL,
+                fingerprint TEXT NOT NULL, text_hash TEXT NOT NULL,
+                vector_json TEXT NOT NULL, dimensions INTEGER NOT NULL,
+                PRIMARY KEY (project_id, subject, predicate, fingerprint, text_hash)
+            )""")
+            self.connection.execute("PRAGMA user_version=2")
             self.connection.commit()
         except Exception:
             self.connection.rollback()
@@ -54,7 +73,18 @@ class SQLiteMemoryStore:
         return json.dumps(event.model_dump(mode="json"), sort_keys=True, ensure_ascii=False)
 
     def import_jsonl(self, path: str | Path) -> ImportResult:
-        records = read_events(path)
+        return self._import_records(read_events(path), str(path))
+
+    def import_events(self, events: list[Event]) -> ImportResult:
+        records = [(event, event.model_dump_json(), number) for number, event in enumerate(events, 1)]
+        return self._import_records(records, "validated events")
+
+    def import_extractions(self, memories: list) -> ImportResult:
+        records = [(event, event.model_dump_json(), number) for number, event in enumerate(
+            (event for memory in memories for event in memory.events), 1)]
+        return self._import_records(records, "extracted events", memories)
+
+    def _import_records(self, records: list[tuple[Event, str, int]], path: str, memories: list | None = None) -> ImportResult:
         self.connection.execute("BEGIN IMMEDIATE")
         try:
             existing = {
@@ -87,6 +117,33 @@ class SQLiteMemoryStore:
                     "INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     tuple(data[column] for column in columns) + (self._canonical(event), raw),
                 )
+            for memory in memories or []:
+                source = memory.source
+                old = self.connection.execute(
+                    "SELECT content_hash FROM nl_sources WHERE project_id=? AND source_id=?",
+                    (source.project_id, source.source_id),
+                ).fetchone()
+                if old is not None and old[0] != source.content_hash:
+                    raise ImportValidationError("source_id already exists with different source content")
+                self.connection.execute(
+                    "INSERT OR IGNORE INTO nl_sources VALUES (?, ?, ?, ?)",
+                    (source.project_id, source.source_id, source.content_hash, source.model_dump_json()),
+                )
+                for event in memory.events:
+                    quote = memory.evidence_by_event.get(event.event_id, "")
+                    if (event.project_id, event.source_id, event.observed_at) != (source.project_id, source.source_id, source.observed_at):
+                        raise ImportValidationError("extracted event is outside its trusted source envelope")
+                    if not quote or quote not in source.text:
+                        raise ImportValidationError("extracted event lacks an exact source quote")
+                    old_quote = self.connection.execute(
+                        "SELECT evidence_text FROM extraction_provenance WHERE event_id=?", (event.event_id,)
+                    ).fetchone()
+                    if old_quote is not None and old_quote[0] != quote:
+                        raise ImportValidationError("existing event has a different extraction quote")
+                    self.connection.execute(
+                        "INSERT OR IGNORE INTO extraction_provenance VALUES (?, ?, ?, ?, ?)",
+                        (event.event_id, source.project_id, source.source_id, quote, memory.provider),
+                    )
             self.connection.commit()
             return ImportResult(imported=len(pending), duplicates=duplicates)
         except Exception:
@@ -109,3 +166,68 @@ class SQLiteMemoryStore:
 
     def count(self) -> int:
         return self.connection.execute("SELECT COUNT(*) FROM events").fetchone()[0]
+
+    def project_events(self, project_id: str, known_at=None) -> list[Event]:
+        rows = self.connection.execute(
+            "SELECT canonical_json FROM events WHERE project_id=? ORDER BY event_id", (project_id,)
+        )
+        events = [Event.model_validate_json(row[0]) for row in rows]
+        return [event for event in events if known_at is None or event.observed_at <= known_at]
+
+    def get_source(self, project_id: str, source_id: str) -> dict | None:
+        row = self.connection.execute(
+            "SELECT source_json FROM nl_sources WHERE project_id=? AND source_id=?", (project_id, source_id)
+        ).fetchone()
+        return None if row is None else json.loads(row[0])
+
+    def get_provenance(self, event_id: str) -> dict | None:
+        row = self.connection.execute("SELECT * FROM extraction_provenance WHERE event_id=?", (event_id,)).fetchone()
+        return None if row is None else dict(row)
+
+    @staticmethod
+    def _validate_vector(vector: list) -> list[float]:
+        if (not isinstance(vector, list) or not vector or len(vector) > 65536
+            or any(isinstance(v, bool) or not isinstance(v, (float, int)) or not math.isfinite(v) for v in vector)
+            or not 0 < math.hypot(*vector) < math.inf):
+            raise ValueError("vectors must have finite numeric components and nonzero finite norm")
+        return [float(v) for v in vector]
+
+    def put_vectors(self, records: list[dict]) -> None:
+        validated = []
+        dimensions = {}
+        for record in records:
+            vector = self._validate_vector(record["vector"])
+            fingerprint = record["fingerprint"]
+            if any(not isinstance(record[key], str) or not record[key].strip() for key in
+                   ("project_id", "subject", "predicate", "fingerprint", "text_hash")):
+                raise ValueError("vector cache keys must be nonempty strings")
+            if fingerprint in dimensions and dimensions[fingerprint] != len(vector):
+                raise ValueError("embedding model fingerprint has inconsistent dimensions")
+            dimensions[fingerprint] = len(vector)
+            validated.append((record, vector))
+        self.connection.execute("BEGIN IMMEDIATE")
+        try:
+            for fingerprint, size in dimensions.items():
+                old_sizes = {row[0] for row in self.connection.execute(
+                    "SELECT DISTINCT dimensions FROM memory_vectors WHERE fingerprint=?", (fingerprint,))}
+                if old_sizes and old_sizes != {size}:
+                    raise ValueError("embedding model fingerprint has inconsistent dimensions")
+            for record, vector in validated:
+                self.connection.execute("INSERT OR REPLACE INTO memory_vectors VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    tuple(record[key] for key in ("project_id", "subject", "predicate", "fingerprint", "text_hash"))
+                    + (json.dumps(vector, allow_nan=False), len(vector)))
+            self.connection.commit()
+        except Exception:
+            self.connection.rollback()
+            raise
+
+    def get_vector(self, project_id: str, subject: str, predicate: str, fingerprint: str, text_hash: str) -> list[float] | None:
+        row = self.connection.execute("""SELECT vector_json, dimensions FROM memory_vectors
+            WHERE project_id=? AND subject=? AND predicate=? AND fingerprint=? AND text_hash=?""",
+            (project_id, subject, predicate, fingerprint, text_hash)).fetchone()
+        if row is None:
+            return None
+        vector = self._validate_vector(json.loads(row[0]))
+        if len(vector) != row[1]:
+            raise ValueError("stored embedding dimension metadata is corrupt")
+        return vector

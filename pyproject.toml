@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repomind"
-version = "1.0.0"
-description = "Deterministic project memory with temporal evidence and offline evaluation"
+version = "1.1.0rc1"
+description = "Grounded extraction and hybrid project memory with temporal evidence"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["pydantic>=2.10,<3"]
