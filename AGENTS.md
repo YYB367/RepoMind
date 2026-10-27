@@ -2,7 +2,7 @@
 
 ## 当前阶段目标
 
-当前授权范围为 V1.1 Intelligent Memory：自然语言候选事实提取、Embedding/混合检索、提取与检索分阶段评测。保持 V1 的事件历史、时间规则、项目隔离和来源追溯。V1.2、V2、V3 需用户另行授权。
+当前授权范围为 V1.2 Evaluation Platform：Langfuse追踪/实验、受控Mem0与自研MemoryProvider对照、质量/延迟/实际usage和可选价卡估算。保持V1/V1.1已验收行为。V2及之后需用户另行授权。
 
 ## 用户的持续交付要求
 
