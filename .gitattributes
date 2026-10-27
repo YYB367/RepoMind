@@ -1,3 +1,6 @@
 * text=auto eol=lf
 *.jsonl text eol=lf
 *.json text eol=lf
+# Frozen V1.1 fixture hashes cover original Windows bytes, including CRLF.
+# Preserve those bytes in Git archives and checkouts; do not rewrite gold data.
+data/v1.1/** -text
