@@ -5,6 +5,7 @@ from pathlib import Path
 
 from repomind.intelligence.extraction import Extractor
 from repomind.intelligence.models import SourceMessage
+from repomind.intelligence.models import ExtractedMemory
 from repomind.memory.store import _unique_keys
 
 
@@ -30,8 +31,11 @@ def read_sources(path: str | Path) -> list[SourceMessage]:
 
 def prepare_ingestion(store, sources: list[SourceMessage], provider) -> list:
     extractor = Extractor(provider)
-    contexts, memories = {}, []
+    contexts, memories, prepared_sources = {}, [], {}
     for source in sources:
+        if source.content_hash in prepared_sources:
+            memories.append(prepared_sources[source.content_hash])
+            continue
         old_source = store.get_source(source.project_id, source.source_id)
         if old_source is not None:
             old = SourceMessage.model_validate(old_source)
@@ -40,12 +44,28 @@ def prepare_ingestion(store, sources: list[SourceMessage], provider) -> list:
         if source.project_id not in contexts:
             contexts[source.project_id] = {event.event_id: event for event in store.project_events(source.project_id)}
         context = contexts[source.project_id]
-        memory = extractor.extract(source, list(context.values()))
+        if old_source is not None:
+            # Reusing an immutable source must not invoke a stochastic model
+            # again and create a second set of IDs from differently sized quotes.
+            events, quotes, providers = [], {}, set()
+            for event in context.values():
+                if event.source_id == source.source_id:
+                    provenance = store.get_provenance(event.event_id)
+                    if provenance is not None:
+                        events.append(event)
+                        quotes[event.event_id] = provenance["evidence_text"]
+                        providers.add(provenance["provider"])
+            memory = ExtractedMemory(source=source, events=sorted(events, key=lambda event: event.event_id),
+                evidence_by_event=quotes, provider="stored-source-cache:" + ",".join(sorted(providers)),
+                abstain_reason=None if events else "Previously processed source has no extracted facts.")
+        else:
+            memory = extractor.extract(source, list(context.values()))
         for event in memory.events:
             if event.event_id in context and context[event.event_id] != event:
                 raise ValueError("extracted event_id already exists with different content")
             context[event.event_id] = event
         memories.append(memory)
+        prepared_sources[source.content_hash] = memory
     return memories
 
 

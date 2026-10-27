@@ -352,6 +352,15 @@ def _hash_input(path: Path) -> dict[str, str]:
     return {"path": str(path.resolve()), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
+def _implementation_hash() -> str:
+    root = Path(__file__).resolve().parents[1]
+    digest = hashlib.sha256()
+    for path in sorted(root.rglob("*.py")):
+        digest.update(path.relative_to(root).as_posix().encode("utf-8") + b"\0")
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
 def _percent(value: float | None) -> str:
     return "N/A（分母为0）" if value is None else f"{value * 100:.2f}%"
 
@@ -395,12 +404,14 @@ def _render(report: dict[str, Any]) -> str:
 def run_intelligent_evaluation(seeds_path: str | Path, gold_events_path: str | Path,
                                dataset_path: str | Path, output_path: str | Path, *,
                                responses_path: str | Path | None, vectors_path: str | Path | None = None,
-                               live: bool = False, search_mode: str = "lexical") -> dict[str, Any]:
+                               live: bool = False, search_mode: str = "lexical", min_cosine: float = 0.2) -> dict[str, Any]:
     """Run three independent stages, emitting auditable JSON and Markdown reports."""
     started = perf_counter()
     seeds_path, gold_events_path, dataset_path, output_path = map(Path, (seeds_path, gold_events_path, dataset_path, output_path))
     if search_mode not in {"lexical", "semantic", "hybrid"}:
         raise ValueError("search_mode must be lexical, semantic, or hybrid")
+    from repomind.intelligence.config import search_min_cosine
+    min_cosine = search_min_cosine(min_cosine, read_file=False)
     if output_path.suffix.lower() not in {".json", ".md"}:
         raise ValueError("intelligent evaluation output must end in .json or .md")
     responses = Path(responses_path) if responses_path is not None else None
@@ -459,7 +470,7 @@ def run_intelligent_evaluation(seeds_path: str | Path, gold_events_path: str | P
                             if search_mode != "lexical":
                                 search.index(query.project_id, known_at=query.known_at)
                             response = search.search(query.project_id, query.text, query.as_of,
-                                                     known_at=query.known_at, top_k=3, mode=search_mode)
+                                                     known_at=query.known_at, top_k=3, mode=search_mode, min_cosine=min_cosine)
                         except Exception as exc:
                             error = f"{type(exc).__name__}: {exc}"
                         score = score_search_response(query, response, store, error=error)
@@ -538,9 +549,10 @@ def run_intelligent_evaluation(seeds_path: str | Path, gold_events_path: str | P
         "config": {
             "inputs": used_inputs, "dataset_split": dataset_path.parent.name,
             "python_version": platform.python_version(), "repomind_source_version": __version__,
+            "implementation_sha256": _implementation_hash(),
             "repomind_installed_version": _version("repomind"), "pydantic_version": _version("pydantic"), "sqlite_version": sqlite3.sqlite_version,
             "extraction_provider": _metadata(provider), "embedding_provider": _metadata(embedder),
-            "search_mode": search_mode, "top_k": 3, "min_cosine": 0.2,
+            "search_mode": search_mode, "top_k": 3, "min_cosine": min_cosine,
             "ingestion_policy": "ingest every split source into seeds-only actual ledger before any query; gold retrieval ledger is separate",
             "extraction_scoring": "whole fact set including trusted source/project/observation, effective time, type, correction target; exact source substring independently audited",
             "query_scoring": "ranked key + top1 status/value + exact source-ID set + every cited ledger event valid",

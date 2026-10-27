@@ -1,6 +1,7 @@
 """Small literal .env reader: no shell evaluation, no interpolation, no secrets in diagnostics."""
 
 import os
+import math
 from pathlib import Path
 import re
 
@@ -53,3 +54,15 @@ def configuration_status() -> dict:
                                      "REPOMIND_EMBEDDING_MODEL")),
         "network_called": False,
     }
+
+
+def search_min_cosine(value: float | None = None, *, read_file: bool = True) -> float:
+    if value is None:
+        if read_file:
+            load_env_file()
+            value = float(os.getenv("REPOMIND_SEARCH_MIN_COSINE", "0.2"))
+        else:
+            value = 0.2
+    if isinstance(value, bool) or not math.isfinite(value) or not -1 <= value <= 1:
+        raise ValueError("search min_cosine must be a finite number between -1 and 1")
+    return float(value)

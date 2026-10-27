@@ -1,0 +1,52 @@
+{
+  "dataset_version": "1.1.0",
+  "frozen_on": "2026-10-27",
+  "real_model_quality": false,
+  "oracle": "Human-authored expected facts, quotes and query answers; no product extractor, resolver or model outputs used as gold. Canonical SourceMessage content_hash and normalization helpers are allowed for replay-input identity; recorded extraction/build_documents helpers enumerate embedding input hashes only and never alter expected answers.",
+  "recorded_response_kind": "manually authored test double; not a capture of a real LLM response",
+  "source_sha256_definition": "SourceMessage.content_hash: SHA-256 of full trusted normalized envelope encoded as canonical UTF-8 JSON; ensure_ascii=False, sort_keys=True, separators=(comma,colon)",
+  "counts": {
+    "projects": 3,
+    "seed_events": 9,
+    "gold_events": 29,
+    "dev_cases": 12,
+    "holdout_cases": 6,
+    "dev_queries": 16,
+    "holdout_queries": 8,
+    "recorded_extraction_responses": 18,
+    "recorded_vector_records": 55,
+    "recorded_vector_dimensions": 8
+  },
+  "split_policy": "Development source projects ProjectOrion/MarketMesh; holdout source/query project TaskHarbor only. Shared rule families and canonical field names remain; not a claim of template independence.",
+  "expected_fact_policy": "effective_at always explicit in gold; selected recorded candidate effective_at null exercises observed_at default; all correct targets are stable seed IDs",
+  "query_policy": "All cases in a split are ingested together before scoring queries. known_at restricts observation. Gold source IDs are deduplicated sets; unknown answers cite no sources.",
+  "product_id_policy": "Synthetic gold event IDs are independent of product NLP IDs; compare complete fact fields and source_id, not equality of generated event IDs.",
+  "files": {
+    "seed-events.jsonl": {
+      "sha256": "e783d9e1d58594be22f696b134357cb14c992c7231e2146f6d5eb7b9504c1009",
+      "rows": 9
+    },
+    "gold-events.jsonl": {
+      "sha256": "f9e79374996530b0bfd0184036649cf5518533d21f108dac7381a6370607ed34",
+      "rows": 29
+    },
+    "dev/cases.jsonl": {
+      "sha256": "4a5edee69ab281d8319f309b8039cb8b98e41f6af4cd28dfa19fe6eddd38ff4d",
+      "rows": 12
+    },
+    "holdout/cases.jsonl": {
+      "sha256": "b1bb89fbb43dc391a3da517a0a223d88829729f2ed7bb4dd045f5e26b2f8e749",
+      "rows": 6
+    },
+    "extraction-responses.jsonl": {
+      "sha256": "a0be12df7ba625789bb4970c54edb92668c7474f762a91c8be2847f6f3964152",
+      "rows": 18
+    },
+    "recorded-vectors.json": {
+      "sha256": "5bd847b0403fe01417c2435c9aa85d03c27e131832dcabc4e8128e737895447a",
+      "records": 55,
+      "dimensions": 8
+    }
+  },
+  "recorded_vector_policy": "Hand-authored ideal predicate one-hot vectors use gold query keys only during fixture authoring; pipeline contract replay only, never real model or semantic quality. Gold and actual document hashes and observation snapshots are included."
+}

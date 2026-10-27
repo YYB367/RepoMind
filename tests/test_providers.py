@@ -9,8 +9,8 @@ import time
 import pytest
 
 from repomind.domain.models import Event
-from repomind.intelligence.models import SourceMessage
-from repomind.intelligence.providers import OpenAICompatibleProvider, ProviderConfig, extraction_json_schema
+from repomind.intelligence.models import ExtractionBatch, SourceMessage
+from repomind.intelligence.providers import OpenAICompatibleProvider, ProviderConfig, _SYSTEM_PROMPT, extraction_json_schema
 
 
 def source():
@@ -182,6 +182,63 @@ def test_deepseek_protocol_uses_json_object_max_tokens_and_disabled_thinking():
     assert "JSON schema:" in payload["messages"][0]["content"]
     assert '"facts": []' in payload["messages"][0]["content"]
     assert "temperature" not in payload
+
+
+def test_positive_prompt_example_is_valid_json_with_two_complete_candidates():
+    encoded = _SYSTEM_PROMPT.split("Positive JSON example:\n", 1)[1].split("\nEnd positive JSON example.", 1)[0]
+    example = json.loads(encoded)
+    batch = ExtractionBatch.model_validate(example)
+    assert [fact.event_type for fact in batch.facts] == ["declare", "plan"]
+    assert batch.abstain_reason is None
+    assert len(batch.facts) == 2
+    fields = {"subject", "predicate", "value", "event_type", "effective_at", "supersedes_event_id", "evidence_text"}
+    sample_source = _SYSTEM_PROMPT.split("Illustrative positive source example:\n", 1)[1].split("\nPositive JSON example:", 1)[0]
+    for fact in example["facts"]:
+        assert set(fact) == fields
+        assert fact["effective_at"] is fact["supersedes_event_id"] is None
+        assert fact["evidence_text"] in sample_source
+
+
+def test_schema_diagnostics_include_at_most_five_locations_and_types_without_inputs():
+    marker = "secret-input-must-never-appear"
+    fact = {"subject": {"input": marker}, "predicate": [marker], "value": {"input": marker},
+            "event_type": marker, "effective_at": marker, "supersedes_event_id": [marker], "evidence_text": 42}
+    body = completion(json.dumps({"facts": [fact], "abstain_reason": None}))
+    with endpoint([(200, body, {})]) as (url, requests):
+        with pytest.raises(ValueError) as raised:
+            OpenAICompatibleProvider(config(url)).extract(source(), [])
+    message = str(raised.value)
+    assert "candidate schema:" in message
+    details = json.loads(message.split(": ", 1)[1])
+    assert len(details) == 5
+    assert all(set(item) == {"loc", "type"} for item in details)
+    assert any(item["loc"] == ["facts", 0, "event_type"] and item["type"] == "literal_error" for item in details)
+    assert marker not in message
+    assert "localhost-test-key" not in message
+    assert source().text not in message
+
+
+def test_schema_diagnostics_redact_untrusted_extra_property_names():
+    marker = "secret-field-name-must-never-appear"
+    extracted = extraction_body()
+    extracted["facts"][0][marker] = "sensitive extra value"
+    with endpoint([(200, completion(json.dumps(extracted)), {})]) as (url, requests):
+        with pytest.raises(ValueError) as raised:
+            OpenAICompatibleProvider(config(url)).extract(source(), [])
+    message = str(raised.value)
+    assert marker not in message
+    assert "sensitive extra value" not in message
+    details = json.loads(message.split(": ", 1)[1])
+    assert details == [{"loc": ["facts", 0, "<extra_field>"], "type": "extra_forbidden"}]
+
+
+def test_json_parse_error_is_distinct_and_does_not_echo_content():
+    marker = "secret-malformed-json-must-never-appear"
+    with endpoint([(200, completion('{"facts":' + marker), {})]) as (url, requests):
+        with pytest.raises(ValueError) as raised:
+            OpenAICompatibleProvider(config(url)).extract(source(), [])
+    assert str(raised.value) == "provider extraction content is invalid JSON"
+    assert marker not in str(raised.value)
 
 
 @pytest.mark.parametrize("kind", ["refusal", "length", "tool", "invalid_json", "extra_field", "bad_quote", "multiple_choices"])

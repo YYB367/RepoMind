@@ -49,7 +49,7 @@ def build_parser() -> argparse.ArgumentParser:
     search.add_argument("--known-at")
     search.add_argument("--mode", choices=("lexical", "semantic", "hybrid"), default="hybrid")
     search.add_argument("--top-k", type=int, default=5)
-    search.add_argument("--min-cosine", type=float, default=0.2)
+    search.add_argument("--min-cosine", type=float, help="Cosine cutoff; default from local profile or 0.2")
     for command in (index, search):
         command.add_argument("--provider", choices=("live", "recorded"), default="live")
         command.add_argument("--vectors", type=Path, help="Recorded test vectors; recorded provider only")
@@ -67,6 +67,7 @@ def build_parser() -> argparse.ArgumentParser:
     intelligent.add_argument("--provider", choices=("replay", "live"), default="replay")
     intelligent.add_argument("--search-mode", choices=("lexical", "semantic", "hybrid"), default="lexical")
     intelligent.add_argument("--output", type=Path, required=True)
+    intelligent.add_argument("--min-cosine", type=float, help="Explicit cosine cutoff; offline default 0.2")
     return parser
 
 
@@ -118,6 +119,7 @@ def main(argv: list[str] | None = None) -> int:
                       "source_count": len(sources), "abstentions": sum(not m.events for m in memories)}
         elif args.command in ("index", "search"):
             from repomind.intelligence.search import HybridMemorySearch
+            from repomind.intelligence.config import search_min_cosine
             if not args.db.is_file():
                 raise FileNotFoundError(f"database does not exist: {args.db}; import or ingest first")
             embedder = None if args.command == "search" and args.mode == "lexical" else _embedding_provider(args)
@@ -127,7 +129,7 @@ def main(argv: list[str] | None = None) -> int:
                     output = retriever.index(args.project, known_at=args.known_at)
                 else:
                     output = retriever.search(args.project, args.text, args.as_of, known_at=args.known_at,
-                        top_k=args.top_k, mode=args.mode, min_cosine=args.min_cosine)
+                        top_k=args.top_k, mode=args.mode, min_cosine=search_min_cosine(args.min_cosine))
         elif args.command == "source":
             if not args.db.is_file():
                 raise FileNotFoundError(f"database does not exist: {args.db}")
@@ -139,9 +141,11 @@ def main(argv: list[str] | None = None) -> int:
                           "provenance": [item for item in provenance if item is not None]}
         elif args.command == "eval-intelligence":
             from repomind.evaluation.intelligent import run_intelligent_evaluation
+            from repomind.intelligence.config import search_min_cosine
             report = run_intelligent_evaluation(args.seeds, args.gold_events, args.dataset, args.output,
                 responses_path=args.responses, vectors_path=args.vectors, live=args.provider == "live",
-                search_mode=args.search_mode)
+                search_mode=args.search_mode,
+                min_cosine=search_min_cosine(args.min_cosine, read_file=args.provider == "live"))
             print(json.dumps({"metrics": report["metrics"], "validation": report["validation"],
                               "output": str(args.output)}, ensure_ascii=False, indent=2))
             return 0 if report["metrics"]["all_passed"] else 1

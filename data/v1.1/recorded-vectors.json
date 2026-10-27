@@ -1,0 +1,746 @@
+{
+  "kind": "recorded_test_double",
+  "fingerprint": "recorded:v1.1-hand-authored-key-vectors-not-a-model",
+  "real_model_quality": false,
+  "construction": "Artificial ideal-ranking contract double. Each document predicate receives an independent one-hot basis; each query is assigned its human-authored expected-key predicate, or an extra unknown basis. No remote model was called.",
+  "gold_leakage_disclosure": "Expected keys are used only to author this explicit test fixture. They are not supplied to product search runtime. Scores from this fixture cannot measure semantic retrieval quality or generalization.",
+  "input_hash_method": "SHA-256 of exact UTF-8 embedding input text; document inputs use product build_documents after project/known_at filtering. Product Extractor with recorded responses is used only to enumerate actual input hashes, never to generate or alter gold answers.",
+  "unknown_text_policy": "Exact-text lookup only. Any unseen input must raise an error; no nearest-text or heuristic fallback is allowed.",
+  "basis_predicates": [
+    "ci",
+    "database",
+    "deployment",
+    "framework",
+    "language",
+    "search_engine",
+    "test_runner"
+  ],
+  "unknown_basis_index": 7,
+  "dimensions": 8,
+  "counts": {
+    "document_text_hashes": 31,
+    "query_text_hashes": 24,
+    "vector_records": 55,
+    "seed_events": 9,
+    "gold_events": 29,
+    "actual_replay_events": 29,
+    "query_occurrences": 24
+  },
+  "records": [
+    {
+      "text_sha256": "019d60e866d04e99966ddf03d6bcb58a0a3dd9c0987e590e3d2387b6b55a3063",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "03011d551b1cbf667744a2c8211fbe49b3a30fa04c09d17bda8246564e87037b",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "03799f8a0b69a925d3ccf64b365bbbed5dcd9820ba55cd04e74dc8cb70cf3886",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "038dc5623cb3d62c0cb11b1d3621313ca23da6b6c5e07bf929958e2db1175e79",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "05b58b95d1b58aff171709d687fdae0367d2b6b59cc6cce253344df5ec2e6eb9",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "079208bd4ab6d66014d3b84ef5ebd0c130f9907437c372fb444d4bca48ec4a2d",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0a9365138aa7aba8b99515fe4567e520f459b8d90e25c99c2313a9f0f9782ba5",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0ec63a3b1bb44d601899ddbfb4da19f776a21ed86c307c1bcf840043ac1e435b",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0f6042d707ba4fc8ed96076f00e03130628e5ea27016e76090886b3669da3442",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "1d00186e97eaf7a6f6b5e3bee322e3391e5e536bd476507aa262787af99a159a",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "1d2b74be971885b572a5221eb4a763d09072d3f03d2d6aad4fbbc028f4f82243",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "2037fc349b1245eef79fe5b163ccc1577b10d0a5163b4b6b0c1acff4959f4243",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "2067a57134f55c26d3e73b1b6bba9e963b37fd41d5fc38290448bb638504b9e8",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "260334273d542291803aedbca0bb4cd2dbce6216ef47fa8540f5ea7c50f74de5",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "292171971356c1be7a2ee4dc4b047b66efb470c65ec984816787d44ec935d4e1",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "31bef06bfdd9136cb43e54ed7dfbd31d2a8e84ce3806a3264b91ff19eacbd7ac",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "33010820566fb8e85cd3b1d7090dc1fc7f19514ef78cb110eedac6e69f6eb38d",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "4569cca13a4c6203897b83124bde66e68e8a0deeac69a057fa32c7875f4a1896",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "49c4c74746694a3b5cb377004fbddfbdde6617cf4f34e177709b21a3b8404d21",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "4b5bcbdf5485fc251353b9ac592d17055be59d0cb31d0d4e8c950102a528c33f",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "4e9f48448edbe036c895fe3e8c03adf79b1c45b5b7ec07e394bb3506a61e3fe9",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "516ba3569c363a2029b6fd4069418ab51d44dc298645664f624e7f42d0ed74e5",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "56985eb5dbb14b880020874424a011f7e7a9c2efd82b7abc793e477113e54c2a",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "578e5f575d4a2d44b8326bb45ad097ccd7d2fa7153a241e965125b68bdde598c",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "6fb18bc9c8480e5b878add0e4ef5e7ac8e82b1fb28c3ab045fdbb8cbe61bf814",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "7651cc36be486acfb7f89cda717d3f6417385927b2f73bd7a1136466cb337aca",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "7accc2b91074bcb18353df3ca326a3384d50853632ae3cbed276b3e3b9b73a4b",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "7cb3556f34b471faaee2e6d878d781b9f6144e56a6e7c79e9c361f1412b325fd",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "7f237b0a54ca601e2fda70e470a4cb6d7d75b03a68b9938f54ae4b034a990064",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "8394fee53a9f359f318b88af71eae58f015f34293148955d49ba1b25528746e5",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "911fed802f5e1848dc5cc1ef88a1875f41a92073eaec1588a4213d6fe9deeb85",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "950e7efb6769fce2951c1ed06314d4035a1433e766eaf5b3a394f01842ae7a20",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "a6cb33b2488c8fc67fd8a7993e51223cb1d75ceb1ca0d4b5700b683a99066821",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "a70cb6a55dd0b7d5a500bbf0e17c2c4b6eb6d15f3956e5fbd93d2ba74ebea0ea",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "af44a12d13a3ee3a7e5a17ad1d201fb90a7872f0f015d321fb05de442ff41126",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "bbf22860e509b5d4d56e433e33bd025923f3b5a7c46ec9b16097862a0ae21f70",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "bc911e4caafe40ec814a8c301829af1cebf0ea07afab5b21f9e7235c26007b71",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "bf9232b6f480f494582f7dacdfcb01af01640afb64e010dd596ebe87734ace1b",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "c6ef917e54a8b6c549ed8f745c446d4b192084ec171970542a25b9cc550a2eff",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "ca26e607f784e82053eac72044a0d20470a48a2859011fb26583101d90d7267e",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "cdaa697d8acedf493276473c15d40797df149edce633a36d97654a6020e4660e",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "eb814bec5aa0302430e50532189c977a072bd00863a1f1cf7fd9d1f9bf42767a",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "ec05713aef42c67ca18d378c35526d273d87428fe6215b5f32dbe26316a16531",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "ec13f062a4b27409285a484fdc6bf8674011bf7b7e42347a2d8b58b6185028cb",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "ee8ed2df0d4cb1b0177358e8dbca7554b065e94eae2ed0637dd923e6ecb33f00",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "f2e439b5149ce279b8283852510581246b94d70c5af9fcfa02d101cc760f1d58",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "f3de387777e741e25f7bb87503ed4e4d6a1073ead69c93b354f61904822cc5fa",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "f7c7f084ecd6985e0efa720adc94e76eb7905ef2c72c491b84fbcab4043b1811",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fa18f5593c776a7dc749d25ceed7a677f0f02559cadeaede75a08653808bbc68",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "fa4d6c3632239d53f07f53d8d53fbcb4e83ab7c5d924bc7be35e64dfb84991d5",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fa6d455c3628e06c23074b5f9624e49c4af8cb7dbdfc132b56dd1d960f66ca2d",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fa97adae565198e2f8c0a306f46c88c2d85aa77eabb396c7372d837a1a8704f4",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fa9b62954fbd3fa3caaec899336678bb1984aac39122289c7bfac9a9ea75998c",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fb3ee43a0de79f11d1fbc7b7a0544c22e7ce9b0f43ab1b03736d21f5ec32fe8a",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fc1945bba0d5c6f46341831b26d38a30a301c9daf74a229e20637aca5a7cd824",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

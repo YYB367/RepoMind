@@ -4,6 +4,7 @@ import json
 import pytest
 
 from repomind.intelligence.ingestion import validate_output_paths
+from repomind.intelligence.config import search_min_cosine
 from repomind.intelligence.replay import RecordedEmbedder
 
 
@@ -41,3 +42,18 @@ def test_candidate_output_cannot_replace_api_key_configuration(tmp_path):
     with pytest.raises(ValueError, match="configuration"):
         validate_output_paths(path, [])
     assert path.read_text(encoding="utf-8") == "DEEPSEEK_API_KEY=synthetic-only"
+
+
+def test_similarity_profile_is_explicit_and_offline_does_not_read_it(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("REPOMIND_SEARCH_MIN_COSINE", raising=False)
+    (tmp_path / ".env").write_text("REPOMIND_SEARCH_MIN_COSINE=0.55\n", encoding="utf-8")
+    assert search_min_cosine(read_file=False) == 0.2
+    assert search_min_cosine() == 0.55
+    assert search_min_cosine(0.7) == 0.7
+
+
+@pytest.mark.parametrize("invalid", [float("nan"), float("inf"), -2, 2, True])
+def test_similarity_threshold_rejects_invalid_settings(invalid):
+    with pytest.raises(ValueError, match="finite number"):
+        search_min_cosine(invalid)
