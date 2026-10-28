@@ -203,6 +203,7 @@ class OpenAICompatibleProvider:
         self.embedding_dimension: int | None = None
         self.request_count = 0
         self.usage: dict[str, int] = {}
+        self.usage_report_counts: dict[str, int] = {}
 
     @property
     def name(self) -> str:
@@ -216,7 +217,8 @@ class OpenAICompatibleProvider:
 
     def safe_metadata(self) -> dict[str, Any]:
         return {"name": self.name, "fingerprint": self.fingerprint, "request_count": self.request_count,
-                "usage": dict(self.usage), "extraction_prompt_sha256": hashlib.sha256(_SYSTEM_PROMPT.encode("utf-8")).hexdigest(),
+                "usage": dict(self.usage), "usage_report_counts": dict(self.usage_report_counts),
+                "extraction_prompt_sha256": hashlib.sha256(_SYSTEM_PROMPT.encode("utf-8")).hexdigest(),
                 **self.config.safe_metadata()}
 
     def _post(self, suffix: str, payload: dict[str, Any]) -> dict[str, Any]:
@@ -255,10 +257,18 @@ class OpenAICompatibleProvider:
             raise ValueError("provider response must be a JSON object")
         usage = result.get("usage")
         if isinstance(usage, dict):
-            for name in ("prompt_tokens", "completion_tokens", "total_tokens"):
+            for name in ("prompt_tokens", "completion_tokens", "total_tokens", "input_tokens", "output_tokens"):
                 value = usage.get(name)
                 if type(value) is int and value >= 0:
                     self.usage[name] = self.usage.get(name, 0) + value
+                    self.usage_report_counts[name] = self.usage_report_counts.get(name, 0) + 1
+            details = usage.get("prompt_tokens_details")
+            cache_values = [usage[name] for name in ("cached_input_tokens", "prompt_cache_hit_tokens") if name in usage]
+            if isinstance(details, dict) and "cached_tokens" in details:
+                cache_values.append(details["cached_tokens"])
+            if cache_values and all(type(value) is int and value >= 0 for value in cache_values) and len(set(cache_values)) == 1:
+                self.usage["cached_input_tokens"] = self.usage.get("cached_input_tokens", 0) + cache_values[0]
+                self.usage_report_counts["cached_input_tokens"] = self.usage_report_counts.get("cached_input_tokens", 0) + 1
         return result
 
     def extract(self, source: SourceMessage, context: list[Event] | None = None) -> ExtractionBatch:

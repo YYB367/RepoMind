@@ -2,6 +2,7 @@
 
 import os
 import math
+import importlib.metadata
 from pathlib import Path
 import re
 
@@ -40,6 +41,12 @@ def load_env_file(path: str | Path = ".env") -> list[str]:
 def configuration_status() -> dict:
     """Local status only. No network call and no key prefix, length, or value."""
     load_env_file()
+    installed = {}
+    for name in ("mem0ai", "qdrant-client", "openai", "langfuse"):
+        try:
+            installed[name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            installed[name] = None
     return {
         "env_file": str(Path(".env").resolve()),
         "env_file_exists": Path(".env").is_file(),
@@ -52,6 +59,10 @@ def configuration_status() -> dict:
         "embedding_configured": all(bool(os.getenv(key)) for key in
                                     ("REPOMIND_EMBEDDING_BASE_URL", "REPOMIND_EMBEDDING_API_KEY",
                                      "REPOMIND_EMBEDDING_MODEL")),
+        "langfuse_base_url_configured": bool(os.getenv("LANGFUSE_BASE_URL")),
+        "langfuse_public_key_configured": bool(os.getenv("LANGFUSE_PUBLIC_KEY")),
+        "langfuse_secret_key_configured": bool(os.getenv("LANGFUSE_SECRET_KEY")),
+        "installed_versions": installed,
         "network_called": False,
     }
 

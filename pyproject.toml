@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repomind"
-version = "1.1.0"
+version = "1.2.0"
 description = "Grounded extraction and hybrid project memory with temporal evidence"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -12,6 +12,7 @@ dependencies = ["pydantic>=2.10,<3"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10"]
+platform = ["langfuse==5.0.4", "mem0ai==2.2.1", "qdrant-client==1.20.0"]
 
 [project.scripts]
 repomind = "repomind.cli:main"

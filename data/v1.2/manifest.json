@@ -1,0 +1,75 @@
+{
+  "dataset_version": "1.2.0",
+  "synthetic": true,
+  "frozen_on": "2026-10-27",
+  "encoding": "UTF-8 without BOM; LF newlines",
+  "oracle": "Events and all query expected keys/status/values/source IDs are manually authored; no product extractor/resolver/provider/search or remote model used as gold. Event/time normalization and build_documents are used solely for input validation and embedding input hashes.",
+  "controlled_scope": "Retrieval backend comparison only: same fact-key documents, project and known_at prefilter, shared V1 resolver; Mem0 infer=False; not a reproduction of native Mem0 extraction/correction.",
+  "infer_false": true,
+  "real_model_quality": false,
+  "recorded_vector_kind": "Artificial ideal-ranking test double, not a real embedding capture; cannot establish semantic quality or cost improvement.",
+  "vector_fingerprint": "recorded:v1.2-controlled-one-hot",
+  "counts": {
+    "projects": 3,
+    "events": 30,
+    "dev_queries": 12,
+    "holdout_queries": 8,
+    "vector_records": 44,
+    "vector_dimensions": 6
+  },
+  "project_event_counts": {
+    "AsterDocs": 10,
+    "ParcelNest": 10,
+    "CedarTrack": 10
+  },
+  "categories": {
+    "all": {
+      "basic": 3,
+      "isolation": 2,
+      "state": 6,
+      "temporal": 6,
+      "unknown": 3
+    },
+    "dev": {
+      "basic": 2,
+      "isolation": 1,
+      "state": 4,
+      "temporal": 3,
+      "unknown": 2
+    },
+    "holdout": {
+      "basic": 1,
+      "isolation": 1,
+      "state": 2,
+      "temporal": 3,
+      "unknown": 1
+    }
+  },
+  "split_policy": "Dev queries only AsterDocs/ParcelNest; holdout queries only CedarTrack plus an unrecorded scope. All rule families and field vocabulary may be shared; no claim of template independence.",
+  "timeline_policy": "Load all events before queries; as_of is effective time. known_at is observation cutoff applied before document construction. Default current knowledge may use later observations to reconstruct earlier effective facts.",
+  "scope_policy": "Project and worker facts with same predicate are distinct keys. Query source sets must remain in query project/key. Unknown with expected_key means key is known but no effective fact; null expected_key means no relevant recorded key.",
+  "holdout_policy": "Freeze first, tune only on dev, run holdout for first release verification after parameters fixed; preserve first result, no gold edits to fit product output.",
+  "files": {
+    "events.jsonl": {
+      "sha256": "55b21fb5a6b5a0ec90dc84d3a48a6a7c1e89bc481a0f63e182b4ecdf2b55e018",
+      "bytes": 8453,
+      "rows": 30
+    },
+    "dev/questions.jsonl": {
+      "sha256": "359f126b0963c42dc8d8c12cf9ee333938d6bab8361d38ab6b569d4678f2bc2f",
+      "bytes": 3420,
+      "rows": 12
+    },
+    "holdout/questions.jsonl": {
+      "sha256": "4cdea0c2b1b55f9d74c613e0cc69215a38add4f530e1e11747ee8494dad3e72f",
+      "bytes": 2364,
+      "rows": 8
+    },
+    "recorded-vectors.json": {
+      "sha256": "40b4a772a64a0558ed30d970fa3952ee036c69dc365a72c681b7655598f33e7b",
+      "bytes": 10173,
+      "records": 44
+    }
+  },
+  "vector_basis": "Full (subject,predicate) one-hot identity; independent unknown basis. Subject distractor facts remain in unchanged gold."
+}

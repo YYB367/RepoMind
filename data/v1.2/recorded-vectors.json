@@ -1,0 +1,523 @@
+{
+  "kind": "recorded_test_double",
+  "fingerprint": "recorded:v1.2-controlled-one-hot",
+  "real_model_quality": false,
+  "construction": "Artificial ideal full-(subject,predicate)-key one-hot vectors; human gold expected keys used only during fixture authoring. No model output and no provider/resolver result is a gold oracle.",
+  "runtime_boundary": "Runtime receives exact-text hash lookup only, not gold expected keys. Unseen text must fail. Each complete subject/predicate key has an independent basis; same-predicate subject distractors remain distinct.",
+  "normalization": "UTF-8 exact input SHA-256; query newline normalized to space for every variant; documents use build_documents after project/known_at filtering.",
+  "dimensions": 6,
+  "basis_keys": [
+    [
+      "project",
+      "database"
+    ],
+    [
+      "project",
+      "deployment"
+    ],
+    [
+      "project",
+      "framework"
+    ],
+    [
+      "project",
+      "language"
+    ],
+    [
+      "worker",
+      "database"
+    ]
+  ],
+  "unknown_basis_index": 5,
+  "counts": {
+    "document_text_hashes": 24,
+    "query_text_hashes": 20,
+    "records": 44
+  },
+  "records": [
+    {
+      "text_sha256": "01a7aa1fb3e63bb2ee1b374a00de5a8ea5f2e2e2919f19a96e44a9c6d2f6f48e",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "01c6f49b6c3b27901fa5771debe9d98dd7f42a6b3d1b382ccea17d324da0c48b",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "06f5bb0b87315e2e3640b446ba2c7c749c55faf125a6155abd13b6ca0a8c030e",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "07d4e08318ba45ea6a905295682815a9303479e4817dc2b5bf4cbfd81a4c3f95",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0bb86cade6f1db6d3b542bbfa0a7d22c2344c3fec754c672e291bac9b7776395",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0beb05a398fc4ada19d636f56478bba31786ab27cc31134afec2405e00a84773",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0e90454839cb7da6c008c411bd4e74b440ba5e8fa66bb357088e34094d484178",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "0fc5c0f66a41ab6530e816d824e56679934419a530d253ef4eb61e3efdfa2535",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "116de48e1b5b25e9a1ce617088935cc9c58a0a17903683c43475744e2b3f7268",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "1392ee45bd19afe2150261d9a99801354fc6728f1ba608190d4bd42a34bdaaaf",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "1dae56b7a22b547a9c17272cdfd4d6a1dc7d749655f8fbd048cc0df2cbce0ee5",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "29a47bfae2b94cc30a30d827cbe4a87582ce8b38ea3304c7684f7924f1b86185",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "30e70e6d5feedac47febbbb21f964d10de4974f8b649b6d25b802adc05f5029b",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "383041201499612a05b064d6a25c5ba66a71e6de5dd85eed41fcdb4698044507",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "3be020294386ec9d8f9aeb8f47ef248beb7d28209a8033433e7f770bd7958607",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "44962d704fee609d9f9f714bf773938af0fab23f9c5d8edd358bc6a2ce0c9f77",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "4dc492c6c8377384b236d87cc753ba664838aefe505512f9b78a2612ad10730f",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "4eef795e3fd875dee7ee5a83ae006fd816edc5ae30b9622ff40f26d388825ca9",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "50a1b77c73f9bca072bba3327dc0a6bbf2b7da1ac9961a4bd54727feb6031030",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "580a9e4248960e393e3064019f2ebd75793a0e079a60e740e970dd215e3b53f9",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "5c71d7ba121587b6b0f34051f7816a3c412453505eee3f2b9db29db63e461605",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "61727ab3cd51976d45e196105687ab26240c6e48299fcb88d1c40e7280e015d2",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "69523deb54ddcfb621fb4f8c8accdf669673a0d245cfc847ddc04a2b3fb19fd0",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "text_sha256": "69c1df8fcc492899f2ceaf10d95c3ad859ffeaa34394af442f189a2655d73a55",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "70078dae901167324b4066680aa5177af9716987b27ac94df75b7c5b7fc0dd55",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "85ef20971c6aa77efefed35d5fe014c7168a0200e26da05d89bba05e738b7f90",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "89dd40d8e81df3e9414c1ee5589016d20a7bcd2e26767bb9059e66a52daa4cb6",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "91debd337d7d3e568a94b98f547c83f333b4c99c5402c21b6e0efa4f36c01f6d",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "9883df6019e719ebee8b13fd5c0ea5632fb7853f570127496069722ffa021696",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "a8d67c5a4713f07a9c05e53938b3113358601f36c0588f1fa73297b13f446eb4",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "a9d4eb3d8a23d60d2f8d418bdc2951da01ea8ece3c4ba24ee09f6ca22eb600e5",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "b02e2252ca07d8905dc5e444514b332034ed41cdbf6f74c92dd516baa100b6d7",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "b5f845759f563c4f38e7465a4b38b4a368e873685bf81baee440f4ef88999b23",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "b63d8f543ed733b0625f62f4684796627e70d7303f6aa90439da445171ec7001",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "bd7ccbf60fdc8dcc96500403e01973d51db44bc72fad95229e671908ea6f45a1",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "c95665db863bf07d89bf343396a924850b7cfca3d6c60217d1cd0fd26663c645",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "d1148ece52c2ab754383b8782056018418fc436783098fff194017885970b8c4",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "dbf3c1873e5d7f1fa6f906cdb333d3df65d8c415137e30443d44567111e2cf98",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "e64c359cdd186b8b29f01ef4f820774e79b7a1fb2666f58a7137fd1327bee192",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "e9d6b7de2455ee44212469bdf0061151d7bb2168217fd601fe9ccd4ad165d8bf",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "f4500462daaca6f7c1beaec95592359edb8914b0a061caa7d030da7ecb1a9937",
+      "vector": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "f581e7f4606115fd9aff85acb49f039915bb6543e0c57395a40f79c50e0fdb1b",
+      "vector": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fa6b8d031587ab03c6cecaece16895d601d2849055ff8f1cd027f81c6f0dfd71",
+      "vector": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text_sha256": "fed77809238034f91b4dc3889bbbb1cb96e3d33337fc8ff114724216a0e19b5d",
+      "vector": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

@@ -68,6 +68,26 @@ def build_parser() -> argparse.ArgumentParser:
     intelligent.add_argument("--search-mode", choices=("lexical", "semantic", "hybrid"), default="lexical")
     intelligent.add_argument("--output", type=Path, required=True)
     intelligent.add_argument("--min-cosine", type=float, help="Explicit cosine cutoff; offline default 0.2")
+    compare = commands.add_parser("compare", help="Compare controlled retrieval backends; never auto-export traces")
+    compare.add_argument("--events", type=Path, default=Path("data/v1.2/events.jsonl"))
+    compare.add_argument("--dataset", type=Path, required=True)
+    compare.add_argument("--output", type=Path, required=True, help=".md or .json report; both formats are written")
+    compare.add_argument("--vector-mode", choices=("recorded", "live"), default="recorded")
+    compare.add_argument("--vectors", type=Path, help="Recorded mode defaults to data/v1.2/recorded-vectors.json")
+    compare.add_argument("--variants", nargs="+", choices=("no_memory", "repomind_semantic", "repomind_hybrid", "mem0"))
+    compare.add_argument("--run-id")
+    compare.add_argument("--state-dir", type=Path, help="Parent directory; a fresh run_id child is required")
+    compare.add_argument("--outbox", type=Path, help="Local trace outbox; cloud export requires trace-sync")
+    compare.add_argument("--pricing", type=Path, help="Optional explicit versioned price card for estimates")
+    compare.add_argument("--seed", type=int, default=0)
+    compare.add_argument("--min-cosine", type=float, default=0.55, help="Shared strict cosine cutoff; top_k remains 3")
+    sync = commands.add_parser("trace-sync", help="Explicitly export synthetic precomputed traces/experiments to Langfuse")
+    sync.add_argument("sync_mode", nargs="?", choices=("traces", "experiment", "both"), default="traces")
+    sync.add_argument("--outbox", type=Path, required=True)
+    sync.add_argument("--dataset-name", default="repomind-comparison")
+    sync.add_argument("--run-name")
+    sync.add_argument("--verify-only", action="store_true", help="Read back existing objects only; never re-emit spans/datasets/scores")
+    sync.add_argument("--receipt", type=Path, help="Optional safe delivery JSON; cannot overwrite outbox/status/config")
     return parser
 
 
@@ -79,6 +99,51 @@ def _embedding_provider(args):
         return RecordedEmbedder(args.vectors)
     from repomind.intelligence.dashscope import embedding_provider_from_env
     return embedding_provider_from_env()
+
+
+def _trace_sync(args) -> dict:
+    if not args.outbox.is_file():
+        raise FileNotFoundError(f"trace outbox does not exist: {args.outbox}")
+    if args.receipt is not None:
+        protected = {args.outbox.resolve(), Path(str(args.outbox) + ".status.jsonl").resolve()}
+        name = args.receipt.name.lower()
+        if args.receipt.resolve() in protected or name == ".env" or name.startswith(".env."):
+            raise ValueError("delivery receipt must not overwrite outbox, status journal, or configuration files")
+    from repomind.intelligence.config import load_env_file
+    from repomind.platform.langfuse import LangfuseConfig, LangfuseExporter
+    from repomind.platform.tracing import TraceOutbox, clean_payload
+
+    outbox = TraceOutbox(args.outbox)
+    # Validate local input before loading credentials or constructing an exporter.
+    outbox.records()
+    load_env_file()
+    settings = LangfuseConfig.from_env()
+    exporter = LangfuseExporter(settings)
+    receipt = {"stage_goal": "V1.2 explicit Langfuse export with service read-back confirmation",
+               "mode": args.sync_mode, "outbox": str(args.outbox), "model_executed_during_export": False,
+               "verify_only": args.verify_only}
+    try:
+        if args.sync_mode in {"traces", "both"}:
+            receipt["traces"] = exporter.sync(outbox, **({"verify_only": True} if args.verify_only else {}))
+        if args.sync_mode in {"experiment", "both"}:
+            receipt["experiment"] = exporter.export_experiment(outbox, args.dataset_name, run_name=args.run_name,
+                **({"verify_only": True} if args.verify_only else {}))
+    except Exception:
+        raise ValueError("Langfuse sync failed; sensitive upstream details omitted; inspect the local status journal") from None
+    finally:
+        close = getattr(exporter, "close", None)
+        if callable(close):
+            try:
+                close()
+            except Exception:
+                raise ValueError("Langfuse exporter shutdown failed; sensitive upstream details omitted") from None
+    requested = [receipt[key] for key in ("traces", "experiment") if key in receipt]
+    receipt["cloud_verified"] = bool(requested) and all(result.get("cloud_verified") is True for result in requested)
+    receipt = clean_payload(receipt)
+    if args.receipt is not None:
+        args.receipt.parent.mkdir(parents=True, exist_ok=True)
+        args.receipt.write_text(json.dumps(receipt, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    return receipt
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -149,6 +214,28 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps({"metrics": report["metrics"], "validation": report["validation"],
                               "output": str(args.output)}, ensure_ascii=False, indent=2))
             return 0 if report["metrics"]["all_passed"] else 1
+        elif args.command == "compare":
+            if args.variants is not None and len(args.variants) != len(set(args.variants)):
+                raise ValueError("comparison variants must not be repeated")
+            if args.vector_mode == "live" and args.vectors is not None:
+                raise ValueError("live comparison must not use recorded --vectors")
+            from repomind.comparison.runner import run_comparison
+            vectors = args.vectors
+            if args.vector_mode == "recorded" and vectors is None:
+                vectors = Path("data/v1.2/recorded-vectors.json")
+            report = run_comparison(args.events, args.dataset, args.output,
+                vector_mode=args.vector_mode, vectors_path=vectors, variants=args.variants,
+                run_id=args.run_id, state_dir=args.state_dir, outbox_path=args.outbox,
+                pricing_path=args.pricing, seed=args.seed, min_cosine=args.min_cosine)
+            variants = {name: value.get("metrics", value) for name, value in report["variants"].items()}
+            print(json.dumps({"validation": report["validation"], "variants": variants,
+                              "outbox": report.get("outbox"), "markdown": str(args.output.with_suffix(".md")),
+                              "json": str(args.output.with_suffix(".json"))}, ensure_ascii=False, indent=2))
+            return 0 if report["validation"].get("completed_without_errors") is True else 1
+        elif args.command == "trace-sync":
+            output = _trace_sync(args)
+            print(json.dumps(output, ensure_ascii=False, indent=2, allow_nan=False))
+            return 0 if output["cloud_verified"] is True else 1
         else:
             from repomind.evaluation.runner import run_evaluation
 

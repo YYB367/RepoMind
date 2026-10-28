@@ -19,7 +19,6 @@ class DashScopeEmbeddingProvider:
         self._client = OpenAICompatibleProvider(config)
         self.dimension = config.embedding_dimensions or 1024
         self.embedding_dimension = None
-        self._input_tokens = None
 
     @property
     def name(self) -> str:
@@ -38,16 +37,18 @@ class DashScopeEmbeddingProvider:
 
     @property
     def usage(self) -> dict:
-        result = self._client.usage.copy()
-        if self._input_tokens is not None:
-            result["input_tokens"] = self._input_tokens
-        return result
+        return self._client.usage.copy()
+
+    @property
+    def usage_report_counts(self) -> dict:
+        return self._client.usage_report_counts.copy()
 
     def safe_metadata(self) -> dict:
         return {"name": self.name, "base_url": self.config.base_url, "model": self.config.embedding_model,
                 "dimension": self.dimension, "fingerprint": self.fingerprint,
                 "text_type_policy": "documents=document;queries=query", "batch_limit": 20,
-                "request_count": self.request_count, "usage": self.usage}
+                "request_count": self.request_count, "usage": self.usage,
+                "usage_report_counts": self.usage_report_counts}
 
     def _embed(self, texts: list[str], text_type: str) -> list[list[float]]:
         if not isinstance(texts, list) or any(not isinstance(text, str) or not text.strip() for text in texts):
@@ -75,9 +76,6 @@ class DashScopeEmbeddingProvider:
                 if len(vector) != self.dimension:
                     raise ValueError("DashScope embedding dimension differs from configured dimension")
                 by_index[index] = vector
-            usage = response.get("usage")
-            if isinstance(usage, dict) and type(usage.get("input_tokens")) is int and usage["input_tokens"] >= 0:
-                self._input_tokens = (self._input_tokens or 0) + usage["input_tokens"]
             vectors.extend(by_index[index] for index in range(len(chunk)))
             self.embedding_dimension = self.dimension
         return vectors

@@ -1,3 +1,24 @@
+# 阶段目标：RepoMind V1.2 Evaluation Platform — 2026-10-27
+
+本阶段增加公平MemoryProvider对照、实际usage/延迟与可选价卡估算，以及Langfuse trace/dataset/experiment的outbox与服务读回核验。当前为1.2.0候选交付，最终测试、live与cloud结果以docs/v1.2-delivery.md和reports/v1.2为准，不沿用V1.1历史数字作为本轮成绩。
+
+## V1.2 新增/修改
+
+- `docs/v1.2-stage-plan.md`、`docs/v1.2-technologies.md`、ADR0011–0014：SDK5/OTEL、受控Mem0公共配置桥、公平测量、usage/价卡和云端ACK设计。
+- `src/repomind/comparison/`：no_memory、repomind_semantic、repomind_hybrid、mem0受控profile；共享V1事实规则，主后端比较限定semantic与Mem0。
+- `comparison/mem0.py`：infer=False、项目/known_at快照、本地Qdrant/history、Embedding回环桥、遥测/目录/可选模型控制、状态与资源关闭。
+- `comparison/telemetry.py`、`pricing.py`：实际请求/usage和输入/向量hash、可选明确价卡估算；默认费用null。
+- `src/repomind/platform/`：安全trace契约、单写者JSONL outbox与receipt，Langfuse5现代OTEL/experiment写入与新API读回核对。
+- `src/repomind/cli.py`：新增compare与trace-sync，保留V1/V1.1命令；compare运行完成和质量分数分开，trace-sync仅cloud_verified完整时成功。
+- `data/v1.2/`：3新项目、30事件、12dev/8holdout、44条6维人工理想向量、UTF-8 LF冻结manifest；未改旧版金标。
+- `pyproject.toml`的可选platform extra：Langfuse5.0.4、mem0ai2.2.1、qdrant-client1.20.0；基础依赖继续轻量，平台延迟import。
+- `README.md`、`docs/v1.2-usage.md`、`docs/v1.2-delivery.md`、`price-card.example.json`：安装、配置、对照、同步、费用缺失和回滚说明。价格示例为CNY空models，未包含真实报价。
+- 新比较/桥接/测量/价卡/outbox/平台SDK/CLI测试与reports/v1.2产物：最终数量和真实结果由主线验收填入，不预写通过。
+
+V1/V1.1代码入口、冻结数据、报告和历史标签保留。本轮不实现V2代码Agent、OpenViking或Harness优化，不推送远程或部署平台服务器。以下旧版本记录保留其当时语境。
+
+---
+
 # 阶段目标：RepoMind 1.1.0 Intelligent Memory — 2026-10-27
 
 本阶段在V1的时间/来源内核上增加自然语言候选提取、独立Embedding与混合检索、分阶段评测。技术原因、原理、变更取舍与迁移说明见docs/v1.1-technologies.md及ADR0005–0010；完整结果见reports/v1.1/acceptance.md。
