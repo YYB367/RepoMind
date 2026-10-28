@@ -74,6 +74,20 @@ def test_git_subprocess_does_not_inherit_model_keys(monkeypatch):
     assert 'DEEPSEEK_API_KEY' not in git_env()
     assert git_env()['GIT_CONFIG_NOSYSTEM']=='1'
 
+
+def test_unregistered_or_even_manifest_listed_credentials_never_reach_task_copy(tmp_path,task):
+    import shutil
+    data=tmp_path/'data'
+    shutil.copytree(DATA,data)
+    (data/'repository/.env').write_text('PRIVATE_MARKER=not-for-model',encoding='utf-8')
+    copy=TaskWorkspace(tmp_path/'safe-repo',task,data)
+    assert '.env' not in copy.list_files()['files'] and not (copy.root/'.env').exists()
+    manifest=json.loads((data/'manifest.json').read_text(encoding='utf-8'))
+    manifest['files']['repository/.env']={'sha256':'irrelevant','bytes':0}
+    (data/'manifest.json').write_text(json.dumps(manifest),encoding='utf-8')
+    with pytest.raises(ToolDenied,match='forbidden repository file'):
+        TaskWorkspace(tmp_path/'blocked-repo',task,data)
+
 def test_manifest_detects_changed_inputs(tmp_path):
     import shutil
     shutil.copytree(DATA,tmp_path/'data')

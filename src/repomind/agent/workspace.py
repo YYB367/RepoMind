@@ -55,14 +55,21 @@ class TaskWorkspace:
         self.root.mkdir(parents=True)
         self.allowed=[]
         source=self.benchmark_root/'repository'
-        for path in sorted(source.rglob('*')):
-            if path.is_file():
-                relative=path.relative_to(source).as_posix()
-                checked=checked_path(source,relative)
-                target=self.root/relative
-                target.parent.mkdir(parents=True,exist_ok=True)
-                target.write_bytes(checked.read_bytes())
-                self.allowed.append(relative)
+        manifest=json.loads((self.benchmark_root/'manifest.json').read_text(encoding='utf-8'))
+        # Extra local files are never silently promoted into model-readable
+        # inputs; even a listed credential/Git file remains forbidden.
+        declared=sorted(name.removeprefix('repository/') for name in manifest['files'] if name.startswith('repository/'))
+        for relative in declared:
+            pieces=relative.split('/')
+            permitted=(relative in {'README.md','pyproject.toml'} or
+                       (relative.startswith('src/') and relative.endswith('.py') and not any(p.startswith('.') for p in pieces)))
+            if not permitted:
+                raise ToolDenied('sample manifest contains a forbidden repository file')
+            checked=checked_path(source,relative)
+            target=self.root/relative
+            target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(checked.read_bytes())
+            self.allowed.append(relative)
         public=checked_path(self.benchmark_root,task.public_test)
         target=self.root/'tests/test_public.py'
         target.parent.mkdir(parents=True,exist_ok=True)
