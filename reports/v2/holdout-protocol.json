@@ -1,0 +1,31 @@
+{
+  "stage_goal": "V2 freeze first holdout protocol after developer-only validation",
+  "date": "2026-10-28",
+  "data_root": "data/v2-r2",
+  "input_revision": 2,
+  "hidden_gold_unchanged": true,
+  "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+  "budget": {
+    "max_turns": 6,
+    "max_test_runs": 3,
+    "max_actions": 20,
+    "max_context_chars": 24000
+  },
+  "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+  "seed": 0,
+  "variants": [
+    "baseline",
+    "memory",
+    "enhanced"
+  ],
+  "dev_evidence": [
+    "live-dev-first.json",
+    "live-dev-r2.json"
+  ],
+  "primary_metric": "normal finish AND changed source AND final public+hidden tests pass; budget exhaustion is not successful completion",
+  "secondary_diagnostic": "code-test pass and stop statuses separately, no re-scoring of primary metric",
+  "experience_scope": "earlier accepted tasks in this same split/run; no dev to holdout transfer",
+  "no_holdout_tuning": true,
+  "no_gold_changes": true,
+  "notes": "reporting diagnostics/cloud phase labels updated; model action loop, prompt and tool budgets unchanged after r2"
+}

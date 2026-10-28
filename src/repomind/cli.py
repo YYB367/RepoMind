@@ -149,11 +149,12 @@ def _trace_sync(args) -> dict:
 
     outbox = TraceOutbox(args.outbox)
     # Validate local input before loading credentials or constructing an exporter.
-    outbox.records()
+    records=outbox.records()
     load_env_file()
     settings = LangfuseConfig.from_env()
     exporter = LangfuseExporter(settings)
-    receipt = {"stage_goal": "V1.2 explicit Langfuse export with service read-back confirmation",
+    export_stage="V2.0" if any(record.stage=="developer_task" for record in records) else "V1.2"
+    receipt = {"stage_goal": export_stage+" explicit Langfuse export with service read-back confirmation",
                "mode": args.sync_mode, "outbox": str(args.outbox), "model_executed_during_export": False,
                "verify_only": args.verify_only}
     try:

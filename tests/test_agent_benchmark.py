@@ -35,6 +35,7 @@ def test_benchmark_experience_only_after_success_and_hidden_gold_not_in_model_co
     assert report['validation']['scripted_results_are_not_model_accuracy']
     for arm in report['variants'].values():
         assert arm['metrics']['successful_tasks']==6 and arm['metrics']['model_requests']==0
+        assert arm['metrics']['code_verified_tasks']==arm['metrics']['finished_tasks']==6
     enhanced=report['variants']['enhanced']['trials']
     assert not enhanced[0]['context']['experiences']
     assert enhanced[1]['context']['experiences'][0]['task_id']=='dev-01'
@@ -92,3 +93,17 @@ def test_cli_agent_run_routes_parameters_and_does_not_gate_on_quality(tmp_path,m
 def test_cli_doctor_requires_an_explicit_prepared_image(tmp_path,monkeypatch,capsys):
     assert main(['agent-doctor','--sandbox-config',str(tmp_path/'missing.json')])==2
     assert 'agent-prepare' in capsys.readouterr().err
+
+
+def test_input_revision_clarifies_contract_without_changing_any_hidden_oracle():
+    revision=ROOT/'data/v2-r2'
+    manifest=benchmark.verified_manifest(revision)
+    assert manifest['revision']==2
+    before=benchmark.load_tasks(DATA/'dev/tasks.jsonl')
+    after=benchmark.load_tasks(revision/'dev/tasks.jsonl')
+    assert before[0].model_dump(exclude={'prompt'})==after[0].model_dump(exclude={'prompt'})
+    assert before[0].prompt in after[0].prompt and 'ValueError' in after[0].prompt
+    assert before[1:]==after[1:]
+    for relative in manifest['files']:
+        if relative.startswith(('judges/','public/','repository/')) or relative in {'holdout/tasks.jsonl','events.jsonl','recorded-actions.jsonl'}:
+            assert (DATA/relative).read_bytes()==(revision/relative).read_bytes()

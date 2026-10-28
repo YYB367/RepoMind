@@ -1,0 +1,14 @@
+{
+  "stage_goal": "V2 fix an incomplete public task specification without changing hidden gold",
+  "original": "data/v2",
+  "revision": "data/v2-r2",
+  "changed_files": [
+    "manifest.json",
+    "README.md",
+    "dev/tasks.jsonl"
+  ],
+  "hidden_test_hashes_identical": true,
+  "first_live_results_preserved": true,
+  "budget_prompt_tools_unchanged": true,
+  "reason": "bool rejection exception type was unspecified in dev-01; all original groups used TypeError while pre-existing gold requires ValueError. Clarify the original contract, do not relax gold to match outputs."
+}

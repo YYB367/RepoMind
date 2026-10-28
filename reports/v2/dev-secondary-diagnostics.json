@@ -1,0 +1,75 @@
+{
+  "stage_goal": "V2 separate strict completion from verified code without changing primary scores",
+  "diagnostics": {
+    "live-dev-first.json": {
+      "baseline": {
+        "code_verified_tasks": 2,
+        "stop_statuses": [
+          "turn_budget_exhausted",
+          "turn_budget_exhausted",
+          "finished",
+          "turn_budget_exhausted",
+          "finished",
+          "finished"
+        ]
+      },
+      "enhanced": {
+        "code_verified_tasks": 5,
+        "stop_statuses": [
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished"
+        ]
+      },
+      "memory": {
+        "code_verified_tasks": 3,
+        "stop_statuses": [
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished"
+        ]
+      }
+    },
+    "live-dev-r2.json": {
+      "baseline": {
+        "code_verified_tasks": 3,
+        "stop_statuses": [
+          "turn_budget_exhausted",
+          "finished",
+          "turn_budget_exhausted",
+          "finished",
+          "turn_budget_exhausted",
+          "finished"
+        ]
+      },
+      "enhanced": {
+        "code_verified_tasks": 6,
+        "stop_statuses": [
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished"
+        ]
+      },
+      "memory": {
+        "code_verified_tasks": 4,
+        "stop_statuses": [
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished",
+          "finished"
+        ]
+      }
+    }
+  }
+}

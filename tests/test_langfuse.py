@@ -298,6 +298,7 @@ def test_developer_tasks_export_precomputed_experiments_without_model_rerun(tmp_
     client=FakeClient()
     result=LangfuseExporter(config(),client).export_experiment(box,'developer-tasks')
     assert result['cloud_verified'] and client.experiment_calls==1
+    assert result['stage_goal'].startswith('V2.0')
 
 
 def test_modern_experiment_replays_precomputed_outputs_and_excludes_index_records(tmp_path, monkeypatch):

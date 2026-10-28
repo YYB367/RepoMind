@@ -380,7 +380,8 @@ class LangfuseExporter:
                     item.update(status="failed", **details)
         counts = {status: sum(item["status"] == status for item in items)
                   for status in ("verified", "sent_unconfirmed", "failed", "blocked_non_synthetic", "not_verified")}
-        return {"stage_goal": "V1.2：显式同步合成评测 trace，服务读回后确认交付",
+        export_stage="V2.0" if any(record.stage=="developer_task" for record in records) else "V1.2"
+        return {"stage_goal": export_stage+"：显式同步合成评测 trace，服务读回后确认交付",
                 "target_id": self.target_id, "status": "verified" if items and counts["verified"] == len(items) else "partial",
                 "cloud_verified": bool(items) and counts["verified"] == len(items), **counts,
                 "verify_only": verify_only,
@@ -523,7 +524,8 @@ class LangfuseExporter:
                 results.append({"provider": provider, "experiment_id": experiment_id, "target_id": target,
                                 "status": "failed", **details})
         verified = bool(results) and not blocked and all(result["status"] == "verified" for result in results)
-        return {"stage_goal": "V1.2：将预计算合成结果导出为现代 Langfuse SDK experiment，避免重跑模型",
+        export_stage="V2.0" if any(record.stage=="developer_task" for record in records) else "V1.2"
+        return {"stage_goal": export_stage+"：将预计算合成结果导出为现代 Langfuse SDK experiment，避免重跑模型",
                 "target_id": self.target_id, "dataset_name": effective_dataset, "dataset_prefix": dataset_name,
                 "status": "verified" if verified else "partial", "cloud_verified": verified,
                 "blocked_non_synthetic": blocked, "experiments": results,

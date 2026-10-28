@@ -72,6 +72,9 @@ def _aggregate(trials):
         usage.update(row.get('agent',{}).get('model',{}).get('usage',{}))
     return {'total_tasks':len(trials),'successful_tasks':sum(row['task_success'] for row in trials),
             'task_success_rate':sum(row['task_success'] for row in trials)/len(trials),
+            'code_verified_tasks':sum(bool(row.get('public_grading') and row['public_grading']['passed'] and row.get('hidden_grading') and row['hidden_grading']['passed']) for row in trials),
+            'finished_tasks':sum(row.get('agent',{}).get('status')=='finished' for row in trials),
+            'stop_status_counts':dict(Counter(row.get('agent',{}).get('status','error') for row in trials)),
             'tasks_with_retry':sum(row.get('agent',{}).get('retry_count',0)>0 for row in trials),
             'retry_rate':sum(row.get('agent',{}).get('retry_count',0)>0 for row in trials)/len(trials),
             'public_test_failures':sum(row.get('agent',{}).get('public_test_failures',0) for row in trials),
