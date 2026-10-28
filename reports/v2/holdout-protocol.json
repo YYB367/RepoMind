@@ -27,5 +27,7 @@
   "experience_scope": "earlier accepted tasks in this same split/run; no dev to holdout transfer",
   "no_holdout_tuning": true,
   "no_gold_changes": true,
-  "notes": "reporting diagnostics/cloud phase labels updated; model action loop, prompt and tool budgets unchanged after r2"
+  "notes": "reporting diagnostics/cloud phase labels updated; model action loop, prompt and tool budgets unchanged after r2",
+  "pre_holdout_source_commit": "3c97161",
+  "pre_holdout_security_addendum": "Copy only manifest-listed noncredential sample files; visible registered input files unchanged. No model prompt, budget or task oracle change."
 }

@@ -1,3 +1,18 @@
+# 阶段目标：RepoMind V2.0 Developer Agent — 2026-10-28
+
+交付2.0.0：有限JSON动作、限定文件/Git工具、Docker禁网只读限额执行、独立判题、成功任务经验。工程465项测试通过，基础442通过/23跳过；真实云端30条Trace、6个Experiment核验完成。没有实施V2.1/V3。
+
+- 新增agent/、docker/v2、10个ParcelKit任务及三组真实对照；原命令和事件schema保留。
+- 原dev严格完成2/6、3/6、5/6；r2澄清既有异常契约后为1/6、4/6、6/6。隐藏金标不变，前后不能全归因于系统提升。
+- 首次holdout严格完成均1/4，未证明增益；代码验收2/4、2/4、3/4，另列预算停止和规格限制，不重写主分数。
+- 只复制manifest登记文件，额外.env不进入模型副本；路径/链接/凭证/受保护文件和资源限额实测。
+- developer_task参与预计算实验；export不再次计为模型调用，异步可见用只读核验。
+- 所有真实调用、缓存子集和失败均保留，费用未知；详见docs/v2-delivery.md及ADR0016–0019。
+
+以下历史版本保留原语境。
+
+---
+
 # 阶段目标：RepoMind V1.2 Evaluation Platform — 2026-10-28
 
 本阶段增加公平MemoryProvider对照、实际usage/延迟与可选价卡估算，以及Langfuse trace/dataset/experiment的outbox与服务读回核验。1.2.0平台工程验收完成：426项测试通过，真实云端核对80条trace和8个experiment；真实dev质量限制仍保留。完整结果见docs/v1.2-delivery.md和reports/v1.2，不沿用V1.1历史数字作为本轮成绩。

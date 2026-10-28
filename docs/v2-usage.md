@@ -13,7 +13,7 @@ $RepoMindExe = '.\.venv-v2\Scripts\repomind.exe'
 
 无python PATH时，可使用本机已有解释器`C:\Users\czx\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`创建venv。仅本地Agent无需platform SDK；Langfuse和旧Mem0对照仍为可选依赖。精确复现本轮可先安装requirements-v2.lock再用--no-deps安装项目，锁文件对应Windows/Python3.12，不保证跨平台逐字节一致。
 
-本工作区可直接使用已准备的`..\..\work\v12-venv\Scripts\python.exe -m repomind`配合`$env:PYTHONPATH='src'`运行开发源码；正式wheel安装验证另有报告。不要覆盖已有.env，DeepSeek和Langfuse继续读取原独立配置，容器不继承这些key。
+本工作区已有独立V2环境，可直接设置`$RepoMindExe = '..\..\work\v2-venv\Scripts\repomind.exe'`。该环境安装了2.0.0 wheel，已在源码目录之外验证代码一致性和真实Docker回放；无需设置PYTHONPATH，旧V1.2环境保留。不要覆盖已有.env，DeepSeek和Langfuse继续读取原独立配置，容器不继承这些key。
 
 启动本机Docker Desktop并选择Linux引擎后，显式构建可信测试镜像：
 

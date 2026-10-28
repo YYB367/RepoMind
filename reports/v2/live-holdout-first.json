@@ -1,0 +1,3030 @@
+{
+  "stage_goal": "V2.0：用隔离代码工具完成样例任务，测量当前记忆与时序/经验增强的实际作用",
+  "version": "2.0.0rc1",
+  "run_id": "live-holdout-first",
+  "created_at": "2026-10-28T08:46:21.950299+00:00",
+  "config": {
+    "provider_mode": "live",
+    "dataset": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\v2-r2\\holdout\\tasks.jsonl",
+    "dataset_sha256": "4b7f7a23facce3564ebaf126a0a7e290b5615e11a74d9282e157c29707137785",
+    "manifest_sha256": "6a2440ce14254b4ca56be71601926cd4d722e4e9c3c9ca81a55912c412165905",
+    "implementation_sha256": "cc8e154a951fe01cd9685f84d33755ca909e7cec90fb2ca8c69e58dc58224337",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "task_ids": [
+      "hold-01",
+      "hold-02",
+      "hold-03",
+      "hold-04"
+    ],
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "seed": 0,
+    "provider_order": [
+      "baseline",
+      "enhanced",
+      "memory"
+    ],
+    "sandbox": {
+      "backend": "docker_linux",
+      "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+      "engine_version": "29.5.3",
+      "network": "none",
+      "root_filesystem": "read-only",
+      "project_mount": "read-only",
+      "user": "65532:65532",
+      "capabilities": "ALL dropped",
+      "no_new_privileges": true,
+      "memory_mb": 256,
+      "cpus": 1,
+      "pids_limit": 64,
+      "timeout_seconds": 25,
+      "max_output_bytes": 65536,
+      "host_code_fallback": false,
+      "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+    },
+    "price_card_sha256": null,
+    "experience_policy": "earlier successful tasks in same project and same run only; same-category preferred, latest project fallback; no cross-split history",
+    "primary_comparison": "baseline vs memory vs combined temporal/experience enhanced; same initial code and tool budget"
+  },
+  "variants": {
+    "baseline": {
+      "metrics": {
+        "total_tasks": 4,
+        "successful_tasks": 1,
+        "task_success_rate": 0.25,
+        "code_verified_tasks": 2,
+        "finished_tasks": 3,
+        "stop_status_counts": {
+          "finished": 3,
+          "turn_budget_exhausted": 1
+        },
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 22,
+        "usage": {
+          "prompt_tokens": 31126,
+          "completion_tokens": 1902,
+          "total_tokens": 33028,
+          "cached_input_tokens": 23168
+        },
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "hold-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented discounted_minor in src/parcelkit/discounts.py: validates non-bool integer inputs, non-negative price, and basis_points in 0..10000 (ValueError otherwise); computes discount with integer-only half-up rounding and returns remaining minor units. Public tests pass (2 passed). Note: the project's exact rounding convention was not documented in the repo; I chose half-up on the discount amount, which is an assumption.",
+            "turns": 6,
+            "action_count": 8,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.10661899999831803
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.1083103000128176
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.discounts import discounted_minor\n\ndef test_common():\n    assert discounted_minor(1000, 1000) == 900\ndef test_full():\n    assert discounted_minor(123, 10000) == 0"
+                },
+                "elapsed_seconds": 0.11294229998020455
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.10463590000290424
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Return the remaining price in integer minor units after a basis-point discount.\n\n    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n    The discount amount is rounded half up to the nearest minor unit, using\n    integer arithmetic only (no floats).\n    \"\"\"\n    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n        raise ValueError(\"price_minor must be an integer\")\n    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n        raise ValueError(\"basis_points must be an integer\")\n    if price_minor < 0:\n        raise ValueError(\"price_minor must be non-negative\")\n    if not 0 <= basis_points <= 10000:\n        raise ValueError(\"basis_points must be between 0 and 10000\")\n\n    # Round half up: floor((price * bp + 5000) / 10000)\n    discount = (price_minor * basis_points + 5000) // 10000\n    return price_minor - discount\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "bytes": 954,
+                  "sha256": "c299b5ec53c2ce629dade4bced6a98c4c3c22c34ea300da8066a44fb8ce6d9a0"
+                },
+                "elapsed_seconds": 0.21241239999653772
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2878627000027336,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-67563643c4204e4481504f6bb1b21abd",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6605133999837562
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..7838f43 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,19 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in integer minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n+    The discount amount is rounded half up to the nearest minor unit, using\n+    integer arithmetic only (no floats).\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # Round half up: floor((price * bp + 5000) / 10000)\n+    discount = (price_minor * basis_points + 5000) // 10000\n+    return price_minor - discount\n"
+                },
+                "elapsed_seconds": 0.18782930000452325
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented discounted_minor in src/parcelkit/discounts.py: validates non-bool integer inputs, non-negative price, and basis_points in 0..10000 (ValueError otherwise); computes discount with integer-only half-up rounding and returns remaining minor units. Public tests pass (2 passed). Note: the project's exact rounding convention was not documented in the repo; I chose half-up on the discount amount, which is an assumption."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.06886870000744238
+              }
+            ],
+            "elapsed_seconds": 11.178111300017918,
+            "changed_files": [
+              "src/parcelkit/discounts.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..7838f43 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,19 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in integer minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n+    The discount amount is rounded half up to the nearest minor unit, using\n+    integer arithmetic only (no floats).\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # Round half up: floor((price * bp + 5000) / 10000)\n+    discount = (price_minor * basis_points + 5000) // 10000\n+    return price_minor - discount\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8917,
+                "completion_tokens": 511,
+                "total_tokens": 9428,
+                "cached_input_tokens": 6784
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.11s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1413126999977976,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-f8c760f11b9647dba18a7dc2f9303495",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 1,
+            "stdout": "F.F.                                                                     [100%]\n=================================== FAILURES ===================================\n__________________________________ test_half ___________________________________\n/judge/test_acceptance.py:5: in test_half\n    assert discounted_minor(1, 5000) == 1\nE   assert 0 == 1\nE    +  where 0 = discounted_minor(1, 5000)\n__________________________________ test_large __________________________________\n/judge/test_acceptance.py:10: in test_large\n    assert discounted_minor(100000000000001, 5000) == 50000000000001\nE   assert 50000000000000 == 50000000000001\nE    +  where 50000000000000 = discounted_minor(100000000000001, 5000)\n=========================== short test summary info ============================\nFAILED ::test_half - assert 0 == 1\nFAILED ::test_large - assert 50000000000000 == 50000000000001\n2 failed, 2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 2, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.199698799988255,
+            "passed": false,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 2,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-c8e1583a5cf7432a9095d8970e268fd9",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 15.21464879999985,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-02",
+          "project_id": "ParcelKit",
+          "category": "pagination",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "turn_budget_exhausted",
+            "summary": null,
+            "turns": 6,
+            "action_count": 9,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def page_after(ids, after, limit):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.13106559999869205
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.pagination import page_after\n\ndef test_order():\n    assert page_after(['10', '2', '1'], '1', 2) == ['2', '10']\ndef test_empty():\n    assert page_after([], None, 2) == []"
+                },
+                "elapsed_seconds": 0.11949450001702644
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.10957599998801015
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "max_lines": 80
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def reference_key(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11398550000740215
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "max_lines": 80
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def normalize_sku(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.1164623000076972
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "max_lines": 80
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def merge_updates(updates):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.12139190000016242
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "content": "def _parse_id(value):\n    if not isinstance(value, str) or not value:\n        raise ValueError(\"id must be a non-empty numeric string\")\n    if not value.isdigit() or not value.isascii():\n        raise ValueError(\"id must be a non-empty numeric string\")\n    return int(value)\n\n\ndef page_after(ids, after, limit):\n    \"\"\"Return a page of numeric-string ids in project cursor order.\n\n    Ids are ordered by numeric value; ties between distinct strings with the\n    same numeric value keep their first-seen input order (stable sort).\n    Exact duplicate ids are kept only at their first occurrence. ``after`` is\n    an original id string; the page starts after that id's position. A None\n    ``after`` starts from the beginning. ``limit`` must be a non-negative int\n    (bool is rejected). The input sequence is never modified.\n    \"\"\"\n    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n        raise ValueError(\"limit must be a non-negative integer\")\n\n    seen = set()\n    unique = []\n    for value in ids:\n        _parse_id(value)\n        if value in seen:\n            continue\n        seen.add(value)\n        unique.append(value)\n\n    if after is not None:\n        _parse_id(after)\n        if after not in seen:\n            raise ValueError(\"unknown after id\")\n\n    ordered = sorted(unique, key=_parse_id)\n\n    if after is None:\n        start = 0\n    else:\n        start = ordered.index(after) + 1\n\n    return ordered[start:start + limit]\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "bytes": 1462,
+                  "sha256": "582a6a6bb619b92f3c2b17a86d30689c3e70a4f5729dd2107fcd3efebb2a7213"
+                },
+                "elapsed_seconds": 0.23192089999793097
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2243280000111554,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-59cebc72891d46d0a9afd66d2177d353",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6200165000045672
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/pagination.py b/src/parcelkit/pagination.py\nindex 88d2092..9480808 100644\n--- a/src/parcelkit/pagination.py\n+++ b/src/parcelkit/pagination.py\n@@ -1,3 +1,43 @@\n+def _parse_id(value):\n+    if not isinstance(value, str) or not value:\n+        raise ValueError(\"id must be a non-empty numeric string\")\n+    if not value.isdigit() or not value.isascii():\n+        raise ValueError(\"id must be a non-empty numeric string\")\n+    return int(value)\n+\n+\n def page_after(ids, after, limit):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a page of numeric-string ids in project cursor order.\n+\n+    Ids are ordered by numeric value; ties between distinct strings with the\n+    same numeric value keep their first-seen input order (stable sort).\n+    Exact duplicate ids are kept only at their first occurrence. ``after`` is\n+    an original id string; the page starts after that id's position. A None\n+    ``after`` starts from the beginning. ``limit`` must be a non-negative int\n+    (bool is rejected). The input sequence is never modified.\n+    \"\"\"\n+    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n+        raise ValueError(\"limit must be a non-negative integer\")\n+\n+    seen = set()\n+    unique = []\n+    for value in ids:\n+        _parse_id(value)\n+        if value in seen:\n+            continue\n+        seen.add(value)\n+        unique.append(value)\n+\n+    if after is not None:\n+        _parse_id(after)\n+        if after not in seen:\n+            raise ValueError(\"unknown after id\")\n+\n+    ordered = sorted(unique, key=_parse_id)\n+\n+    if after is None:\n+        start = 0\n+    else:\n+        start = ordered.index(after) + 1\n+\n+    return ordered[start:start + limit]\n"
+                },
+                "elapsed_seconds": 0.20313800001167692
+              }
+            ],
+            "elapsed_seconds": 11.415234999993118,
+            "changed_files": [
+              "src/parcelkit/pagination.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/pagination.py b/src/parcelkit/pagination.py\nindex 88d2092..9480808 100644\n--- a/src/parcelkit/pagination.py\n+++ b/src/parcelkit/pagination.py\n@@ -1,3 +1,43 @@\n+def _parse_id(value):\n+    if not isinstance(value, str) or not value:\n+        raise ValueError(\"id must be a non-empty numeric string\")\n+    if not value.isdigit() or not value.isascii():\n+        raise ValueError(\"id must be a non-empty numeric string\")\n+    return int(value)\n+\n+\n def page_after(ids, after, limit):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a page of numeric-string ids in project cursor order.\n+\n+    Ids are ordered by numeric value; ties between distinct strings with the\n+    same numeric value keep their first-seen input order (stable sort).\n+    Exact duplicate ids are kept only at their first occurrence. ``after`` is\n+    an original id string; the page starts after that id's position. A None\n+    ``after`` starts from the beginning. ``limit`` must be a non-negative int\n+    (bool is rejected). The input sequence is never modified.\n+    \"\"\"\n+    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n+        raise ValueError(\"limit must be a non-negative integer\")\n+\n+    seen = set()\n+    unique = []\n+    for value in ids:\n+        _parse_id(value)\n+        if value in seen:\n+            continue\n+        seen.add(value)\n+        unique.append(value)\n+\n+    if after is not None:\n+        _parse_id(after)\n+        if after not in seen:\n+            raise ValueError(\"unknown after id\")\n+\n+    ordered = sorted(unique, key=_parse_id)\n+\n+    if after is None:\n+        start = 0\n+    else:\n+        start = ordered.index(after) + 1\n+\n+    return ordered[start:start + limit]\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 9096,
+                "completion_tokens": 595,
+                "total_tokens": 9691,
+                "cached_input_tokens": 7168
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.11s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1442696999874897,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-5ddf582992ea4728abadddda45c809ee",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1796264000004157,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-83ec7c2c296a4c48acb6afe9e2a1f0db",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 15.601767399988603,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, otherwise strips surrounding whitespace and uppercases while preserving separators and leading zeros. Public tests pass (2 passed); diff limited to the allowed file. No hidden tests were run.",
+            "turns": 4,
+            "action_count": 7,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def normalize_sku(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.09807060001185164
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.sku import normalize_sku\n\ndef test_digits():\n    assert normalize_sku('123') == '123'\ndef test_empty():\n    with pytest.raises(ValueError): normalize_sku(' ')"
+                },
+                "elapsed_seconds": 0.10304839999298565
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.11081759998342022
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "content": "def normalize_sku(value):\n    \"\"\"Normalize a SKU by trimming surrounding whitespace and uppercasing.\n\n    Separators and leading zeros are preserved. Empty or whitespace-only\n    strings, and non-string values, raise ValueError.\n    \"\"\"\n    if not isinstance(value, str):\n        raise ValueError(\"SKU must be a string\")\n    normalized = value.strip().upper()\n    if not normalized:\n        raise ValueError(\"SKU must not be empty\")\n    return normalized\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "bytes": 455,
+                  "sha256": "e542c6b7060985fe612c6d21229c07d3d81b7794b96124628b2ad4003e473b63"
+                },
+                "elapsed_seconds": 0.2380096999986563
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.3084108000039123,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-66f3a98a041246b1836f4201966bcac0",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.7285528000211343
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..a448efd 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU by trimming surrounding whitespace and uppercasing.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-string values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().upper()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n"
+                },
+                "elapsed_seconds": 0.20377549997647293
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, otherwise strips surrounding whitespace and uppercases while preserving separators and leading zeros. Public tests pass (2 passed); diff limited to the allowed file. No hidden tests were run."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.11605650000274181
+              }
+            ],
+            "elapsed_seconds": 10.14138039998943,
+            "changed_files": [
+              "src/parcelkit/sku.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..a448efd 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU by trimming surrounding whitespace and uppercasing.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-string values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().upper()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 4659,
+                "completion_tokens": 288,
+                "total_tokens": 4947,
+                "cached_input_tokens": 2944
+              },
+              "request_count": 4,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3331016000011005,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-005756e8dafb43fb8a6814a366512876",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2878291000088211,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-06656ceae0144440bd691074fe8f0a4e",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.713539099990157,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-04",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented merge_updates in src/parcelkit/merges.py: validates dicts with version/value, rejects bool/non-int/negative versions with ValueError, returns None for empty input, selects max version (last-wins on ties) as a shallow copy, and never mutates input. Public tests pass (2 passed). Tie-breaking follows last-write-wins; no project conflict spec was present in the repo, so this is an assumption.",
+            "turns": 6,
+            "action_count": 7,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def merge_updates(updates):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.14051040000049397
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.merges import merge_updates\n\ndef test_latest():\n    assert merge_updates([{'version': 1, 'value': 'a'}, {'version': 2, 'value': 'b'}]) == {'version': 2, 'value': 'b'}\ndef test_empty():\n    assert merge_updates([]) is None"
+                },
+                "elapsed_seconds": 0.13599079998675734
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.1326734000176657
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "content": "def merge_updates(updates):\n    \"\"\"Return a copy of the update with the greatest version.\n\n    Each update must be a dict containing ``version`` and ``value``.  The\n    version must be a non-boolean, non-negative integer.  An empty input\n    returns ``None``.  When several updates share the greatest version, the\n    last one in input order wins (last-write-wins conflict resolution).\n    The input is never modified.\n    \"\"\"\n    if not updates:\n        return None\n\n    best = None\n    best_version = None\n    for update in updates:\n        if not isinstance(update, dict):\n            raise ValueError(\"each update must be a dict\")\n        if \"version\" not in update or \"value\" not in update:\n            raise ValueError(\"each update must contain 'version' and 'value'\")\n        version = update[\"version\"]\n        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n            raise ValueError(\"version must be a non-negative integer\")\n        if best_version is None or version >= best_version:\n            best_version = version\n            best = update\n\n    return dict(best)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "bytes": 1111,
+                  "sha256": "ee0db60c6a7935b1383be18f6838692c5bb6fa948914847b40d70843f759ac02"
+                },
+                "elapsed_seconds": 0.24018789999536239
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.1405138999980409,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-1221a3451d25448bb2d97a8c54349827",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5167394000163767
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/merges.py b/src/parcelkit/merges.py\nindex 03aa80c..e8cba12 100644\n--- a/src/parcelkit/merges.py\n+++ b/src/parcelkit/merges.py\n@@ -1,3 +1,27 @@\n def merge_updates(updates):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a copy of the update with the greatest version.\n+\n+    Each update must be a dict containing ``version`` and ``value``.  The\n+    version must be a non-boolean, non-negative integer.  An empty input\n+    returns ``None``.  When several updates share the greatest version, the\n+    last one in input order wins (last-write-wins conflict resolution).\n+    The input is never modified.\n+    \"\"\"\n+    if not updates:\n+        return None\n+\n+    best = None\n+    best_version = None\n+    for update in updates:\n+        if not isinstance(update, dict):\n+            raise ValueError(\"each update must be a dict\")\n+        if \"version\" not in update or \"value\" not in update:\n+            raise ValueError(\"each update must contain 'version' and 'value'\")\n+        version = update[\"version\"]\n+        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n+            raise ValueError(\"version must be a non-negative integer\")\n+        if best_version is None or version >= best_version:\n+            best_version = version\n+            best = update\n+\n+    return dict(best)\n"
+                },
+                "elapsed_seconds": 0.20660900001530536
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented merge_updates in src/parcelkit/merges.py: validates dicts with version/value, rejects bool/non-int/negative versions with ValueError, returns None for empty input, selects max version (last-wins on ties) as a shallow copy, and never mutates input. Public tests pass (2 passed). Tie-breaking follows last-write-wins; no project conflict spec was present in the repo, so this is an assumption."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.1029454999952577
+              }
+            ],
+            "elapsed_seconds": 9.786769700003788,
+            "changed_files": [
+              "src/parcelkit/merges.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/merges.py b/src/parcelkit/merges.py\nindex 03aa80c..e8cba12 100644\n--- a/src/parcelkit/merges.py\n+++ b/src/parcelkit/merges.py\n@@ -1,3 +1,27 @@\n def merge_updates(updates):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a copy of the update with the greatest version.\n+\n+    Each update must be a dict containing ``version`` and ``value``.  The\n+    version must be a non-boolean, non-negative integer.  An empty input\n+    returns ``None``.  When several updates share the greatest version, the\n+    last one in input order wins (last-write-wins conflict resolution).\n+    The input is never modified.\n+    \"\"\"\n+    if not updates:\n+        return None\n+\n+    best = None\n+    best_version = None\n+    for update in updates:\n+        if not isinstance(update, dict):\n+            raise ValueError(\"each update must be a dict\")\n+        if \"version\" not in update or \"value\" not in update:\n+            raise ValueError(\"each update must contain 'version' and 'value'\")\n+        version = update[\"version\"]\n+        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n+            raise ValueError(\"version must be a non-negative integer\")\n+        if best_version is None or version >= best_version:\n+            best_version = version\n+            best = update\n+\n+    return dict(best)\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8454,
+                "completion_tokens": 508,
+                "total_tokens": 8962,
+                "cached_input_tokens": 6272
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2623259000247344,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-675d645fc6314114840966a392c9aa4e",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 1,
+            "stdout": "F.F.                                                                     [100%]\n=================================== FAILURES ===================================\n________________________________ test_conflict _________________________________\n/judge/test_acceptance.py:5: in test_conflict\n    with pytest.raises(ValueError): merge_updates([{'version': 1, 'value': 'a'}, {'version': 1, 'value': 'b'}])\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________________________ test_old_conflict _______________________________\n/judge/test_acceptance.py:9: in test_old_conflict\n    with pytest.raises(ValueError): merge_updates([{'version': 1, 'value': 'a'}, {'version': 2, 'value': 'x'}, {'version': 1, 'value': 'b'}])\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ============================\nFAILED ::test_conflict - Failed: DID NOT RAISE ValueError\nFAILED ::test_old_conflict - Failed: DID NOT RAISE ValueError\n2 failed, 2 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 2, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3230840000032913,
+            "passed": false,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 2,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-87996612b1ea4b399e791b276c1ac8f6",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.451607299997704,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": "deepseek-flash",
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "no_price_card"
+      }
+    },
+    "enhanced": {
+      "metrics": {
+        "total_tasks": 4,
+        "successful_tasks": 1,
+        "task_success_rate": 0.25,
+        "code_verified_tasks": 3,
+        "finished_tasks": 2,
+        "stop_status_counts": {
+          "finished": 2,
+          "turn_budget_exhausted": 2
+        },
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 23,
+        "usage": {
+          "prompt_tokens": 33176,
+          "completion_tokens": 2263,
+          "total_tokens": 35439,
+          "cached_input_tokens": 26496
+        },
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "hold-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "currency_rounding",
+                "status": "ok",
+                "value": "ROUND_HALF_UP",
+                "source_ids": [
+                  "decision-money-1"
+                ],
+                "event_ids": [
+                  "money-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented discounted_minor in src/parcelkit/discounts.py: validates non-bool ints, non-negative price, basis points 0..10000 (ValueError otherwise); computes discount with integer-only ROUND_HALF_UP ((price*bp+5000)//10000) and returns the remainder. Public tests pass (2 passed); diff limited to the allowed file. Hidden tests were not run.",
+            "turns": 5,
+            "action_count": 9,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11110899999039248
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11223989998688921
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.discounts import discounted_minor\n\ndef test_common():\n    assert discounted_minor(1000, 1000) == 900\ndef test_full():\n    assert discounted_minor(123, 10000) == 0"
+                },
+                "elapsed_seconds": 0.11735260000568815
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 80
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.1138238999992609
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "max_lines": 40
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "total_lines": 1,
+                  "content": "\"\"\"Frozen sample package; individual tasks fill one module.\"\"\""
+                },
+                "elapsed_seconds": 0.1226244000135921
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Return the remaining price in minor units after a basis-point discount.\n\n    ``basis_points`` is in 0..10000, where 10000 means a full discount.\n    The discount amount is rounded half up (ROUND_HALF_UP) to whole minor\n    units, and the remainder is returned. Only integer arithmetic is used.\n    \"\"\"\n    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n        raise ValueError(\"price_minor must be an integer\")\n    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n        raise ValueError(\"basis_points must be an integer\")\n    if price_minor < 0:\n        raise ValueError(\"price_minor must be non-negative\")\n    if not 0 <= basis_points <= 10000:\n        raise ValueError(\"basis_points must be between 0 and 10000\")\n\n    # discount = price * bp / 10000, rounded half up without floats.\n    numerator = price_minor * basis_points\n    discount = (numerator + 5000) // 10000\n    return price_minor - discount\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "bytes": 1010,
+                  "sha256": "b31c442eaaea2b298030331c140d6bad950802d3fccc1f80688ae545dc32d1d6"
+                },
+                "elapsed_seconds": 0.24847069999668747
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2476514999871142,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-b34d8efa8c27413493160a110c74203c",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6256968000088818
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..f1a363a 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,20 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full discount.\n+    The discount amount is rounded half up (ROUND_HALF_UP) to whole minor\n+    units, and the remainder is returned. Only integer arithmetic is used.\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # discount = price * bp / 10000, rounded half up without floats.\n+    numerator = price_minor * basis_points\n+    discount = (numerator + 5000) // 10000\n+    return price_minor - discount\n"
+                },
+                "elapsed_seconds": 0.2027407999848947
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented discounted_minor in src/parcelkit/discounts.py: validates non-bool ints, non-negative price, basis points 0..10000 (ValueError otherwise); computes discount with integer-only ROUND_HALF_UP ((price*bp+5000)//10000) and returns the remainder. Public tests pass (2 passed); diff limited to the allowed file. Hidden tests were not run."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.12121070001740009
+              }
+            ],
+            "elapsed_seconds": 10.067014400003245,
+            "changed_files": [
+              "src/parcelkit/discounts.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..f1a363a 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,20 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full discount.\n+    The discount amount is rounded half up (ROUND_HALF_UP) to whole minor\n+    units, and the remainder is returned. Only integer arithmetic is used.\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # discount = price * bp / 10000, rounded half up without floats.\n+    numerator = price_minor * basis_points\n+    discount = (numerator + 5000) // 10000\n+    return price_minor - discount\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 7361,
+                "completion_tokens": 532,
+                "total_tokens": 7893,
+                "cached_input_tokens": 5504
+              },
+              "request_count": 5,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1856890000053681,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-3523cf8a72294fc7acb8fe25a4227025",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 1,
+            "stdout": "F.F.                                                                     [100%]\n=================================== FAILURES ===================================\n__________________________________ test_half ___________________________________\n/judge/test_acceptance.py:5: in test_half\n    assert discounted_minor(1, 5000) == 1\nE   assert 0 == 1\nE    +  where 0 = discounted_minor(1, 5000)\n__________________________________ test_large __________________________________\n/judge/test_acceptance.py:10: in test_large\n    assert discounted_minor(100000000000001, 5000) == 50000000000001\nE   assert 50000000000000 == 50000000000001\nE    +  where 50000000000000 = discounted_minor(100000000000001, 5000)\n=========================== short test summary info ============================\nFAILED ::test_half - assert 0 == 1\nFAILED ::test_large - assert 50000000000000 == 50000000000001\n2 failed, 2 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 2, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3470398999925237,
+            "passed": false,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 2,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-2099a8bac74e4a7a9d02ba1833dc5fcc",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.582245999976294,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-02",
+          "project_id": "ParcelKit",
+          "category": "pagination",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "cursor_order",
+                "status": "ok",
+                "value": "numeric ascending; stable among numeric equals; exact duplicate strings removed preserving first occurrence",
+                "source_ids": [
+                  "decision-cursor-1"
+                ],
+                "event_ids": [
+                  "cursor-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "turn_budget_exhausted",
+            "summary": null,
+            "turns": 6,
+            "action_count": 5,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValidationError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def page_after(ids, after, limit):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.1379947999957949
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.pagination import page_after\n\ndef test_order():\n    assert page_after(['10', '2', '1'], '1', 2) == ['2', '10']\ndef test_empty():\n    assert page_after([], None, 2) == []"
+                },
+                "elapsed_seconds": 0.13738060000468977
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.12976640000124462
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "content": "def page_after(ids, after, limit):\n    \"\"\"Return a page of numeric-string ids in project cursor order.\n\n    Ordering: numeric ascending; ties between distinct strings with equal\n    numeric value keep their original relative order (stable). Exact duplicate\n    strings are removed, keeping the first occurrence.\n\n    ``after`` is None to start from the beginning, otherwise it must be one of\n    the original ids and the page starts after that original occurrence.\n    \"\"\"\n    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n        raise ValueError(\"limit must be a non-negative integer\")\n\n    items = list(ids)\n    seen = set()\n    unique = []\n    for item in items:\n        if not isinstance(item, str) or not item.isdigit():\n            raise ValueError(\"ids must be numeric strings\")\n        if item in seen:\n            continue\n        seen.add(item)\n        unique.append(item)\n\n    if after is not None:\n        if not isinstance(after, str) or after not in seen:\n            raise ValueError(\"unknown after cursor\")\n\n    ordered = sorted(unique, key=lambda value: int(value))\n\n    if after is None:\n        start = 0\n    else:\n        start = ordered.index(after) + 1\n\n    return ordered[start:start + limit]\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "bytes": 1242,
+                  "sha256": "0da06d028021a6a4a862c95406f7caf1bb869972c95747a9dcc04dca6c6d9994"
+                },
+                "elapsed_seconds": 0.22702349998871796
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValidationError"
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValidationError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2885544000018854,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-50b8ac6504d3493eab60a12afef3c5cf",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6908353000180796
+              }
+            ],
+            "elapsed_seconds": 10.433425399998669,
+            "changed_files": [
+              "src/parcelkit/pagination.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/pagination.py b/src/parcelkit/pagination.py\nindex 88d2092..e94720d 100644\n--- a/src/parcelkit/pagination.py\n+++ b/src/parcelkit/pagination.py\n@@ -1,3 +1,36 @@\n def page_after(ids, after, limit):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a page of numeric-string ids in project cursor order.\n+\n+    Ordering: numeric ascending; ties between distinct strings with equal\n+    numeric value keep their original relative order (stable). Exact duplicate\n+    strings are removed, keeping the first occurrence.\n+\n+    ``after`` is None to start from the beginning, otherwise it must be one of\n+    the original ids and the page starts after that original occurrence.\n+    \"\"\"\n+    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n+        raise ValueError(\"limit must be a non-negative integer\")\n+\n+    items = list(ids)\n+    seen = set()\n+    unique = []\n+    for item in items:\n+        if not isinstance(item, str) or not item.isdigit():\n+            raise ValueError(\"ids must be numeric strings\")\n+        if item in seen:\n+            continue\n+        seen.add(item)\n+        unique.append(item)\n+\n+    if after is not None:\n+        if not isinstance(after, str) or after not in seen:\n+            raise ValueError(\"unknown after cursor\")\n+\n+    ordered = sorted(unique, key=lambda value: int(value))\n+\n+    if after is None:\n+        start = 0\n+    else:\n+        start = ordered.index(after) + 1\n+\n+    return ordered[start:start + limit]\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8521,
+                "completion_tokens": 457,
+                "total_tokens": 8978,
+                "cached_input_tokens": 7040
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.466644100000849,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-6ee29c3fcc70449c9680d30954842090",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.286624500004109,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-e0be394206724c42b0140c32a0ace2d5",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 15.170911699999124,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "sku_case",
+                "status": "ok",
+                "value": "upper",
+                "source_ids": [
+                  "decision-sku-1"
+                ],
+                "event_ids": [
+                  "sku-1"
+                ],
+                "as_of": "2026-02-01 23:59:59.999999+00:00",
+                "known_at": "2026-02-01 23:59:59.999999+00:00"
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, otherwise strips surrounding whitespace and uppercases per the sku_case=upper memory fact (as_of/known_at 2026-02-01), preserving separators and leading zeros. Public tests pass (2 passed); diff limited to the allowed file. Hidden tests were not run.",
+            "turns": 6,
+            "action_count": 7,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def normalize_sku(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11850800001411699
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.sku import normalize_sku\n\ndef test_digits():\n    assert normalize_sku('123') == '123'\ndef test_empty():\n    with pytest.raises(ValueError): normalize_sku(' ')"
+                },
+                "elapsed_seconds": 0.11302799999248236
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "total_lines": 1,
+                  "content": "\"\"\"Frozen sample package; individual tasks fill one module.\"\"\""
+                },
+                "elapsed_seconds": 0.12123910000082105
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "content": "def normalize_sku(value):\n    \"\"\"Normalize a SKU: strip surrounding whitespace and uppercase.\n\n    Separators and leading zeros are preserved. Empty or whitespace-only\n    strings, and non-str values, raise ValueError.\n    \"\"\"\n    if not isinstance(value, str):\n        raise ValueError(\"SKU must be a string\")\n    normalized = value.strip().upper()\n    if not normalized:\n        raise ValueError(\"SKU must not be empty\")\n    return normalized\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "bytes": 445,
+                  "sha256": "4c8f10ad7c804f484892f88a73a6011c20a9aa8b692a422c051463224426618b"
+                },
+                "elapsed_seconds": 0.24556619999930263
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.209661699977005,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-0b652a3b1a744f14b754beced81a0f9e",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.618859500013059
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..77260d6 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU: strip surrounding whitespace and uppercase.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-str values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().upper()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n"
+                },
+                "elapsed_seconds": 0.1985467000049539
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, otherwise strips surrounding whitespace and uppercases per the sku_case=upper memory fact (as_of/known_at 2026-02-01), preserving separators and leading zeros. Public tests pass (2 passed); diff limited to the allowed file. Hidden tests were not run."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.11409409999032505
+              }
+            ],
+            "elapsed_seconds": 9.71471189998556,
+            "changed_files": [
+              "src/parcelkit/sku.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..77260d6 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU: strip surrounding whitespace and uppercase.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-str values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().upper()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8043,
+                "completion_tokens": 343,
+                "total_tokens": 8386,
+                "cached_input_tokens": 6272
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.207475400005933,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-d5f8e251d3d5432eb3278b5a8d41f8c6",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.219962500006659,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-19a405fe860f46e29292244d72de5dde",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "eaa8c6dae347e74c5d93394a67c8e2e281d1763417170dc1e1d2200f70b89b64",
+          "elapsed_seconds": 14.234467200003564,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-04",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "merge_conflict",
+                "status": "ok",
+                "value": "reject differing values at any equal version, including stale versions",
+                "source_ids": [
+                  "decision-merge-1"
+                ],
+                "event_ids": [
+                  "merge-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "eaa8c6dae347e74c5d93394a67c8e2e281d1763417170dc1e1d2200f70b89b64",
+                "task_id": "hold-03",
+                "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, otherwise strips surrounding whitespace and uppercases per the sku_case=upper memory fact (as_of/known_at 2026-02-01), preserving separators and leading zeros. Public tests pass (2 passed); diff limited to the allowed file. Hidden tests were not run.",
+                "source_run": "live-holdout-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "turn_budget_exhausted",
+            "summary": null,
+            "turns": 6,
+            "action_count": 5,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValidationError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def merge_updates(updates):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.12989810001454316
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.merges import merge_updates\n\ndef test_latest():\n    assert merge_updates([{'version': 1, 'value': 'a'}, {'version': 2, 'value': 'b'}]) == {'version': 2, 'value': 'b'}\ndef test_empty():\n    assert merge_updates([]) is None"
+                },
+                "elapsed_seconds": 0.138917100004619
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.13959119998617098
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "JSONDecodeError"
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "content": "def merge_updates(updates):\n    \"\"\"Return a copy of the update with the greatest version.\n\n    Each update must be a dict containing ``version`` and ``value``.  The\n    version must be a non-boolean, non-negative integer.  An empty input\n    returns ``None``.  If two updates share the greatest version but have\n    differing values, a ``ValueError`` is raised (conflicts are rejected at\n    any equal version, including stale ones).  The input is never modified.\n    \"\"\"\n    if not isinstance(updates, (list, tuple)):\n        raise ValueError(\"updates must be a list of dicts\")\n\n    if not updates:\n        return None\n\n    best = None\n    best_version = None\n    seen = {}\n\n    for update in updates:\n        if not isinstance(update, dict):\n            raise ValueError(\"each update must be a dict\")\n        if \"version\" not in update or \"value\" not in update:\n            raise ValueError(\"each update must contain version and value\")\n\n        version = update[\"version\"]\n        if isinstance(version, bool) or not isinstance(version, int):\n            raise ValueError(\"version must be a non-negative integer\")\n        if version < 0:\n            raise ValueError(\"version must be a non-negative integer\")\n\n        value = update[\"value\"]\n        if version in seen:\n            if seen[version] != value:\n                raise ValueError(\n                    \"conflicting values for version %r\" % (version,)\n                )\n        else:\n            seen[version] = value\n\n        if best_version is None or version > best_version:\n            best_version = version\n            best = update\n\n    return dict(best)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "bytes": 1625,
+                  "sha256": "858ed1db396ae09b78c9f88a9615fe95a3e63d353b72a288396de18195ee87c8"
+                },
+                "elapsed_seconds": 0.23160680002183653
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValidationError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2475540000014007,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-50309cef0bea4ab0932b05411e7f45c9",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.632280499994522
+              }
+            ],
+            "elapsed_seconds": 11.535601100011263,
+            "changed_files": [
+              "src/parcelkit/merges.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/merges.py b/src/parcelkit/merges.py\nindex 03aa80c..462a75a 100644\n--- a/src/parcelkit/merges.py\n+++ b/src/parcelkit/merges.py\n@@ -1,3 +1,45 @@\n def merge_updates(updates):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a copy of the update with the greatest version.\n+\n+    Each update must be a dict containing ``version`` and ``value``.  The\n+    version must be a non-boolean, non-negative integer.  An empty input\n+    returns ``None``.  If two updates share the greatest version but have\n+    differing values, a ``ValueError`` is raised (conflicts are rejected at\n+    any equal version, including stale ones).  The input is never modified.\n+    \"\"\"\n+    if not isinstance(updates, (list, tuple)):\n+        raise ValueError(\"updates must be a list of dicts\")\n+\n+    if not updates:\n+        return None\n+\n+    best = None\n+    best_version = None\n+    seen = {}\n+\n+    for update in updates:\n+        if not isinstance(update, dict):\n+            raise ValueError(\"each update must be a dict\")\n+        if \"version\" not in update or \"value\" not in update:\n+            raise ValueError(\"each update must contain version and value\")\n+\n+        version = update[\"version\"]\n+        if isinstance(version, bool) or not isinstance(version, int):\n+            raise ValueError(\"version must be a non-negative integer\")\n+        if version < 0:\n+            raise ValueError(\"version must be a non-negative integer\")\n+\n+        value = update[\"value\"]\n+        if version in seen:\n+            if seen[version] != value:\n+                raise ValueError(\n+                    \"conflicting values for version %r\" % (version,)\n+                )\n+        else:\n+            seen[version] = value\n+\n+        if best_version is None or version > best_version:\n+            best_version = version\n+            best = update\n+\n+    return dict(best)\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 9251,
+                "completion_tokens": 931,
+                "total_tokens": 10182,
+                "cached_input_tokens": 7680
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2240474999998696,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-5deb0b6b71a34229a1c931479bcda118",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1796688000031281,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-d2fe1fe324244f6ea33b495a0237063a",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 15.838369300006889,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": "deepseek-flash",
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "no_price_card"
+      }
+    },
+    "memory": {
+      "metrics": {
+        "total_tasks": 4,
+        "successful_tasks": 1,
+        "task_success_rate": 0.25,
+        "code_verified_tasks": 2,
+        "finished_tasks": 2,
+        "stop_status_counts": {
+          "turn_budget_exhausted": 2,
+          "finished": 2
+        },
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 22,
+        "usage": {
+          "prompt_tokens": 31936,
+          "completion_tokens": 1833,
+          "total_tokens": 33769,
+          "cached_input_tokens": 25216
+        },
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "hold-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "currency_rounding",
+                "status": "ok",
+                "value": "ROUND_HALF_UP",
+                "source_ids": [
+                  "decision-money-1"
+                ],
+                "event_ids": [
+                  "money-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "turn_budget_exhausted",
+            "summary": null,
+            "turns": 6,
+            "action_count": 8,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11041100000147708
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.11184950001188554
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.discounts import discounted_minor\n\ndef test_common():\n    assert discounted_minor(1000, 1000) == 900\ndef test_full():\n    assert discounted_minor(123, 10000) == 0"
+                },
+                "elapsed_seconds": 0.10740189999341965
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 80
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.11543790000723675
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "max_lines": 40
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/__init__.py",
+                  "start_line": 1,
+                  "total_lines": 1,
+                  "content": "\"\"\"Frozen sample package; individual tasks fill one module.\"\"\""
+                },
+                "elapsed_seconds": 0.10681310002109967
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/discounts.py",
+                  "content": "def discounted_minor(price_minor, basis_points):\n    \"\"\"Return the remaining price in minor units after a basis-point discount.\n\n    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n    The discount amount is rounded half up to the nearest minor unit, using\n    integer arithmetic only (no floats).\n    \"\"\"\n    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n        raise ValueError(\"price_minor must be an integer\")\n    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n        raise ValueError(\"basis_points must be an integer\")\n    if price_minor < 0:\n        raise ValueError(\"price_minor must be non-negative\")\n    if not 0 <= basis_points <= 10000:\n        raise ValueError(\"basis_points must be between 0 and 10000\")\n\n    # ROUND_HALF_UP on the discount amount: floor((price * bp + 5000) / 10000)\n    discount = (price_minor * basis_points + 5000) // 10000\n    return price_minor - discount\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/discounts.py",
+                  "bytes": 969,
+                  "sha256": "ea603820d5a251bb2cd0607efe36bcc39937edb09789ee6e87bca7b719bebb90"
+                },
+                "elapsed_seconds": 0.22903129999758676
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.1837410999869462,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-4834c6550afa41d58436f0213c915203",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5790047000045888
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..80424b6 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,19 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n+    The discount amount is rounded half up to the nearest minor unit, using\n+    integer arithmetic only (no floats).\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # ROUND_HALF_UP on the discount amount: floor((price * bp + 5000) / 10000)\n+    discount = (price_minor * basis_points + 5000) // 10000\n+    return price_minor - discount\n"
+                },
+                "elapsed_seconds": 0.19689249998191372
+              }
+            ],
+            "elapsed_seconds": 10.248113399982685,
+            "changed_files": [
+              "src/parcelkit/discounts.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/discounts.py b/src/parcelkit/discounts.py\nindex 8ee3aed..80424b6 100644\n--- a/src/parcelkit/discounts.py\n+++ b/src/parcelkit/discounts.py\n@@ -1,3 +1,19 @@\n def discounted_minor(price_minor, basis_points):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return the remaining price in minor units after a basis-point discount.\n+\n+    ``basis_points`` is in 0..10000, where 10000 means a full (100%) discount.\n+    The discount amount is rounded half up to the nearest minor unit, using\n+    integer arithmetic only (no floats).\n+    \"\"\"\n+    if isinstance(price_minor, bool) or not isinstance(price_minor, int):\n+        raise ValueError(\"price_minor must be an integer\")\n+    if isinstance(basis_points, bool) or not isinstance(basis_points, int):\n+        raise ValueError(\"basis_points must be an integer\")\n+    if price_minor < 0:\n+        raise ValueError(\"price_minor must be non-negative\")\n+    if not 0 <= basis_points <= 10000:\n+        raise ValueError(\"basis_points must be between 0 and 10000\")\n+\n+    # ROUND_HALF_UP on the discount amount: floor((price * bp + 5000) / 10000)\n+    discount = (price_minor * basis_points + 5000) // 10000\n+    return price_minor - discount\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8637,
+                "completion_tokens": 457,
+                "total_tokens": 9094,
+                "cached_input_tokens": 6912
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1820668000145815,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-7aa7439ee732453cabb531fcc3afe41e",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 1,
+            "stdout": "F.F.                                                                     [100%]\n=================================== FAILURES ===================================\n__________________________________ test_half ___________________________________\n/judge/test_acceptance.py:5: in test_half\n    assert discounted_minor(1, 5000) == 1\nE   assert 0 == 1\nE    +  where 0 = discounted_minor(1, 5000)\n__________________________________ test_large __________________________________\n/judge/test_acceptance.py:10: in test_large\n    assert discounted_minor(100000000000001, 5000) == 50000000000001\nE   assert 50000000000000 == 50000000000001\nE    +  where 50000000000000 = discounted_minor(100000000000001, 5000)\n=========================== short test summary info ============================\nFAILED ::test_half - assert 0 == 1\nFAILED ::test_large - assert 50000000000000 == 50000000000001\n2 failed, 2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 2, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.382923800003482,
+            "passed": false,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 2,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-5d35f51f4d2443c58614aef268a1e2ce",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.692778600001475,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-02",
+          "project_id": "ParcelKit",
+          "category": "pagination",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "cursor_order",
+                "status": "ok",
+                "value": "numeric ascending; stable among numeric equals; exact duplicate strings removed preserving first occurrence",
+                "source_ids": [
+                  "decision-cursor-1"
+                ],
+                "event_ids": [
+                  "cursor-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented page_after in src/parcelkit/pagination.py: validates limit (non-bool non-negative int), ids (numeric strings), and after (None or known numeric string), all ValueError otherwise. Removes exact duplicate strings keeping first occurrence, sorts numerically ascending with stable order among numeric equals, pages after the given original id, and does not mutate inputs. Public tests pass (2 passed); hidden tests were not run.",
+            "turns": 6,
+            "action_count": 7,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValueError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def page_after(ids, after, limit):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.13360000000102445
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.pagination import page_after\n\ndef test_order():\n    assert page_after(['10', '2', '1'], '1', 2) == ['2', '10']\ndef test_empty():\n    assert page_after([], None, 2) == []"
+                },
+                "elapsed_seconds": 0.12910869999905117
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.12936719998833723
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/pagination.py",
+                  "content": "def page_after(ids, after, limit):\n    \"\"\"Return a page of numeric-string ids in project cursor order.\n\n    Ordering: numeric ascending, stable among numerically equal values\n    (original input order preserved). Exact duplicate strings are removed,\n    keeping only their first occurrence. ``after`` is None to start from the\n    beginning, otherwise paging starts after that original id. Inputs are not\n    modified.\n    \"\"\"\n    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n        raise ValueError(\"limit must be a non-negative integer\")\n\n    if not isinstance(ids, (list, tuple)):\n        raise ValueError(\"ids must be a sequence of numeric strings\")\n\n    seen = set()\n    unique = []\n    for item in ids:\n        if not isinstance(item, str) or not item.isdigit():\n            raise ValueError(\"ids must be numeric strings\")\n        if item in seen:\n            continue\n        seen.add(item)\n        unique.append(item)\n\n    if after is not None:\n        if not isinstance(after, str) or not after.isdigit():\n            raise ValueError(\"after must be a numeric string or None\")\n        if after not in seen:\n            raise ValueError(\"unknown after id\")\n\n    ordered = sorted(unique, key=lambda value: int(value))\n\n    if after is not None:\n        index = ordered.index(after)\n        ordered = ordered[index + 1:]\n\n    return ordered[:limit]\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/pagination.py",
+                  "bytes": 1382,
+                  "sha256": "7fd14e345838faf6bccc300178158b2ac56308baedd020027b45fc537067aa11"
+                },
+                "elapsed_seconds": 0.22110569998039864
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2197811999940313,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-bc4277235b2c4c03ae49c77e33d4ac6d",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.584637299994938
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/pagination.py b/src/parcelkit/pagination.py\nindex 88d2092..1961648 100644\n--- a/src/parcelkit/pagination.py\n+++ b/src/parcelkit/pagination.py\n@@ -1,3 +1,38 @@\n def page_after(ids, after, limit):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a page of numeric-string ids in project cursor order.\n+\n+    Ordering: numeric ascending, stable among numerically equal values\n+    (original input order preserved). Exact duplicate strings are removed,\n+    keeping only their first occurrence. ``after`` is None to start from the\n+    beginning, otherwise paging starts after that original id. Inputs are not\n+    modified.\n+    \"\"\"\n+    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n+        raise ValueError(\"limit must be a non-negative integer\")\n+\n+    if not isinstance(ids, (list, tuple)):\n+        raise ValueError(\"ids must be a sequence of numeric strings\")\n+\n+    seen = set()\n+    unique = []\n+    for item in ids:\n+        if not isinstance(item, str) or not item.isdigit():\n+            raise ValueError(\"ids must be numeric strings\")\n+        if item in seen:\n+            continue\n+        seen.add(item)\n+        unique.append(item)\n+\n+    if after is not None:\n+        if not isinstance(after, str) or not after.isdigit():\n+            raise ValueError(\"after must be a numeric string or None\")\n+        if after not in seen:\n+            raise ValueError(\"unknown after id\")\n+\n+    ordered = sorted(unique, key=lambda value: int(value))\n+\n+    if after is not None:\n+        index = ordered.index(after)\n+        ordered = ordered[index + 1:]\n+\n+    return ordered[:limit]\n"
+                },
+                "elapsed_seconds": 0.2318993000080809
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented page_after in src/parcelkit/pagination.py: validates limit (non-bool non-negative int), ids (numeric strings), and after (None or known numeric string), all ValueError otherwise. Removes exact duplicate strings keeping first occurrence, sorts numerically ascending with stable order among numeric equals, pages after the given original id, and does not mutate inputs. Public tests pass (2 passed); hidden tests were not run."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.10848819999955595
+              }
+            ],
+            "elapsed_seconds": 10.527290199999698,
+            "changed_files": [
+              "src/parcelkit/pagination.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/pagination.py b/src/parcelkit/pagination.py\nindex 88d2092..1961648 100644\n--- a/src/parcelkit/pagination.py\n+++ b/src/parcelkit/pagination.py\n@@ -1,3 +1,38 @@\n def page_after(ids, after, limit):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a page of numeric-string ids in project cursor order.\n+\n+    Ordering: numeric ascending, stable among numerically equal values\n+    (original input order preserved). Exact duplicate strings are removed,\n+    keeping only their first occurrence. ``after`` is None to start from the\n+    beginning, otherwise paging starts after that original id. Inputs are not\n+    modified.\n+    \"\"\"\n+    if isinstance(limit, bool) or not isinstance(limit, int) or limit < 0:\n+        raise ValueError(\"limit must be a non-negative integer\")\n+\n+    if not isinstance(ids, (list, tuple)):\n+        raise ValueError(\"ids must be a sequence of numeric strings\")\n+\n+    seen = set()\n+    unique = []\n+    for item in ids:\n+        if not isinstance(item, str) or not item.isdigit():\n+            raise ValueError(\"ids must be numeric strings\")\n+        if item in seen:\n+            continue\n+        seen.add(item)\n+        unique.append(item)\n+\n+    if after is not None:\n+        if not isinstance(after, str) or not after.isdigit():\n+            raise ValueError(\"after must be a numeric string or None\")\n+        if after not in seen:\n+            raise ValueError(\"unknown after id\")\n+\n+    ordered = sorted(unique, key=lambda value: int(value))\n+\n+    if after is not None:\n+        index = ordered.index(after)\n+        ordered = ordered[index + 1:]\n+\n+    return ordered[:limit]\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 9398,
+                "completion_tokens": 574,
+                "total_tokens": 9972,
+                "cached_input_tokens": 7296
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2448929000238422,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-a8e427f83a6e438abb505c439942962d",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.226260600000387,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-038596a2b25a4e9bb5664f0bf402b287",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.840458300022874,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "sku_case",
+                "status": "ok",
+                "value": "lower",
+                "source_ids": [
+                  "decision-sku-fix"
+                ],
+                "event_ids": [
+                  "sku-fix"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, strips surrounding whitespace, lowercases, and preserves separators and leading zeros. Lowercase follows the memory fact (sku_case=lower); note that fact is dated 2026-10-01, after the task as_of/known_at of 2026-02-01, so its applicability at the task date is uncertain. Public tests pass (2 passed); hidden tests were not run.",
+            "turns": 4,
+            "action_count": 7,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def normalize_sku(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.12332559999777004
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.sku import normalize_sku\n\ndef test_digits():\n    assert normalize_sku('123') == '123'\ndef test_empty():\n    with pytest.raises(ValueError): normalize_sku(' ')"
+                },
+                "elapsed_seconds": 0.13144190001185052
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.11556199999176897
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/sku.py",
+                  "content": "def normalize_sku(value):\n    \"\"\"Normalize a SKU by trimming surrounding whitespace and lowercasing.\n\n    Separators and leading zeros are preserved. Empty or whitespace-only\n    strings, and non-str values, raise ValueError.\n    \"\"\"\n    if not isinstance(value, str):\n        raise ValueError(\"SKU must be a string\")\n    normalized = value.strip().lower()\n    if not normalized:\n        raise ValueError(\"SKU must not be empty\")\n    return normalized\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/sku.py",
+                  "bytes": 452,
+                  "sha256": "f3f9decc83fc5fa4f6d1bdc8c5f16fe021734e74fd3a882de23f52f0f38500bc"
+                },
+                "elapsed_seconds": 0.2041313999798149
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2422576999815647,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-77bce5e4a07f4cd098baf79e5ee2ec2c",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6085768999764696
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..0e6b08a 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU by trimming surrounding whitespace and lowercasing.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-str values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().lower()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n"
+                },
+                "elapsed_seconds": 0.20926490001147613
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Implemented normalize_sku in src/parcelkit/sku.py: rejects non-str and empty/whitespace-only values with ValueError, strips surrounding whitespace, lowercases, and preserves separators and leading zeros. Lowercase follows the memory fact (sku_case=lower); note that fact is dated 2026-10-01, after the task as_of/known_at of 2026-02-01, so its applicability at the task date is uncertain. Public tests pass (2 passed); hidden tests were not run."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.10637369999312796
+              }
+            ],
+            "elapsed_seconds": 7.790645300003234,
+            "changed_files": [
+              "src/parcelkit/sku.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/sku.py b/src/parcelkit/sku.py\nindex 1548c09..0e6b08a 100644\n--- a/src/parcelkit/sku.py\n+++ b/src/parcelkit/sku.py\n@@ -1,3 +1,12 @@\n def normalize_sku(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Normalize a SKU by trimming surrounding whitespace and lowercasing.\n+\n+    Separators and leading zeros are preserved. Empty or whitespace-only\n+    strings, and non-str values, raise ValueError.\n+    \"\"\"\n+    if not isinstance(value, str):\n+        raise ValueError(\"SKU must be a string\")\n+    normalized = value.strip().lower()\n+    if not normalized:\n+        raise ValueError(\"SKU must not be empty\")\n+    return normalized\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 5244,
+                "completion_tokens": 332,
+                "total_tokens": 5576,
+                "cached_input_tokens": 3840
+              },
+              "request_count": 4,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3223495999991428,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-79544e7c0cef4882a8f2df298c5b3050",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 1,
+            "stdout": "FFF.                                                                     [100%]\n=================================== FAILURES ===================================\n__________________________________ test_case ___________________________________\n/judge/test_acceptance.py:5: in test_case\n    assert normalize_sku(' ab ') == 'AB'\nE   AssertionError: assert 'ab' == 'AB'\nE     \nE     - AB\nE     + ab\n_______________________________ test_separators ________________________________\n/judge/test_acceptance.py:7: in test_separators\n    assert normalize_sku(' ab-01/X ') == 'AB-01/X'\nE   AssertionError: assert 'ab-01/x' == 'AB-01/X'\nE     \nE     - AB-01/X\nE     + ab-01/x\n_________________________________ test_zeroes __________________________________\n/judge/test_acceptance.py:9: in test_zeroes\n    assert normalize_sku('001a') == '001A'\nE   AssertionError: assert '001a' == '001A'\nE     \nE     - 001A\nE     ?    ^\nE     + 001a\nE     ?    ^\n=========================== short test summary info ============================\nFAILED ::test_case - AssertionError: assert 'ab' == 'AB'\nFAILED ::test_separators - AssertionError: assert 'ab-01/x' == 'AB-01/X'\nFAILED ::test_zeroes - AssertionError: assert '001a' == '001A'\n3 failed, 1 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 3, \"passed\": 1, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.5686808000027668,
+            "passed": false,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 3,
+              "passed": 1,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-49d54daf5a8a434c8d0d7c4c33a0f2d2",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 12.544713000010233,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "hold-04",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": false,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "merge_conflict",
+                "status": "ok",
+                "value": "reject differing values at any equal version, including stale versions",
+                "source_ids": [
+                  "decision-merge-1"
+                ],
+                "event_ids": [
+                  "merge-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "turn_budget_exhausted",
+            "summary": null,
+            "turns": 6,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": "ValidationError",
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def merge_updates(updates):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.13146550001692958
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.merges import merge_updates\n\ndef test_latest():\n    assert merge_updates([{'version': 1, 'value': 'a'}, {'version': 2, 'value': 'b'}]) == {'version': 2, 'value': 'b'}\ndef test_empty():\n    assert merge_updates([]) is None"
+                },
+                "elapsed_seconds": 0.12579679998452775
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "README.md",
+                  "start_line": 1,
+                  "total_lines": 5,
+                  "content": "# ParcelKit sample development repository\nPure Python business helpers. Tasks implement one declared source module at a time.\nThe public tests demonstrate part of the interface; historical conventions live\nin project decisions, not in this repository. Do not edit tests or Git metadata.\nThis is a synthetic evaluation repository, not a production application."
+                },
+                "elapsed_seconds": 0.11967439998988993
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/merges.py",
+                  "content": "def merge_updates(updates):\n    \"\"\"Return a copy of the update with the greatest version.\n\n    Each update must be a dict containing ``version`` (a non-bool, non-negative\n    int) and ``value``. Empty input returns None. If two updates share the same\n    version but have differing values, ValueError is raised (this applies to\n    stale versions too). Inputs are never modified.\n    \"\"\"\n    if not updates:\n        return None\n\n    best = None\n    best_version = None\n    seen = {}\n\n    for update in updates:\n        if not isinstance(update, dict):\n            raise ValueError(\"each update must be a dict\")\n        if \"version\" not in update or \"value\" not in update:\n            raise ValueError(\"each update must contain version and value\")\n        version = update[\"version\"]\n        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n            raise ValueError(\"version must be a non-bool non-negative int\")\n        value = update[\"value\"]\n        if version in seen:\n            if seen[version] != value:\n                raise ValueError(\"conflicting values at version %r\" % (version,))\n        else:\n            seen[version] = value\n        if best_version is None or version > best_version:\n            best_version = version\n            best = update\n\n    return dict(best)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/merges.py",
+                  "bytes": 1316,
+                  "sha256": "ed1c24ee61d9bb78a5ecabaeb0e93f85ca7233f8d827af11f0212a4509c6a07d"
+                },
+                "elapsed_seconds": 0.22298150000278838
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValueError"
+              },
+              {
+                "tool": "model",
+                "status": "error",
+                "error_type": "ValidationError"
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.1234885000158101,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-cd108948e8a1421b97731679336c177c",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.4954282000253443
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/merges.py b/src/parcelkit/merges.py\nindex 03aa80c..e79d360 100644\n--- a/src/parcelkit/merges.py\n+++ b/src/parcelkit/merges.py\n@@ -1,3 +1,34 @@\n def merge_updates(updates):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a copy of the update with the greatest version.\n+\n+    Each update must be a dict containing ``version`` (a non-bool, non-negative\n+    int) and ``value``. Empty input returns None. If two updates share the same\n+    version but have differing values, ValueError is raised (this applies to\n+    stale versions too). Inputs are never modified.\n+    \"\"\"\n+    if not updates:\n+        return None\n+\n+    best = None\n+    best_version = None\n+    seen = {}\n+\n+    for update in updates:\n+        if not isinstance(update, dict):\n+            raise ValueError(\"each update must be a dict\")\n+        if \"version\" not in update or \"value\" not in update:\n+            raise ValueError(\"each update must contain version and value\")\n+        version = update[\"version\"]\n+        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n+            raise ValueError(\"version must be a non-bool non-negative int\")\n+        value = update[\"value\"]\n+        if version in seen:\n+            if seen[version] != value:\n+                raise ValueError(\"conflicting values at version %r\" % (version,))\n+        else:\n+            seen[version] = value\n+        if best_version is None or version > best_version:\n+            best_version = version\n+            best = update\n+\n+    return dict(best)\n"
+                },
+                "elapsed_seconds": 0.22499149999930523
+              }
+            ],
+            "elapsed_seconds": 9.9767149000254,
+            "changed_files": [
+              "src/parcelkit/merges.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/merges.py b/src/parcelkit/merges.py\nindex 03aa80c..e79d360 100644\n--- a/src/parcelkit/merges.py\n+++ b/src/parcelkit/merges.py\n@@ -1,3 +1,34 @@\n def merge_updates(updates):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    \"\"\"Return a copy of the update with the greatest version.\n+\n+    Each update must be a dict containing ``version`` (a non-bool, non-negative\n+    int) and ``value``. Empty input returns None. If two updates share the same\n+    version but have differing values, ValueError is raised (this applies to\n+    stale versions too). Inputs are never modified.\n+    \"\"\"\n+    if not updates:\n+        return None\n+\n+    best = None\n+    best_version = None\n+    seen = {}\n+\n+    for update in updates:\n+        if not isinstance(update, dict):\n+            raise ValueError(\"each update must be a dict\")\n+        if \"version\" not in update or \"value\" not in update:\n+            raise ValueError(\"each update must contain version and value\")\n+        version = update[\"version\"]\n+        if isinstance(version, bool) or not isinstance(version, int) or version < 0:\n+            raise ValueError(\"version must be a non-bool non-negative int\")\n+        value = update[\"value\"]\n+        if version in seen:\n+            if seen[version] != value:\n+                raise ValueError(\"conflicting values at version %r\" % (version,))\n+        else:\n+            seen[version] = value\n+        if best_version is None or version > best_version:\n+            best_version = version\n+            best = update\n+\n+    return dict(best)\n",
+            "model": {
+              "name": "live-configured-json-action-agent",
+              "live": true,
+              "base_url": "https://api.deepseek.com",
+              "chat_model": "deepseek-flash",
+              "embedding_model": null,
+              "api_style": "deepseek",
+              "chat_format": "json_object",
+              "timeout_seconds": 60.0,
+              "max_response_bytes": 1000000,
+              "max_request_bytes": 2000000,
+              "max_completion_tokens": 2048,
+              "embedding_dimensions": null,
+              "usage": {
+                "prompt_tokens": 8657,
+                "completion_tokens": 470,
+                "total_tokens": 9127,
+                "cached_input_tokens": 7168
+              },
+              "request_count": 6,
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+              "usage_complete": true
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1825147999916226,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-3b90f81b36ef4b23a56f8bd74c9ad073",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1573634999804199,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-7b1ccb3dfb78403aa5c95c8032adbf08",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 14.185903800011147,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": "deepseek-flash",
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "no_price_card"
+      }
+    }
+  },
+  "failures": [
+    {
+      "variant": "baseline",
+      "task_id": "hold-01",
+      "agent_status": "finished",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": false
+    },
+    {
+      "variant": "baseline",
+      "task_id": "hold-02",
+      "agent_status": "turn_budget_exhausted",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": true
+    },
+    {
+      "variant": "baseline",
+      "task_id": "hold-04",
+      "agent_status": "finished",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": false
+    },
+    {
+      "variant": "enhanced",
+      "task_id": "hold-01",
+      "agent_status": "finished",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": false
+    },
+    {
+      "variant": "enhanced",
+      "task_id": "hold-02",
+      "agent_status": "turn_budget_exhausted",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": true
+    },
+    {
+      "variant": "enhanced",
+      "task_id": "hold-04",
+      "agent_status": "turn_budget_exhausted",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": true
+    },
+    {
+      "variant": "memory",
+      "task_id": "hold-01",
+      "agent_status": "turn_budget_exhausted",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": false
+    },
+    {
+      "variant": "memory",
+      "task_id": "hold-03",
+      "agent_status": "finished",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": false
+    },
+    {
+      "variant": "memory",
+      "task_id": "hold-04",
+      "agent_status": "turn_budget_exhausted",
+      "error_type": null,
+      "infrastructure_error": false,
+      "public_passed": true,
+      "hidden_passed": true
+    }
+  ],
+  "outbox": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\reports\\v2\\live-holdout-first.traces.jsonl",
+  "elapsed_seconds_before_report": 177.39188479998847,
+  "validation": {
+    "completed_without_errors": true,
+    "cloud_verified": false,
+    "real_model": true,
+    "production_effectiveness_proven": false,
+    "scripted_results_are_not_model_accuracy": false
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "stage_goal": "V2.0 explicit Langfuse export with service read-back confirmation",
+  "mode": "both",
+  "outbox": "reports\\v2\\live-dev-r2.traces.jsonl",
+  "model_executed_during_export": false,
+  "verify_only": true,
+  "traces": {
+    "stage_goal": "V2.0：显式同步合成评测 trace，服务读回后确认交付",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "status": "verified",
+    "cloud_verified": true,
+    "verified": 18,
+    "sent_unconfirmed": 0,
+    "failed": 0,
+    "blocked_non_synthetic": 0,
+    "not_verified": 0,
+    "verify_only": true,
+    "exported": 18,
+    "items": [
+      {
+        "trace_id": "990aec02dac7ec76424409e46e4b8e24",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "f289adf0789a9d25f5615a96362a4cf3",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "3ea68daaed18be213abaad8882a53419",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "b00af5582639937de44dd07609765a1d",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "b709cd28423f85335ac6f6d609b10cb8",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "e5f6da36492fd651c021dae5b087f2c0",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "24264e3c2bdc76fa728801443e92aff5",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "3c867d1c87776a049072b88f8f6f2cc8",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "a494c5227f9d2e86f101f53a052b74d2",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "9b3cf7de461a213ebf8dcb29d3886064",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "23e3df1fa3563765e78fe9909fab39dc",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "3e604755b0a9a943d0d2a39af16bd6a6",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "503973cfc655163f330083fd9e21ac25",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "0e7a1c50a2d0a6a8ba104634cb294e4d",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "7019b2f05ec3ff232837c32e5785e870",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "f7b1fdcf271af160c8c1cbe80e3d4c0d",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "d22f8eb779dc985c7ea8c2f96afc25f7",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "ea958ba766cac9d9149b95b2d629e8f0",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      }
+    ],
+    "delivery_semantics": "at-least-once; stable trace IDs and local ACKs do not promise exactly-once spans"
+  },
+  "experiment": {
+    "stage_goal": "V2.0：将预计算合成结果导出为现代 Langfuse SDK experiment，避免重跑模型",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "dataset_name": "repomind-v2-dev-r2-c9ca99e1ec8e",
+    "dataset_prefix": "repomind-v2-dev-r2",
+    "status": "verified",
+    "cloud_verified": true,
+    "blocked_non_synthetic": [],
+    "experiments": [
+      {
+        "provider": "baseline",
+        "experiment_id": "4b566ef5d8344d31197219f0af52bd72",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:4b566ef5d8344d31197219f0af52bd72",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "provider": "enhanced",
+        "experiment_id": "0de886876b80ebfa27a14fa93e656c85",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:0de886876b80ebfa27a14fa93e656c85",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "provider": "memory",
+        "experiment_id": "cf4deae54e5480705a81f47fb35448ca",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:cf4deae54e5480705a81f47fb35448ca",
+        "status": "verified",
+        "skipped_verified": true
+      }
+    ],
+    "model_executed_during_export": false,
+    "verify_only": true,
+    "delivery_semantics": "at-least-once; interrupted replays can create duplicate observation IDs"
+  },
+  "cloud_verified": true
+}

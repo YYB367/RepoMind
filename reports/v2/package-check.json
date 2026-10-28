@@ -1,0 +1,13 @@
+{
+  "stage_goal": "V2.0 distribution code identity, frozen data and credential exclusion verification",
+  "all_passed": true,
+  "version": "2.0.0",
+  "installed_module": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\v2-venv\\Lib\\site-packages\\repomind\\__init__.py",
+  "implementation_sha256": "ab2bc9e6c8f2e76385dc6d74db421e84535d1ea99ef60d463f5b1730b46b855a",
+  "source_and_installed_code_identical": true,
+  "wheel_sha256": "f522950d6945952a0e960bf39863e0435aa277bbbcbde1c4de8c4a896acbd31d",
+  "public_files_checked": 326,
+  "frozen_hashes_verified": 89,
+  "private_env_included": false,
+  "credential_values_found": false
+}

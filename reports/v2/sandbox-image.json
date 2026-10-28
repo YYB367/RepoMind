@@ -1,0 +1,31 @@
+{
+  "stage_goal": "V2 record the actual isolated runtime and recipe provenance",
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "host_python": "3.12.14",
+  "guest_python": "Python 3.12.16",
+  "git_version": "git version 2.51.0.windows.2",
+  "base_reference_from_actual_build_log": "docker.io/library/python:3.12-slim-bookworm@sha256:62ed8e07e544e8555c5d93748d5275015136b7f5c52b5e8679b4de339c3779d3",
+  "recipe_sha256": {
+    "docker/v2/Dockerfile": "db330ef4b1f60bb79e1c5c3e3c2056044db01aafa72727a38d0ca6289aacb546",
+    "docker/v2/test_runner.py": "56451624befee4055f1543bbb532383f9857183a8dd0dd3457039c122a4ef65a",
+    "docker/v2/requirements.txt": "68b448fd2b2488262c661a0f6cc39a2b97fb3d31774c2bb6716f0c5b76d7b770"
+  },
+  "rebuilds_not_claimed_bit_identical": true
+}

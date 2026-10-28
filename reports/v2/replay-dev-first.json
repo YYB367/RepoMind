@@ -1,0 +1,3651 @@
+{
+  "stage_goal": "V2.0：用隔离代码工具完成样例任务，测量当前记忆与时序/经验增强的实际作用",
+  "version": "2.0.0rc1",
+  "run_id": "replay-dev-first",
+  "created_at": "2026-10-28T08:04:02.897940+00:00",
+  "config": {
+    "provider_mode": "replay",
+    "dataset": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\v2\\dev\\tasks.jsonl",
+    "dataset_sha256": "a60bcd3c25999ed4a8e802f595d431f12870091ad373f4741837972185bf53fa",
+    "manifest_sha256": "cfcbcdc3e565ee00da27aa0e5df0ec83eea283a8f4b8b2e55a33e94c666da32f",
+    "implementation_sha256": "3e17d75ea350b22ecc8c27e6afc4a78e1c034de97a491709caf29f6263b9500f",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "task_ids": [
+      "dev-01",
+      "dev-02",
+      "dev-03",
+      "dev-04",
+      "dev-05",
+      "dev-06"
+    ],
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "seed": 0,
+    "provider_order": [
+      "baseline",
+      "enhanced",
+      "memory"
+    ],
+    "sandbox": {
+      "backend": "docker_linux",
+      "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+      "engine_version": "29.5.3",
+      "network": "none",
+      "root_filesystem": "read-only",
+      "project_mount": "read-only",
+      "user": "65532:65532",
+      "capabilities": "ALL dropped",
+      "no_new_privileges": true,
+      "memory_mb": 256,
+      "cpus": 1,
+      "pids_limit": 64,
+      "timeout_seconds": 25,
+      "max_output_bytes": 65536,
+      "host_code_fallback": false,
+      "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+    },
+    "price_card_sha256": null,
+    "experience_policy": "earlier successful tasks in same project and same run only; same-category preferred, latest project fallback; no cross-split history",
+    "primary_comparison": "baseline vs memory vs combined temporal/experience enhanced; same initial code and tool budget"
+  },
+  "variants": {
+    "baseline": {
+      "metrics": {
+        "total_tasks": 6,
+        "successful_tasks": 6,
+        "task_success_rate": 1.0,
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 0,
+        "usage": {},
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "dev-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.08599749999120831
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.money import money_minor\n\ndef test_common():\n    assert money_minor('12.34') == 1234\ndef test_zero():\n    assert money_minor(0) == 0"
+                },
+                "elapsed_seconds": 0.09009730000980198
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "content": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\ndef money_minor(amount):\n    if isinstance(amount, bool) or amount is None:\n        raise ValueError('invalid amount')\n    try:\n        number = Decimal(str(amount))\n        if not number.is_finite():\n            raise ValueError('nonfinite')\n        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n    except (InvalidOperation, TypeError):\n        raise ValueError('invalid amount') from None\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "bytes": 481,
+                  "sha256": "cf4836b93da9c6a9e3205e6f7db0e38425fdb7d4fb052e0726cd245b32dbd461"
+                },
+                "elapsed_seconds": 0.176876200013794
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.201733800000511,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-61c2d151abe74cf995dc942dc2b871da",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6230676999839488
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n"
+                },
+                "elapsed_seconds": 0.21643820000463165
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.10594509998918511
+              }
+            ],
+            "elapsed_seconds": 2.408454199990956,
+            "changed_files": [
+              "src/parcelkit/money.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3051856000092812,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-c91be370becb40e3b1fbc6d35c861a6f",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3437149999954272,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-230773bea0a445a3b71617baecc4c82f",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.934640199993737,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-02",
+          "project_id": "ParcelKit",
+          "category": "shipping",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def shipping_fee(weight_grams):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.10779499998898245
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.shipping import shipping_fee\n\ndef test_zero():\n    assert shipping_fee(0) == 0\ndef test_invalid():\n    with pytest.raises(ValueError): shipping_fee(-1)"
+                },
+                "elapsed_seconds": 0.09393040000577457
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "content": "def shipping_fee(weight_grams):\n    if type(weight_grams) is not int or weight_grams < 0:\n        raise ValueError('invalid weight')\n    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "bytes": 180,
+                  "sha256": "786a0b6078fa4434860b47dcfc1464f8cd8698bcb8253bfc81418b4710fa40ed"
+                },
+                "elapsed_seconds": 0.17780380000476725
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2252663999970537,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-cc09b24424ad4ceeaf03ec87be0ab8f0",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6445363000093494
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "elapsed_seconds": 0.24448470000061207
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.10436009999830276
+              }
+            ],
+            "elapsed_seconds": 2.470924399996875,
+            "changed_files": [
+              "src/parcelkit/shipping.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2604820000124164,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-aa8342dc8b8c444eb7d2ad9b5790c434",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3502748000028078,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-d45bdc488eb64e9085921ae8adfce889",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 7.010417800018331,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def reference_key(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.09666380000999197
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.references import reference_key\n\ndef test_common():\n    assert reference_key(' ORD42 ') == 'ord42'\ndef test_invalid():\n    with pytest.raises(ValueError): reference_key('   ')"
+                },
+                "elapsed_seconds": 0.09585990000050515
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "content": "def reference_key(value):\n    if not isinstance(value, str):\n        raise ValueError('expected string')\n    result = value.strip().casefold()\n    if not result:\n        raise ValueError('empty reference')\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "bytes": 224,
+                  "sha256": "53340782be372e1d189c0a4f1c56a88d5c87e89599f9b949fdb210153440441a"
+                },
+                "elapsed_seconds": 0.19438300002366304
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.326364900014596,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-37cbf46138984f2689f9a020c8985baa",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.768778099998599
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n"
+                },
+                "elapsed_seconds": 0.20649750001030043
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.10195089998887852
+              }
+            ],
+            "elapsed_seconds": 2.5579520999745,
+            "changed_files": [
+              "src/parcelkit/references.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2414965000061784,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-5b93afae15434f68ba2702dafb452d7e",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2598123000061605,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-114ebcb89d7b49ccb7c18ff15653f866",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 7.009511599986581,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-04",
+          "project_id": "ParcelKit",
+          "category": "retry",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def retry_delay(attempt):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.10776710000936873
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.retry import retry_delay\n\ndef test_first():\n    assert retry_delay(0) == 1\ndef test_second():\n    assert retry_delay(1) == 2"
+                },
+                "elapsed_seconds": 0.1076910000119824
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "content": "def retry_delay(attempt):\n    if type(attempt) is not int or attempt < 0:\n        raise ValueError('invalid attempt')\n    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "bytes": 175,
+                  "sha256": "8e9fb67b1d70180b7914afee48c414868235ffdb910a9ac7a7e5af5d1783eff1"
+                },
+                "elapsed_seconds": 0.20898689999012277
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.306022499979008,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-1fb6f31437d54e9fa332d9c13016210d",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.742879900004482
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "elapsed_seconds": 0.18308259997866116
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08937750000040978
+              }
+            ],
+            "elapsed_seconds": 2.535316099994816,
+            "changed_files": [
+              "src/parcelkit/retry.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3456329999899026,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-dfb277bfeea9411b8a96a1785fa5d1b2",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2379947000008542,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-566f8b23217d4cd291bbef6d4b1ead8c",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.975649400003022,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-05",
+          "project_id": "ParcelKit",
+          "category": "time",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def utc_stamp(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.09158059998298995
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.timestamps import utc_stamp\n\ndef test_offset():\n    assert utc_stamp('2026-05-01T12:00:00+02:00') == '2026-05-01T10:00:00Z'\ndef test_z():\n    assert utc_stamp('2026-05-01T10:00:00Z') == '2026-05-01T10:00:00Z'"
+                },
+                "elapsed_seconds": 0.087385799997719
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "content": "from datetime import datetime, timezone\ndef utc_stamp(value):\n    if not isinstance(value, str) or 'T' not in value:\n        raise ValueError('expected timestamp')\n    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n    if stamp.tzinfo is None:\n        stamp = stamp.replace(tzinfo=timezone.utc)\n    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "bytes": 404,
+                  "sha256": "94dc78df7259f8561880bb36447e8bd3a7568ab67a4f5a453552f26aec48906c"
+                },
+                "elapsed_seconds": 0.17752530000871047
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.3701940000173636,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-8d762d15d1224eaa8a714b67b8840530",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.7671452999929897
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "elapsed_seconds": 0.19646259999717586
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08586190000642091
+              }
+            ],
+            "elapsed_seconds": 2.4908586999808904,
+            "changed_files": [
+              "src/parcelkit/timestamps.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3263022000028286,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-0ae9f217e44748578687d3d8c8cabf6f",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2706732000224292,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-bc1584b8104d463781f28c8d3e12d465",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 7.019883700006176,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-06",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "baseline",
+            "facts": [],
+            "experiences": []
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def adjust_stock(stock, sku, delta):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.09696789999725297
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.inventory import adjust_stock\n\ndef test_add():\n    assert adjust_stock({'A': 2}, 'A', 3) == {'A': 5}\ndef test_new():\n    assert adjust_stock({}, 'B', 2) == {'B': 2}"
+                },
+                "elapsed_seconds": 0.10268740000901744
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "content": "def adjust_stock(stock, sku, delta):\n    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n        raise ValueError('invalid stock update')\n    quantity = stock.get(sku, 0) + delta\n    if quantity < 0:\n        raise ValueError('negative stock')\n    result = dict(stock)\n    result[sku] = quantity\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "bytes": 351,
+                  "sha256": "b67133efb9468d99c2f24e4cf171c11e9de41bf0adea23098da5ff8d02a98c78"
+                },
+                "elapsed_seconds": 0.19606309998198412
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.4049604999891017,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-d41c20acd550488c985c7924624cdb7a",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.8087093999783974
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n"
+                },
+                "elapsed_seconds": 0.20023840002249926
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.0952386999852024
+              }
+            ],
+            "elapsed_seconds": 2.597256800014293,
+            "changed_files": [
+              "src/parcelkit/inventory.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.3448838000185788,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-42024ee0b9624f28887296d854413c61",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2840464999899268,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-4c9dc25e97734a2a937c8da2f77ebd95",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 7.238134100014577,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": null,
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "not_measured_recorded_vectors"
+      }
+    },
+    "enhanced": {
+      "metrics": {
+        "total_tasks": 6,
+        "successful_tasks": 6,
+        "task_success_rate": 1.0,
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 0,
+        "usage": {},
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "dev-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "currency_rounding",
+                "status": "ok",
+                "value": "ROUND_HALF_UP",
+                "source_ids": [
+                  "decision-money-1"
+                ],
+                "event_ids": [
+                  "money-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.09209739998914301
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.money import money_minor\n\ndef test_common():\n    assert money_minor('12.34') == 1234\ndef test_zero():\n    assert money_minor(0) == 0"
+                },
+                "elapsed_seconds": 0.09084140000049956
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "content": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\ndef money_minor(amount):\n    if isinstance(amount, bool) or amount is None:\n        raise ValueError('invalid amount')\n    try:\n        number = Decimal(str(amount))\n        if not number.is_finite():\n            raise ValueError('nonfinite')\n        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n    except (InvalidOperation, TypeError):\n        raise ValueError('invalid amount') from None\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "bytes": 481,
+                  "sha256": "cf4836b93da9c6a9e3205e6f7db0e38425fdb7d4fb052e0726cd245b32dbd461"
+                },
+                "elapsed_seconds": 0.1875727000006009
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2904760999954306,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-acf451e6158d434a94510a391e540b00",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.7088131000055
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n"
+                },
+                "elapsed_seconds": 0.21746379998512566
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.11427150000235997
+              }
+            ],
+            "elapsed_seconds": 2.515994799992768,
+            "changed_files": [
+              "src/parcelkit/money.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.508541499992134,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-8b9e6b17eaa14e889b65e389fbd26d16",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2431113000202458,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-26bc3aaf5a914734bfb6760a078fa0bb",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "3859051621f9be9429abb717fd8d11d1583d7e0c7ad6775a92bcfca71549d092",
+          "elapsed_seconds": 7.116252300009364,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-02",
+          "project_id": "ParcelKit",
+          "category": "shipping",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "shipping_tariff",
+                "status": "ok",
+                "value": "{\"fee_minor\": 150, \"step_grams\": 500}",
+                "source_ids": [
+                  "decision-ship-1"
+                ],
+                "event_ids": [
+                  "ship-1"
+                ],
+                "as_of": "2026-05-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "3859051621f9be9429abb717fd8d11d1583d7e0c7ad6775a92bcfca71549d092",
+                "task_id": "dev-01",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def shipping_fee(weight_grams):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.0990518000035081
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.shipping import shipping_fee\n\ndef test_zero():\n    assert shipping_fee(0) == 0\ndef test_invalid():\n    with pytest.raises(ValueError): shipping_fee(-1)"
+                },
+                "elapsed_seconds": 0.0949879000254441
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "content": "def shipping_fee(weight_grams):\n    if type(weight_grams) is not int or weight_grams < 0:\n        raise ValueError('invalid weight')\n    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "bytes": 180,
+                  "sha256": "786a0b6078fa4434860b47dcfc1464f8cd8698bcb8253bfc81418b4710fa40ed"
+                },
+                "elapsed_seconds": 0.20257180000771768
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.323597200011136,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-9a76044549d94b7a81bdf68dfafa1423",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.7059817999834195
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "elapsed_seconds": 0.21396640001330525
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08773980001569726
+              }
+            ],
+            "elapsed_seconds": 2.496007000008831,
+            "changed_files": [
+              "src/parcelkit/shipping.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.32086390000768,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-ddd2bb49c6a84050b26f882304d3e408",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2004689000023063,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-35b8e13a9a4f4c9a855d3bb500509d81",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "6e5e7d18a3030de4a5f01f697b2a965a306538b081880ffc58804949b19d3646",
+          "elapsed_seconds": 6.845736100018257,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "reference_rules",
+                "status": "ok",
+                "value": "{\"case\": \"casefold\", \"preserve_leading_zeroes\": true, \"strip\": true}",
+                "source_ids": [
+                  "decision-ref-1"
+                ],
+                "event_ids": [
+                  "ref-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "6e5e7d18a3030de4a5f01f697b2a965a306538b081880ffc58804949b19d3646",
+                "task_id": "dev-02",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "3859051621f9be9429abb717fd8d11d1583d7e0c7ad6775a92bcfca71549d092",
+                "task_id": "dev-01",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def reference_key(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.08592260000295937
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.references import reference_key\n\ndef test_common():\n    assert reference_key(' ORD42 ') == 'ord42'\ndef test_invalid():\n    with pytest.raises(ValueError): reference_key('   ')"
+                },
+                "elapsed_seconds": 0.0840508000110276
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "content": "def reference_key(value):\n    if not isinstance(value, str):\n        raise ValueError('expected string')\n    result = value.strip().casefold()\n    if not result:\n        raise ValueError('empty reference')\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "bytes": 224,
+                  "sha256": "53340782be372e1d189c0a4f1c56a88d5c87e89599f9b949fdb210153440441a"
+                },
+                "elapsed_seconds": 0.1545981999952346
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.3033188999979757,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-dac49ddb24f740f193a41db365349c82",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.669341600005282
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n"
+                },
+                "elapsed_seconds": 0.18598049998399802
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.09223149999161251
+              }
+            ],
+            "elapsed_seconds": 2.3691564000037033,
+            "changed_files": [
+              "src/parcelkit/references.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1782299000187777,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-44897ccb7b1941d59397f864bd715972",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.08s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1371878000209108,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-a69418a4b4c24c43b10a9bf521eeb02f",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "7773b5114e9d330745183d24468803e1717f70073ffd1b0d4e04806d217cf484",
+          "elapsed_seconds": 6.41926070000045,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-04",
+          "project_id": "ParcelKit",
+          "category": "retry",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "retry_policy",
+                "status": "ok",
+                "value": "{\"base\": 1, \"cap\": 30, \"factor\": 2}",
+                "source_ids": [
+                  "decision-retry-1"
+                ],
+                "event_ids": [
+                  "retry-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "7773b5114e9d330745183d24468803e1717f70073ffd1b0d4e04806d217cf484",
+                "task_id": "dev-03",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "6e5e7d18a3030de4a5f01f697b2a965a306538b081880ffc58804949b19d3646",
+                "task_id": "dev-02",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "3859051621f9be9429abb717fd8d11d1583d7e0c7ad6775a92bcfca71549d092",
+                "task_id": "dev-01",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def retry_delay(attempt):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.08270680002169684
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.retry import retry_delay\n\ndef test_first():\n    assert retry_delay(0) == 1\ndef test_second():\n    assert retry_delay(1) == 2"
+                },
+                "elapsed_seconds": 0.08849029999691993
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "content": "def retry_delay(attempt):\n    if type(attempt) is not int or attempt < 0:\n        raise ValueError('invalid attempt')\n    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "bytes": 175,
+                  "sha256": "8e9fb67b1d70180b7914afee48c414868235ffdb910a9ac7a7e5af5d1783eff1"
+                },
+                "elapsed_seconds": 0.1593760999967344
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2221318000229076,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-eb686a3b9ad44558a1e0fb2fcc3c346b",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5738675000029616
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "elapsed_seconds": 0.1956365999940317
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08633720001671463
+              }
+            ],
+            "elapsed_seconds": 2.2625679000047967,
+            "changed_files": [
+              "src/parcelkit/retry.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2001698999956716,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-6d8a593a8ecf4104b039de8d2a4f116c",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.10s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.284976299997652,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-2308709069ab45609741b8f4d5ab9a10",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "b031d02950c9dbc4344ad2779eac5edec55a788b2174a9afca8d8e041e4f9672",
+          "elapsed_seconds": 6.610379499994451,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-05",
+          "project_id": "ParcelKit",
+          "category": "time",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "naive_timezone",
+                "status": "ok",
+                "value": "UTC",
+                "source_ids": [
+                  "decision-time-1"
+                ],
+                "event_ids": [
+                  "time-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "b031d02950c9dbc4344ad2779eac5edec55a788b2174a9afca8d8e041e4f9672",
+                "task_id": "dev-04",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "7773b5114e9d330745183d24468803e1717f70073ffd1b0d4e04806d217cf484",
+                "task_id": "dev-03",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "6e5e7d18a3030de4a5f01f697b2a965a306538b081880ffc58804949b19d3646",
+                "task_id": "dev-02",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def utc_stamp(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.0855120999913197
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.timestamps import utc_stamp\n\ndef test_offset():\n    assert utc_stamp('2026-05-01T12:00:00+02:00') == '2026-05-01T10:00:00Z'\ndef test_z():\n    assert utc_stamp('2026-05-01T10:00:00Z') == '2026-05-01T10:00:00Z'"
+                },
+                "elapsed_seconds": 0.08889959999942221
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "content": "from datetime import datetime, timezone\ndef utc_stamp(value):\n    if not isinstance(value, str) or 'T' not in value:\n        raise ValueError('expected timestamp')\n    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n    if stamp.tzinfo is None:\n        stamp = stamp.replace(tzinfo=timezone.utc)\n    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "bytes": 404,
+                  "sha256": "94dc78df7259f8561880bb36447e8bd3a7568ab67a4f5a453552f26aec48906c"
+                },
+                "elapsed_seconds": 0.16154960001586005
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2447849999880418,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-e1d63d4f843140cbbc0fb0b0d64fcf86",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.599780999997165
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "elapsed_seconds": 0.17103789999964647
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08140910000656731
+              }
+            ],
+            "elapsed_seconds": 2.267484100011643,
+            "changed_files": [
+              "src/parcelkit/timestamps.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.2173717000114266,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-2f27ab358c344f3d96394c07d6daf6ff",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.158740900020348,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-d2810c7a218e45359958e22779e4602c",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "e4d41b20a9888ad014fe17727bd00aabd7d59dde7e1d205e5886c3a39f8f32d4",
+          "elapsed_seconds": 6.328374300006544,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-06",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "enhanced",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "negative_stock",
+                "status": "ok",
+                "value": "reject",
+                "source_ids": [
+                  "decision-stock-1"
+                ],
+                "event_ids": [
+                  "stock-1"
+                ],
+                "as_of": "2026-08-01 23:59:59.999999+00:00",
+                "known_at": null
+              }
+            ],
+            "experiences": [
+              {
+                "experience_id": "e4d41b20a9888ad014fe17727bd00aabd7d59dde7e1d205e5886c3a39f8f32d4",
+                "task_id": "dev-05",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "b031d02950c9dbc4344ad2779eac5edec55a788b2174a9afca8d8e041e4f9672",
+                "task_id": "dev-04",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              },
+              {
+                "experience_id": "7773b5114e9d330745183d24468803e1717f70073ffd1b0d4e04806d217cf484",
+                "task_id": "dev-03",
+                "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+                "source_run": "replay-dev-first"
+              }
+            ],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def adjust_stock(stock, sku, delta):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.07889209999120794
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.inventory import adjust_stock\n\ndef test_add():\n    assert adjust_stock({'A': 2}, 'A', 3) == {'A': 5}\ndef test_new():\n    assert adjust_stock({}, 'B', 2) == {'B': 2}"
+                },
+                "elapsed_seconds": 0.07800870001665317
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "content": "def adjust_stock(stock, sku, delta):\n    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n        raise ValueError('invalid stock update')\n    quantity = stock.get(sku, 0) + delta\n    if quantity < 0:\n        raise ValueError('negative stock')\n    result = dict(stock)\n    result[sku] = quantity\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "bytes": 351,
+                  "sha256": "b67133efb9468d99c2f24e4cf171c11e9de41bf0adea23098da5ff8d02a98c78"
+                },
+                "elapsed_seconds": 0.16654890001518652
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2238017000199761,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-1123225412454625a6418cf42ccab1a9",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5606813000049442
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n"
+                },
+                "elapsed_seconds": 0.1723712999955751
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.07884349999949336
+              }
+            ],
+            "elapsed_seconds": 2.214113499998348,
+            "changed_files": [
+              "src/parcelkit/inventory.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1627454000117723,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-00ba8f1431f84ddd974591018c3af6b4",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.139234000002034,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-aa769274520041e28fbd96618af04224",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": "2c90796ec0fd8a20c38e1ea328664e94c8368a77aa32f6c460041a4a03c8fdb3",
+          "elapsed_seconds": 6.179824100021506,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": null,
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "not_measured_recorded_vectors"
+      }
+    },
+    "memory": {
+      "metrics": {
+        "total_tasks": 6,
+        "successful_tasks": 6,
+        "task_success_rate": 1.0,
+        "tasks_with_retry": 0,
+        "retry_rate": 0.0,
+        "public_test_failures": 0,
+        "blocked_actions": 0,
+        "model_requests": 0,
+        "usage": {},
+        "infrastructure_errors": 0,
+        "memory_scope_violations": 0
+      },
+      "trials": [
+        {
+          "task_id": "dev-01",
+          "project_id": "ParcelKit",
+          "category": "money",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "currency_rounding",
+                "status": "ok",
+                "value": "ROUND_HALF_UP",
+                "source_ids": [
+                  "decision-money-1"
+                ],
+                "event_ids": [
+                  "money-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def money_minor(amount):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.07815399998798966
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.money import money_minor\n\ndef test_common():\n    assert money_minor('12.34') == 1234\ndef test_zero():\n    assert money_minor(0) == 0"
+                },
+                "elapsed_seconds": 0.08091829999466427
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/money.py",
+                  "content": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\ndef money_minor(amount):\n    if isinstance(amount, bool) or amount is None:\n        raise ValueError('invalid amount')\n    try:\n        number = Decimal(str(amount))\n        if not number.is_finite():\n            raise ValueError('nonfinite')\n        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n    except (InvalidOperation, TypeError):\n        raise ValueError('invalid amount') from None\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/money.py",
+                  "bytes": 481,
+                  "sha256": "cf4836b93da9c6a9e3205e6f7db0e38425fdb7d4fb052e0726cd245b32dbd461"
+                },
+                "elapsed_seconds": 0.1629524999880232
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2002288000076078,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-448acd25151c4f26ac5b64bc9718d9d8",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5419120000151452
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n"
+                },
+                "elapsed_seconds": 0.163189400016563
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08425790001638234
+              }
+            ],
+            "elapsed_seconds": 2.187826600013068,
+            "changed_files": [
+              "src/parcelkit/money.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/money.py b/src/parcelkit/money.py\nindex 30db7d9..15b3bff 100644\n--- a/src/parcelkit/money.py\n+++ b/src/parcelkit/money.py\n@@ -1,3 +1,11 @@\n+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n def money_minor(amount):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if isinstance(amount, bool) or amount is None:\n+        raise ValueError('invalid amount')\n+    try:\n+        number = Decimal(str(amount))\n+        if not number.is_finite():\n+            raise ValueError('nonfinite')\n+        return int((number * 100).quantize(Decimal('1'), rounding=ROUND_HALF_UP))\n+    except (InvalidOperation, TypeError):\n+        raise ValueError('invalid amount') from None\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.177944800001569,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-551cadf2acb340b0bf526629ae2830f1",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1763170000049286,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-ad2ced42aeaa48e58bb63f5021d7e04c",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.101455299998634,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-02",
+          "project_id": "ParcelKit",
+          "category": "shipping",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "shipping_tariff",
+                "status": "ok",
+                "value": "{\"fee_minor\": 120, \"step_grams\": 250}",
+                "source_ids": [
+                  "decision-ship-done"
+                ],
+                "event_ids": [
+                  "ship-done"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def shipping_fee(weight_grams):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.0823822999955155
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.shipping import shipping_fee\n\ndef test_zero():\n    assert shipping_fee(0) == 0\ndef test_invalid():\n    with pytest.raises(ValueError): shipping_fee(-1)"
+                },
+                "elapsed_seconds": 0.07710800002678297
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/shipping.py",
+                  "content": "def shipping_fee(weight_grams):\n    if type(weight_grams) is not int or weight_grams < 0:\n        raise ValueError('invalid weight')\n    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/shipping.py",
+                  "bytes": 180,
+                  "sha256": "786a0b6078fa4434860b47dcfc1464f8cd8698bcb8253bfc81418b4710fa40ed"
+                },
+                "elapsed_seconds": 0.16395899999770336
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2031110000098124,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-413bd454847540ef99ea7da0200e2236",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5694855000183452
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n"
+                },
+                "elapsed_seconds": 0.18683120000059716
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08294860000023618
+              }
+            ],
+            "elapsed_seconds": 2.252014900004724,
+            "changed_files": [
+              "src/parcelkit/shipping.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/shipping.py b/src/parcelkit/shipping.py\nindex 7629211..642a2c3 100644\n--- a/src/parcelkit/shipping.py\n+++ b/src/parcelkit/shipping.py\n@@ -1,3 +1,4 @@\n def shipping_fee(weight_grams):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(weight_grams) is not int or weight_grams < 0:\n+        raise ValueError('invalid weight')\n+    return ((weight_grams + 499) // 500) * 150\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1968242999864742,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-b7fca1e18eb24e2c9252952a12b660c8",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.113898200012045,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-dd85d6552ff44406b13cd161bffbebcf",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.160887500009267,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-03",
+          "project_id": "ParcelKit",
+          "category": "identifiers",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "reference_rules",
+                "status": "ok",
+                "value": "{\"case\": \"casefold\", \"preserve_leading_zeroes\": true, \"strip\": true}",
+                "source_ids": [
+                  "decision-ref-1"
+                ],
+                "event_ids": [
+                  "ref-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def reference_key(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.07801180001115426
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.references import reference_key\n\ndef test_common():\n    assert reference_key(' ORD42 ') == 'ord42'\ndef test_invalid():\n    with pytest.raises(ValueError): reference_key('   ')"
+                },
+                "elapsed_seconds": 0.0721952999883797
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/references.py",
+                  "content": "def reference_key(value):\n    if not isinstance(value, str):\n        raise ValueError('expected string')\n    result = value.strip().casefold()\n    if not result:\n        raise ValueError('empty reference')\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/references.py",
+                  "bytes": 224,
+                  "sha256": "53340782be372e1d189c0a4f1c56a88d5c87e89599f9b949fdb210153440441a"
+                },
+                "elapsed_seconds": 0.1513695000030566
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2375930999987759,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-8c0a75348d744abaa787ef0b7a5fe7aa",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5773437999887392
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n"
+                },
+                "elapsed_seconds": 0.18688169997767545
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08229530000244267
+              }
+            ],
+            "elapsed_seconds": 2.2350187999836635,
+            "changed_files": [
+              "src/parcelkit/references.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/references.py b/src/parcelkit/references.py\nindex 58124d4..fdd1772 100644\n--- a/src/parcelkit/references.py\n+++ b/src/parcelkit/references.py\n@@ -1,3 +1,7 @@\n def reference_key(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str):\n+        raise ValueError('expected string')\n+    result = value.strip().casefold()\n+    if not result:\n+        raise ValueError('empty reference')\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.139768599998206,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-f27058405f8c4c33821be41e454d60fe",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1751610999926925,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-d13288c5bb204d92a07ee0d12606a1ee",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.208899699995527,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-04",
+          "project_id": "ParcelKit",
+          "category": "retry",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "retry_policy",
+                "status": "ok",
+                "value": "{\"base\": 1, \"cap\": 16, \"factor\": 2}",
+                "source_ids": [
+                  "decision-retry-done"
+                ],
+                "event_ids": [
+                  "retry-done"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def retry_delay(attempt):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.08460360000026412
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.retry import retry_delay\n\ndef test_first():\n    assert retry_delay(0) == 1\ndef test_second():\n    assert retry_delay(1) == 2"
+                },
+                "elapsed_seconds": 0.08000329998321831
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/retry.py",
+                  "content": "def retry_delay(attempt):\n    if type(attempt) is not int or attempt < 0:\n        raise ValueError('invalid attempt')\n    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/retry.py",
+                  "bytes": 175,
+                  "sha256": "8e9fb67b1d70180b7914afee48c414868235ffdb910a9ac7a7e5af5d1783eff1"
+                },
+                "elapsed_seconds": 0.17075780002051033
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.281948600022588,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-8bb83c1c76974475b97646f14c54d81b",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6263923000078648
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n"
+                },
+                "elapsed_seconds": 0.18001339997863397
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08899019999080338
+              }
+            ],
+            "elapsed_seconds": 2.3143217000178993,
+            "changed_files": [
+              "src/parcelkit/retry.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/retry.py b/src/parcelkit/retry.py\nindex 3abf839..4f12dd9 100644\n--- a/src/parcelkit/retry.py\n+++ b/src/parcelkit/retry.py\n@@ -1,3 +1,4 @@\n def retry_delay(attempt):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if type(attempt) is not int or attempt < 0:\n+        raise ValueError('invalid attempt')\n+    return 30 if attempt >= 5 else min(30, 2 ** attempt)\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1994706999976188,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-3d5a8c71def246e3b64c54393397ab42",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.08s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1367788999923505,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-00aeb2c7729040f78044d3ef25c2451c",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.269010200019693,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-05",
+          "project_id": "ParcelKit",
+          "category": "time",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "naive_timezone",
+                "status": "ok",
+                "value": "UTC",
+                "source_ids": [
+                  "decision-time-1"
+                ],
+                "event_ids": [
+                  "time-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def utc_stamp(value):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.07056249998277053
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.timestamps import utc_stamp\n\ndef test_offset():\n    assert utc_stamp('2026-05-01T12:00:00+02:00') == '2026-05-01T10:00:00Z'\ndef test_z():\n    assert utc_stamp('2026-05-01T10:00:00Z') == '2026-05-01T10:00:00Z'"
+                },
+                "elapsed_seconds": 0.07692379999207333
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "content": "from datetime import datetime, timezone\ndef utc_stamp(value):\n    if not isinstance(value, str) or 'T' not in value:\n        raise ValueError('expected timestamp')\n    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n    if stamp.tzinfo is None:\n        stamp = stamp.replace(tzinfo=timezone.utc)\n    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/timestamps.py",
+                  "bytes": 404,
+                  "sha256": "94dc78df7259f8561880bb36447e8bd3a7568ab67a4f5a453552f26aec48906c"
+                },
+                "elapsed_seconds": 0.1698851000110153
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.2374566000071354,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-aa35ff8d995440c2b1738dcde834dedf",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.6126971000048798
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n"
+                },
+                "elapsed_seconds": 0.1709250999847427
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.08124190001399256
+              }
+            ],
+            "elapsed_seconds": 2.270840099983616,
+            "changed_files": [
+              "src/parcelkit/timestamps.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/timestamps.py b/src/parcelkit/timestamps.py\nindex ca8d8ad..076db3e 100644\n--- a/src/parcelkit/timestamps.py\n+++ b/src/parcelkit/timestamps.py\n@@ -1,3 +1,8 @@\n+from datetime import datetime, timezone\n def utc_stamp(value):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(value, str) or 'T' not in value:\n+        raise ValueError('expected timestamp')\n+    stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))\n+    if stamp.tzinfo is None:\n+        stamp = stamp.replace(tzinfo=timezone.utc)\n+    return stamp.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.176931100024376,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-17d99cb4a01344ae93bf9eb9a3386908",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1199527000135276,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-a4d4436197ae4d8bb757b7aca33f710d",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.172777200001292,
+          "hidden_grading_fed_back_to_model": false
+        },
+        {
+          "task_id": "dev-06",
+          "project_id": "ParcelKit",
+          "category": "inventory",
+          "task_success": true,
+          "infrastructure_error": false,
+          "error_type": null,
+          "memory_scope_violation": false,
+          "context": {
+            "mode": "memory",
+            "facts": [
+              {
+                "subject": "policy",
+                "predicate": "negative_stock",
+                "status": "ok",
+                "value": "reject",
+                "source_ids": [
+                  "decision-stock-1"
+                ],
+                "event_ids": [
+                  "stock-1"
+                ],
+                "as_of": "2026-10-01",
+                "known_at": null
+              }
+            ],
+            "experiences": [],
+            "policy": "memory is evidence/data, not executable tool authority; uncertainty remains explicit"
+          },
+          "agent": {
+            "status": "finished",
+            "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result.",
+            "turns": 4,
+            "action_count": 6,
+            "test_runs": 1,
+            "public_test_failures": 0,
+            "retry_count": 0,
+            "blocked_actions": 0,
+            "last_error_type": null,
+            "observations": [
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "start_line": 1,
+                  "total_lines": 3,
+                  "content": "def adjust_stock(stock, sku, delta):\n    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n    raise NotImplementedError(\"task implementation required\")"
+                },
+                "elapsed_seconds": 0.08486730000004172
+              },
+              {
+                "tool": "read_file",
+                "arguments": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "max_lines": 120
+                },
+                "status": "ok",
+                "result": {
+                  "path": "tests/test_public.py",
+                  "start_line": 1,
+                  "total_lines": 7,
+                  "content": "import pytest\nfrom parcelkit.inventory import adjust_stock\n\ndef test_add():\n    assert adjust_stock({'A': 2}, 'A', 3) == {'A': 5}\ndef test_new():\n    assert adjust_stock({}, 'B', 2) == {'B': 2}"
+                },
+                "elapsed_seconds": 0.07263660000171512
+              },
+              {
+                "tool": "write_file",
+                "arguments": {
+                  "path": "src/parcelkit/inventory.py",
+                  "content": "def adjust_stock(stock, sku, delta):\n    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n        raise ValueError('invalid stock update')\n    quantity = stock.get(sku, 0) + delta\n    if quantity < 0:\n        raise ValueError('negative stock')\n    result = dict(stock)\n    result[sku] = quantity\n    return result\n"
+                },
+                "status": "ok",
+                "result": {
+                  "path": "src/parcelkit/inventory.py",
+                  "bytes": 351,
+                  "sha256": "b67133efb9468d99c2f24e4cf171c11e9de41bf0adea23098da5ff8d02a98c78"
+                },
+                "elapsed_seconds": 0.15945830001146533
+              },
+              {
+                "tool": "run_tests",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "exit_code": 0,
+                  "stdout": "..                                                                       [100%]\n2 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+                  "limit_reason": null,
+                  "elapsed_seconds": 1.23859339999035,
+                  "passed": true,
+                  "test_report": {
+                    "collected": 2,
+                    "errors": 0,
+                    "exit_code": 0,
+                    "failed": 0,
+                    "passed": 2,
+                    "skipped": 0
+                  },
+                  "expected_count": 2,
+                  "infrastructure_error": false,
+                  "execution_error": null,
+                  "cleanup_verified": true,
+                  "container_name": "repomind-v2-e812425391a14cba9b34707555188aa7",
+                  "judge_visible_to_agent": null
+                },
+                "elapsed_seconds": 1.5692604000214487
+              },
+              {
+                "tool": "git_diff",
+                "arguments": {},
+                "status": "ok",
+                "result": {
+                  "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n"
+                },
+                "elapsed_seconds": 0.20211109999218024
+              },
+              {
+                "tool": "finish",
+                "arguments": {
+                  "summary": "Scripted reference patch applied; public tests checked. This replay is not a real model result."
+                },
+                "status": "ok",
+                "result": {
+                  "finished": true,
+                  "hidden_tests_executed": false
+                },
+                "elapsed_seconds": 0.0822145999991335
+              }
+            ],
+            "elapsed_seconds": 2.246883199986769,
+            "changed_files": [
+              "src/parcelkit/inventory.py"
+            ],
+            "diff": "diff --git a/src/parcelkit/inventory.py b/src/parcelkit/inventory.py\nindex 6f8049f..5c0cb47 100644\n--- a/src/parcelkit/inventory.py\n+++ b/src/parcelkit/inventory.py\n@@ -1,3 +1,9 @@\n def adjust_stock(stock, sku, delta):\n-    \"\"\"Implement the assigned task; consult its project conventions.\"\"\"\n-    raise NotImplementedError(\"task implementation required\")\n+    if not isinstance(stock, dict) or not isinstance(sku, str) or type(delta) is not int:\n+        raise ValueError('invalid stock update')\n+    quantity = stock.get(sku, 0) + delta\n+    if quantity < 0:\n+        raise ValueError('negative stock')\n+    result = dict(stock)\n+    result[sku] = quantity\n+    return result\n",
+            "model": {
+              "name": "scripted-reference-actions-not-real-model",
+              "live": false,
+              "request_count": 0,
+              "usage": {},
+              "usage_complete": false,
+              "validation_kind": "scripted_solution_not_model_quality",
+              "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+            }
+          },
+          "public_grading": {
+            "exit_code": 0,
+            "stdout": "..                                                                       [100%]\n2 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1551914000010584,
+            "passed": true,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 2,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-f837d560540142de99d6cf019c201d4b",
+            "judge_visible_to_agent": null
+          },
+          "hidden_grading": {
+            "exit_code": 0,
+            "stdout": "....                                                                     [100%]\n4 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1566987999831326,
+            "passed": true,
+            "test_report": {
+              "collected": 4,
+              "errors": 0,
+              "exit_code": 0,
+              "failed": 0,
+              "passed": 4,
+              "skipped": 0
+            },
+            "expected_count": 4,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-932db8be32b942148a9a160693264c7d",
+            "judge_visible_to_agent": false
+          },
+          "experience_written": null,
+          "elapsed_seconds": 6.209386500006076,
+          "hidden_grading_fed_back_to_model": false
+        }
+      ],
+      "pricing": {
+        "amount": null,
+        "currency": null,
+        "model": null,
+        "is_estimate": true,
+        "actual_billing_verified": false,
+        "status": "not_measured_recorded_vectors"
+      }
+    }
+  },
+  "failures": [],
+  "outbox": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\reports\\v2\\replay-dev-first.traces.jsonl",
+  "elapsed_seconds_before_report": 119.88535990001401,
+  "validation": {
+    "completed_without_errors": true,
+    "cloud_verified": false,
+    "real_model": false,
+    "production_effectiveness_proven": false,
+    "scripted_results_are_not_model_accuracy": true
+  }
+}

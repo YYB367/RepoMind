@@ -1,0 +1,131 @@
+{
+  "stage_goal": "V2.0 explicit Langfuse export with service read-back confirmation",
+  "mode": "both",
+  "outbox": "reports\\v2\\live-holdout-first.traces.jsonl",
+  "model_executed_during_export": false,
+  "verify_only": true,
+  "traces": {
+    "stage_goal": "V2.0：显式同步合成评测 trace，服务读回后确认交付",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "status": "verified",
+    "cloud_verified": true,
+    "verified": 12,
+    "sent_unconfirmed": 0,
+    "failed": 0,
+    "blocked_non_synthetic": 0,
+    "not_verified": 0,
+    "verify_only": true,
+    "exported": 12,
+    "items": [
+      {
+        "trace_id": "d917155a5a2d007e11598652bcb6c3b4",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "1b5a79fa2e33ff90f13a41fbc7e26c7b",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "f9434ce8a97c2738fcaaee176588c666",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "ebc79e8e9663db72aa3bf6205c657930",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "80675ef82bf60086b86c369d194a8a5a",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "5169e595d09448a30de1d9cd7b3778ab",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "50fa9cf097960e79fbfdac965e7040a4",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": false
+      },
+      {
+        "trace_id": "777472a997c3802df5dbc051f38273d7",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "727c2ab26101357188abbd1f3735760c",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "e9cc42926882b7302250116870ebb89a",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "2dfff09febd1406bdd4fe788e8e58bf7",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      },
+      {
+        "trace_id": "b61b52c0cf796e1f4563959df719e571",
+        "status": "verified",
+        "attempts": 1,
+        "skipped_verified": true
+      }
+    ],
+    "delivery_semantics": "at-least-once; stable trace IDs and local ACKs do not promise exactly-once spans"
+  },
+  "experiment": {
+    "stage_goal": "V2.0：将预计算合成结果导出为现代 Langfuse SDK experiment，避免重跑模型",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "dataset_name": "repomind-v2-holdout-b7d42ba01bf3",
+    "dataset_prefix": "repomind-v2-holdout",
+    "status": "verified",
+    "cloud_verified": true,
+    "blocked_non_synthetic": [],
+    "experiments": [
+      {
+        "provider": "baseline",
+        "experiment_id": "c579e0f8379a1c781a0d05fe5cf2f138",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:c579e0f8379a1c781a0d05fe5cf2f138",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "provider": "enhanced",
+        "experiment_id": "db7c33f90f29934fbb086b88c29c3031",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:db7c33f90f29934fbb086b88c29c3031",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "provider": "memory",
+        "experiment_id": "6fa4160d2811858d9997499340d5d022",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:6fa4160d2811858d9997499340d5d022",
+        "status": "verified",
+        "skipped_verified": false
+      }
+    ],
+    "model_executed_during_export": false,
+    "verify_only": true,
+    "delivery_semantics": "at-least-once; interrupted replays can create duplicate observation IDs"
+  },
+  "cloud_verified": true
+}

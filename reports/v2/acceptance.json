@@ -1,0 +1,169 @@
+{
+  "stage_goal": "V2.0 Developer Agent: bounded code tools, isolated task verification and scoped task experience",
+  "date": "2026-10-28",
+  "version": "2.0.0",
+  "status": "engineering_accepted_with_explicit_benchmark_limits",
+  "tests": {
+    "platform": {
+      "tests": 465,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 465,
+      "seconds": 126.153
+    },
+    "base": {
+      "tests": 465,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 23,
+      "passed": 442,
+      "seconds": 82.101
+    }
+  },
+  "results": {
+    "dev_first": {
+      "baseline": {
+        "strict": 2,
+        "code": 2,
+        "total": 6,
+        "finished": 3,
+        "budget_stops": 3
+      },
+      "memory": {
+        "strict": 3,
+        "code": 3,
+        "total": 6,
+        "finished": 6,
+        "budget_stops": 0
+      },
+      "enhanced": {
+        "strict": 5,
+        "code": 5,
+        "total": 6,
+        "finished": 6,
+        "budget_stops": 0
+      }
+    },
+    "dev_r2": {
+      "baseline": {
+        "strict": 1,
+        "code": 3,
+        "total": 6,
+        "finished": 3,
+        "budget_stops": 3
+      },
+      "memory": {
+        "strict": 4,
+        "code": 4,
+        "total": 6,
+        "finished": 6,
+        "budget_stops": 0
+      },
+      "enhanced": {
+        "strict": 6,
+        "code": 6,
+        "total": 6,
+        "finished": 6,
+        "budget_stops": 0
+      }
+    },
+    "holdout_first": {
+      "baseline": {
+        "strict": 1,
+        "code": 2,
+        "total": 4,
+        "finished": 3,
+        "budget_stops": 1
+      },
+      "memory": {
+        "strict": 1,
+        "code": 2,
+        "total": 4,
+        "finished": 2,
+        "budget_stops": 2
+      },
+      "enhanced": {
+        "strict": 1,
+        "code": 3,
+        "total": 4,
+        "finished": 2,
+        "budget_stops": 2
+      }
+    }
+  },
+  "actual_usage_all_live_runs": {
+    "requests": 255,
+    "input_tokens": 388811,
+    "output_tokens": 24444,
+    "cached_input_tokens": 300672,
+    "monetary_cost": null,
+    "billing_verified": false,
+    "includes_first_dev_and_r2": true
+  },
+  "cloud": {
+    "verified_traces": 30,
+    "verified_experiments": 6,
+    "dataset_items": 10,
+    "experiment_item_outputs": 30,
+    "receipts": [
+      "langfuse-dev-verified.json",
+      "langfuse-holdout-verified.json"
+    ],
+    "models_or_tests_reexecuted_during_export": false
+  },
+  "runtime": {
+    "stage_goal": "V2 record the actual isolated runtime and recipe provenance",
+    "sandbox": {
+      "backend": "docker_linux",
+      "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+      "engine_version": "29.5.3",
+      "network": "none",
+      "root_filesystem": "read-only",
+      "project_mount": "read-only",
+      "user": "65532:65532",
+      "capabilities": "ALL dropped",
+      "no_new_privileges": true,
+      "memory_mb": 256,
+      "cpus": 1,
+      "pids_limit": 64,
+      "timeout_seconds": 25,
+      "max_output_bytes": 65536,
+      "host_code_fallback": false,
+      "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+    },
+    "host_python": "3.12.14",
+    "guest_python": "Python 3.12.16",
+    "git_version": "git version 2.51.0.windows.2",
+    "base_reference_from_actual_build_log": "docker.io/library/python:3.12-slim-bookworm@sha256:62ed8e07e544e8555c5d93748d5275015136b7f5c52b5e8679b4de339c3779d3",
+    "recipe_sha256": {
+      "docker/v2/Dockerfile": "db330ef4b1f60bb79e1c5c3e3c2056044db01aafa72727a38d0ca6289aacb546",
+      "docker/v2/test_runner.py": "56451624befee4055f1543bbb532383f9857183a8dd0dd3457039c122a4ef65a",
+      "docker/v2/requirements.txt": "68b448fd2b2488262c661a0f6cc39a2b97fb3d31774c2bb6716f0c5b76d7b770"
+    },
+    "rebuilds_not_claimed_bit_identical": true
+  },
+  "input_revision": {
+    "original": "data/v2",
+    "release_recommended": "data/v2-r2",
+    "hidden_gold_changed": false
+  },
+  "protocol": "holdout-protocol.json",
+  "first_holdout_preserved": true,
+  "holdout_tuning": false,
+  "candidate_run_version": "2.0.0rc1",
+  "version_metadata_only_changed_for_release": true,
+  "limitations": [
+    "10 synthetic memory-dependent code tasks, not production/SWE-bench",
+    "same-session task and implementation authorship, not blind evaluation",
+    "strict completion and verified code are distinct metrics",
+    "temporal and experience effects bundled",
+    "no hostile-submission anti-cheating guarantee",
+    "Docker/kernel/image/controller trusted; no arbitrary external repos",
+    "model generation variability and small sample",
+    "no verified monetary cost"
+  ],
+  "v2_1_or_v3_implemented": false,
+  "holdout_task_completion_improvement_validated": false,
+  "holdout_contract_limitation": "hold-01 does not fully disambiguate rounding the discount amount vs rounding the remaining price; all arms rounded the discount first while frozen gold rounds the remainder. No holdout oracle/input was changed or case removed."
+}

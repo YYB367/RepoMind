@@ -1,141 +1,73 @@
-# 阶段目标：V1.2 Evaluation Platform
+# 阶段目标：V2.0 Developer Agent，隔离代码任务与可追溯经验
 
-公平比较受控Mem0与自研MemoryProvider的质量、延迟和实际模型用量，并把固定实验的trace、dataset、experiment显式同步到用户配置的既有Langfuse项目。保留V1/V1.1的项目隔离、双时间、计划/完成/纠错和来源证据；本轮不进入V2代码Agent、OpenViking或Harness优化。
+RepoMind从事实记忆发展到有限步样例代码Agent：读取/修改限定源码、运行隔离pytest、查看Git diff，最后独立判题并记录成功经验。本轮停止在V2.0，不实施V2.1的OpenViking或V3策略优化。
 
-当前交付 **1.2.0**（2026-10-28）：426项平台测试通过，基础环境407项通过、19项按预期跳过；80条trace和8个experiment已真实读回核验。真实dev仍有检索质量限制，详见[V1.2交付记录](docs/v1.2-delivery.md)。上一版V1.1的311项测试和24条真实查询属于历史基线，见[原验收报告](reports/v1.1/acceptance.md)。
+**2.0.0工程验收完成，效果结论保留。** 465项平台测试通过，基础环境442通过/23跳过；30条Trace和6个Experiment已经真实云端读回。首次holdout三组完整流程均1/4，未证明增强记忆提升完成率；单独代码验收为baseline2/4、memory2/4、enhanced3/4。10个任务为合成样例，不是生产或SWE-bench结论。
 
-## 核心架构与技术选择
+完整结果、文件变化、契约修订和问题见[V2交付说明](docs/v2-delivery.md)、[机器证据](reports/v2/acceptance.json)。[技术原理](docs/v2-technologies.md)解释工具链、容器和记忆数据流；[运行说明](docs/v2-usage.md)提供完整PowerShell命令。
 
-| 技术 | 为什么采用 | 在本项目中怎样工作 |
-|---|---|---|
-| Pydantic＋SQLite事件账本 | 结构化校验、重启持久化、完整审计 | 来源/事件/引文原子写入，显式纠错保留历史；结构合法仍不代表模型理解正确 |
-| V1 resolver | 避免相似计划或旧值冒充当前事实 | 命中事实键后取完整历史，按as_of/known_at处理有效时间与当时所知 |
-| MemoryProvider | 对照时固定输入与事实规则 | 四variant用同样冻结查询，semantic与Mem0作主比较，hybrid单列 |
-| Mem0 OSS＋本地Qdrant | 对照成熟检索实现 | infer=False存同样文档，公开配置走回环Embedding桥；dense受控profile，不是完整原生Mem0能力评测 |
-| Langfuse SDK5＋OTEL | 记录可追踪实验，避免旧平台API | 同步既有结果与分数，读回dataset/experiment/observations/scores才确认 |
-| 本地outbox | 网络故障时不用重跑模型 | 保存payload与稳定身份，至少一次重传；flush无异常不等于持久化 |
-| 实报usage＋可选价卡 | 避免编造token或把未知费用当免费 | 默认cost=null；明确价卡只能生成标记的估算 |
+## 核心技术为什么这样选
 
-设计和工作顺序见[v1.2-stage-plan.md](docs/v1.2-stage-plan.md)，原理、例子与取舍见[v1.2-technologies.md](docs/v1.2-technologies.md)，完整运行说明见[v1.2-usage.md](docs/v1.2-usage.md)。
+| 技术 | 原因与原理 |
+|---|---|
+| Python＋Pydantic | 复用旧内核；JSON动作通过schema和权限校验后才执行 |
+| 有限动作循环 | 6回合/3次公开测试/20动作/24K字符，状态与停止可解释，不给模型shell |
+| Docker Linux | 进程/网络/挂载隔离与资源限额；禁网、非root、只读，不继承宿主key |
+| manifest与文件白名单 | 只复制登记源码，不把额外.env或Git配置带入任务；拒绝路径/链接越界 |
+| V1 resolver＋SQLite | 解释计划/完成/纠错；最终验收成功后才存经验，按项目与顺序检索 |
+| DeepSeek JSON接口 | 重用已实测传输和usage，模型建议不能改变工具权限 |
+| Langfuse/outbox | 同步预计算结果，读回输出/评分/用量再确认，不重跑模型 |
 
-## 安装
+三组定义为无历史、当前快照、任务双时间加此前成功经验。时序和经验绑在一起，不能分别归因。显式键路由降低语义召回混杂，没有修好V1.2语义检索弱点。
 
-Python3.11+，Windows PowerShell示例。平台依赖为可选extra；原V1/V1.1用户可继续只安装`.[dev]`。
+## 安装和准备
 
-```powershell
-Set-Location 'D:\software\codex\2026-10-26\1-repomind-codex-md-2-repomind\outputs\RepoMind'
-python -m venv .venv-v12
-.\.venv-v12\Scripts\python.exe -m pip install -e '.[dev,platform]'
-$RepoMindExe = '.\.venv-v12\Scripts\repomind.exe'
-& $RepoMindExe --version
-& $RepoMindExe --help
-```
+本轮验收为Windows、Python3.12及Docker Desktop Linux引擎。测试镜像只含Python和固定pytest依赖；key留在根.env，不能复制进镜像。
 
-本机PATH没有python时，用下面命令替换创建环境命令：
+~~~powershell
+Set-Location 'D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind'
+python -m venv .venv-v2
+./.venv-v2/Scripts/python.exe -m pip install -r requirements-v2.lock
+./.venv-v2/Scripts/python.exe -m pip install --no-deps -e .
+$RepoMindExe = './.venv-v2/Scripts/repomind.exe'
+& $RepoMindExe agent-prepare --output work/v2-sandbox.json
+& $RepoMindExe agent-doctor --sandbox-config work/v2-sandbox.json
+~~~
 
-```powershell
-& 'C:\Users\czx\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -m venv .venv-v12
-```
+无python PATH时可用本机已有C:/Users/czx/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe创建venv。本工作区已准备独立环境，可设置$RepoMindExe为../../work/v2-venv/Scripts/repomind.exe；已有镜像配置在work/v2-sandbox.json。
 
-本次工作区已准备的平台环境可直接设置`$RepoMindExe = '..\..\work\v12-venv\Scripts\repomind.exe'`。platform锁定Langfuse5.0.4、mem0ai2.2.1、qdrant-client1.20.0；受控环境不额外安装会触发模型下载的spaCy/fastembed组件。
+仅本地V2可用.[dev]轻量安装；platform为可选SDK。锁文件对应本轮Windows/Python3.12，不保证跨平台逐字节一致。wheel不含镜像或样例数据，请在源码包根目录构建，或给agent-prepare指定--project-root。
 
-精确复现本次验收时，使用Python3.12和`requirements-platform.lock`安装完整依赖，再安装项目；锁文件来自本轮Windows隔离环境，不声称覆盖所有Python/操作系统组合：
+## 配置和运行
 
-```powershell
-.\.venv-v12\Scripts\python.exe -m pip install -r requirements-platform.lock
-.\.venv-v12\Scripts\python.exe -m pip install --no-deps -e .
-```
+现有.env中的DeepSeek和Langfuse配置继续使用；新机器参考[空模板](.env.example)，不要覆盖已有私密文件。Embedding仍是独立服务；本轮使用事实键，不额外调用Embedding。config不打印key。
 
-## 配置现有服务
+~~~powershell
+& $RepoMindExe config
+& $RepoMindExe agent-bench --data-root data/v2-r2 --dataset data/v2-r2/dev/tasks.jsonl --provider replay --run-id replay-manual-001 --output reports/v2/replay-manual-001.json
+& $RepoMindExe agent-bench --data-root data/v2-r2 --dataset data/v2-r2/dev/tasks.jsonl --provider live --run-id live-manual-001 --output reports/v2/live-manual-001.json
+~~~
 
-根.env仅在本机编辑，已有文件不要覆盖。程序只读当前目录，系统环境变量优先。`repomind config`显示配置是否存在和SDK版本，不显示URL/key，不请求网络。
+replay三组使用相同人工参考补丁，只验工程。live才调用模型并记录实际请求/token；无价卡时金额未知。原data/v2和首轮真实结果保留；r2只澄清dev-01既有ValueError契约，隐藏断言未改。holdout未调参。
 
-V1.2真实比较只需独立Embedding配置；模型和地址沿用用户当前选择：
+~~~powershell
+& $RepoMindExe trace-sync both --outbox reports/v2/live-manual-001.traces.jsonl --dataset-name RepoMind-V2-Dev --receipt reports/v2/live-manual-001-cloud.json
+& $RepoMindExe trace-sync both --verify-only --outbox reports/v2/live-manual-001.traces.jsonl --dataset-name RepoMind-V2-Dev --receipt reports/v2/live-manual-001-readback.json
+~~~
 
-```text
-REPOMIND_EMBEDDING_PROVIDER=openai-compatible
-REPOMIND_EMBEDDING_BASE_URL=https://maas.qianwenaiapi.com/compatible-mode/v1
-REPOMIND_EMBEDDING_API_KEY=在本机填写Qwen服务Key
-REPOMIND_EMBEDDING_MODEL=qwen3.7-text-embedding-flash
-REPOMIND_EMBEDDING_DIMENSIONS=1024
-REPOMIND_SEARCH_MIN_COSINE=0.55
-```
+新测量用新run-id和报告路径；已有状态拒绝覆盖。verify-only不会补发或运行模型。隐藏结果不反馈给当前任务。完整流程还要求正常finish，预算耗尽但代码通过另列，不能全部叫代码错误。
 
-0.55来自V1.1开发集校准，不是通用置信概率。新语料和模型要在dev重新验证；API默认与回放基线的配置单独记录。DeepSeek提取仍有独立配置，不能把聊天key发给Embedding服务。
+## 测试与边界
 
-V1.2的冻结对照采用显式 `compare --min-cosine 0.2`，仅依据新dev选择。CLI兼容默认仍是0.55，环境里的V1.1配置未覆盖；首轮失败、校准过程和首次holdout均见交付记录。云端首次同步若尚未可见，可用相同参数追加 `trace-sync --verify-only` 只读核验，避免重复上传。
+~~~powershell
+$env:REPOMIND_TEST_AGENT_IMAGE = (Get-Content work/v2-sandbox.json | ConvertFrom-Json).image
+./.venv-v2/Scripts/python.exe -m pytest -q -p no:cacheprovider --basetemp work/pytest-v2
+~~~
 
-既有Langfuse项目需要填写三个独立字段，不预设host或地区：
+未设置镜像时4项真实Docker测试明确跳过。容器不保证防内核漏洞或蓄意判题作弊；本轮不支持任意外部仓库。规格、样本、生成波动和停止预算限制解释，费用未核账。详见交付说明。
 
-```text
-LANGFUSE_BASE_URL=
-LANGFUSE_PUBLIC_KEY=
-LANGFUSE_SECRET_KEY=
-```
+## 保留的旧版本能力
 
-配置存在不等于cloud已验收；只有显式trace-sync及服务侧读回能证明。未提供Langfuse配置时可完成本地比较并保留outbox，平台状态保持待验证。
+import/query保留事件历史、双时间、冲突和来源；ingest/index/search/source保留引文提取与混合检索；eval/eval-intelligence/compare保留原评测。旧命令不要求Docker，原SQLite schema和冻结数据保留。
 
-## 离线dev对照
-
-```powershell
-& $RepoMindExe compare `
-  --events data/v1.2/events.jsonl `
-  --dataset data/v1.2/dev/questions.jsonl `
-  --vector-mode recorded `
-  --vectors data/v1.2/recorded-vectors.json `
-  --output reports/v1.2/offline-dev-manual-001.md `
-  --run-id offline-dev-manual-001 `
-  --state-dir work/v12 `
-  --outbox work/v12/offline-dev-manual-001/outbox.jsonl `
-  --min-cosine 0.2
-```
-
-默认运行no_memory、repomind_semantic、repomind_hybrid、mem0。录制向量为人工理想test double，只验证工程管线，不是模型语义准确率。新数据为3项目30事件、12dev/8holdout，金标和输入hash独立冻结；先dev固定参数再首次holdout。
-
-state-dir是父目录，runner新建其下run-id子目录。已存在run、报告、outbox或status会被拒绝，避免旧缓存污染测量。每次新比较用新ID与输出；只重传云端时复用原outbox，不再compare。
-
-真实比较用同样命令改为`--vector-mode live`并去掉`--vectors`，同时换新run-id/output/outbox。该命令向Qwen发送合成问题和文档，实际调用按variant分别计量；同输入向量hash差异会在报告披露。
-
-compare退出0代表运行无执行错误，质量仍需读报告；no_memory低分不会让正常运行变成失败。1表示执行中有错误，2为配置/输入等错误。完整质量、未知拒答、来源与项目串用必须一起看。
-
-## 显式同步到Langfuse
-
-compare不自动上传。填写三个Langfuse字段后，对已经完成的outbox执行：
-
-```powershell
-& $RepoMindExe trace-sync both `
-  --outbox work/v12/offline-dev-manual-001/outbox.jsonl `
-  --dataset-name RepoMind-V1.2 `
-  --run-name offline-dev-manual-001 `
-  --receipt reports/v1.2/offline-dev-manual-001-langfuse.json
-```
-
-同步模式为traces、experiment或both，默认traces。只重放已有output/score，不重新调用模型。receipt与相邻status保存逐对象状态；flush仅表示尝试发送，cloud_verified须有现代API读回核对。仅完整verified退出0，partial为1，输入/配置错误为2。当前上传限明确synthetic记录，不自动上传真实仓库内容。
-
-网络或读取延迟时保留outbox/receipt并显式重试；稳定ID不保证span exactly-once。模型比较、SDK契约测试和cloud持久化证据分别报告。
-
-## 价格与测试
-
-默认费用为null，usage缺失也不算免费。`price-card.example.json`是CNY空models模板，没有真实报价；明确填写模型、单位、日期和出处后可给compare追加`--pricing work/my-price-card.json`。缺价卡、过期、usage或缓存拆分不全时继续报告未知；估算不是账单核验。
-
-```powershell
-.\.venv-v12\Scripts\python.exe -m pytest -q --basetemp work/pytest-v12-manual
-```
-
-受限临时目录处理、价卡schema、失败恢复及每条命令含义见[v1.2-usage.md](docs/v1.2-usage.md)。实际通过/失败数、live分数和cloud回执由[V1.2交付记录](docs/v1.2-delivery.md)汇总。
-
-## 原V1/V1.1能力与兼容
-
-```powershell
-# 结构化事件与确定性历史查询，无模型调用
-& $RepoMindExe --db work/demo.sqlite3 import data/fixtures/conversations.jsonl
-& $RepoMindExe --db work/demo.sqlite3 query --project CampusRecruit --field database --as-of 2026-03-15
-# 自然语言入口默认只生成候选，--apply才原子保存
-& $RepoMindExe ingest examples/v1.1-sources.jsonl --output work/candidates-new.jsonl
-# 已有账本可先用词法搜索；语义/hybrid查询先index
-& $RepoMindExe --db work/demo.sqlite3 search --project CampusRecruit --text 'database' --as-of 2026-04-10 --mode lexical
-```
-
-来源可信envelope由调用者指定，模型只提出候选；精确引文证明片段存在，不能保证理解正确。as_of按事实有效时间，known_at按观察截止，日期表示UTC当日末；计划不自动成为事实，未知和冲突保留拒答。schema1→2的备份回滚见[ADR0007](docs/decisions/0007-additive-schema-and-staged-evaluation.md)。
-
-V1.2新增optional依赖、比较和同步，不改写旧账本或冻结金标。停用平台命令可回到V1.1环境；保留报告/outbox与索引，代码回退不自动删除云端对象。旧报告保存在reports/、reports/v1.1；变更历史见[CHANGELOG](CHANGELOG.md)。本项目在本工作区outputs/RepoMind开发，原`D:\projects\RepoMind`规划文件未修改，没有远程推送或平台服务器部署。
+历史：[V1设计](docs/architecture.md)、[V1.1](reports/v1.1/acceptance.md)、[V1.2](docs/v1.2-delivery.md)。原requirements/architecture保持V1语境；当前设计见docs/v2-stage-plan.md及ADR0016–0019。
