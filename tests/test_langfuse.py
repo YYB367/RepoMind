@@ -292,6 +292,14 @@ def test_trace_sync_batches_flush_and_preserves_flush_failure(tmp_path):
     assert all(item["phase"] == "otel_flush" for item in failed["items"])
 
 
+def test_developer_tasks_export_precomputed_experiments_without_model_rerun(tmp_path):
+    box=TraceOutbox(tmp_path/'outbox.jsonl')
+    box.append(record(stage='developer_task',input={'task':'change a sample function'},expected_output={'acceptance_test_count':4}))
+    client=FakeClient()
+    result=LangfuseExporter(config(),client).export_experiment(box,'developer-tasks')
+    assert result['cloud_verified'] and client.experiment_calls==1
+
+
 def test_modern_experiment_replays_precomputed_outputs_and_excludes_index_records(tmp_path, monkeypatch):
     box = TraceOutbox(tmp_path / "outbox.jsonl")
     box.append(record())

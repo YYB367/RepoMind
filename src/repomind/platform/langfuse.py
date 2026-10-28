@@ -430,7 +430,7 @@ class LangfuseExporter:
         return True
 
     def export_experiment(self, outbox: TraceOutbox, dataset_name: str, run_name: str | None = None, *, verify_only: bool = False) -> dict[str, Any]:
-        all_records = [record for record in outbox.records() if record.stage == "query"]
+        all_records = [record for record in outbox.records() if record.stage in {"query", "developer_task"}]
         blocked = [record.trace_id for record in all_records if not record.synthetic]
         records = [record for record in all_records if record.synthetic]
         if not records:

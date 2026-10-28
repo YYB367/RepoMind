@@ -88,7 +88,41 @@ def build_parser() -> argparse.ArgumentParser:
     sync.add_argument("--run-name")
     sync.add_argument("--verify-only", action="store_true", help="Read back existing objects only; never re-emit spans/datasets/scores")
     sync.add_argument("--receipt", type=Path, help="Optional safe delivery JSON; cannot overwrite outbox/status/config")
+    prepare = commands.add_parser("agent-prepare", help="Explicitly build a trusted local Docker pytest image")
+    prepare.add_argument("--output", type=Path, default=Path("work/v2-sandbox.json"))
+    prepare.add_argument("--config-dir", type=Path, default=Path("work/v2-docker-config"))
+    prepare.add_argument("--project-root", type=Path, default=Path.cwd(), help="RepoMind source root containing docker/v2")
+    doctor = commands.add_parser("agent-doctor", help="Verify the local isolated code-test image; no model call")
+    doctor.add_argument("--image")
+    doctor.add_argument("--sandbox-config", type=Path, default=Path("work/v2-sandbox.json"))
+    doctor.add_argument("--config-dir", type=Path, default=Path("work/v2-docker-config"))
+    agent = commands.add_parser("agent-bench", help="Run frozen code tasks with bounded tools and isolated grading")
+    agent.add_argument("--dataset", type=Path, required=True)
+    agent.add_argument("--data-root", type=Path, default=Path("data/v2"))
+    agent.add_argument("--output", type=Path, required=True)
+    agent.add_argument("--provider", choices=("live", "replay"), default="replay")
+    agent.add_argument("--variants", nargs="+", choices=("baseline", "memory", "enhanced"))
+    agent.add_argument("--image")
+    agent.add_argument("--sandbox-config", type=Path, default=Path("work/v2-sandbox.json"))
+    agent.add_argument("--config-dir", type=Path, default=Path("work/v2-docker-config"))
+    agent.add_argument("--state-dir", type=Path, default=Path("work/v2-runs"))
+    agent.add_argument("--run-id")
+    agent.add_argument("--seed", type=int, default=0)
+    agent.add_argument("--max-turns", type=int, default=6)
+    agent.add_argument("--max-test-runs", type=int, default=3)
+    agent.add_argument("--pricing", type=Path)
     return parser
+
+
+def _agent_image(args):
+    if args.image:
+        return args.image
+    if not args.sandbox_config.is_file():
+        raise ValueError("agent sandbox config missing; run agent-prepare explicitly first")
+    config=json.loads(args.sandbox_config.read_text(encoding="utf-8"))
+    if not isinstance(config,dict) or not isinstance(config.get("image"),str):
+        raise ValueError("sandbox config must contain an immutable image ID")
+    return config["image"]
 
 
 def _embedding_provider(args):
@@ -166,6 +200,24 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "config":
             from repomind.intelligence.config import configuration_status
             output = configuration_status()
+        elif args.command == "agent-prepare":
+            from repomind.agent.sandbox import prepare_image
+            if args.output.suffix != ".json" or args.output.name.startswith(".env"):
+                raise ValueError("sandbox configuration output must be a .json file")
+            output = prepare_image(args.project_root,args.config_dir,output_path=args.output)
+        elif args.command == "agent-doctor":
+            from repomind.agent.sandbox import DockerSandbox
+            output = DockerSandbox(_agent_image(args),args.config_dir).probe()
+        elif args.command == "agent-bench":
+            from repomind.agent.benchmark import run_developer_benchmark
+            from repomind.agent.models import AgentBudget
+            report=run_developer_benchmark(args.dataset,args.output,image=_agent_image(args),config_dir=args.config_dir,
+                data_root=args.data_root,provider_mode=args.provider,variants=args.variants,state_dir=args.state_dir,
+                run_id=args.run_id,seed=args.seed,budget=AgentBudget(max_turns=args.max_turns,max_test_runs=args.max_test_runs),
+                pricing_path=args.pricing)
+            print(json.dumps({"validation":report["validation"],"variants":{name:arm["metrics"] for name,arm in report["variants"].items()},
+                              "outbox":report["outbox"],"output":str(args.output)},ensure_ascii=False,indent=2))
+            return 0 if report["validation"]["completed_without_errors"] else 1
         elif args.command == "ingest":
             from repomind.intelligence.ingestion import prepare_ingestion, read_sources, write_candidate_bundle, validate_output_paths
             from repomind.intelligence.providers import OpenAICompatibleProvider, ProviderConfig, ReplayExtractionProvider
