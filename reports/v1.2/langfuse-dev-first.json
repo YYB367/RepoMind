@@ -1,0 +1,443 @@
+{
+  "stage_goal": "V1.2 explicit Langfuse export with service read-back confirmation",
+  "mode": "both",
+  "outbox": "reports\\v1.2\\live-dev-first.traces.jsonl",
+  "model_executed_during_export": false,
+  "traces": {
+    "stage_goal": "V1.2：显式同步合成评测 trace，服务读回后确认交付",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "status": "partial",
+    "cloud_verified": false,
+    "verified": 0,
+    "sent_unconfirmed": 0,
+    "failed": 48,
+    "blocked_non_synthetic": 0,
+    "exported": 0,
+    "items": [
+      {
+        "trace_id": "63e272fc4dbe243086627c42d96fbb1f",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "3d6d35637c6770c9c42ed7941860a7a0",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "fb80a87092dbab60fd4ef0dfdac40414",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "d41d382e8b500b0607dff56f909c2057",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "b92a4901175b3e892244b872c27ab55c",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "45e05629349d9f8ffa177ba408f1b6fb",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "30d60b95ef188de44e19c3e34dc1e812",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "5b6e7c9bb20a5d3d06fc4115d2a4db7b",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "add5e4f138124b76ac6b4ebfb161b327",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "ab564fa031c0468448431c817cc78138",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "757089f3814c5c7f24ca1b15f494a08d",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "98580ea563e6174d20a7c18a31b804ce",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "cac01d253456d5a971c0db67cb5f67fe",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "7a72413bd497f241788a6e388d6fba09",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "4878d014bc2dffedce3fa2e0f4c31ac9",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "51018ea065b9ad60ddc63392d4cbfacf",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "cf8a4d298d576a7ff4a7598c400e90ef",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "2a29f6bee66711e1fb7688b772de8731",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "66d08c6d6c97846c22f17a64e3223f9d",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "7588bbee95a260aa0b7e34914bd1ba87",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "0393b828ea1c0868d3305cc53d94b88c",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "983eed1475b23e7d0bbb00847ff598c9",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "f6cf6d4316ff06c775bbdaead274ff37",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "59d92849086b706c9380e9f195f44350",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "27a0292a67e9d801afb869acc77b01e8",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "1481254ade128212706a29a864f880d7",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "41aaf981c70c2b0b59d36e7e76ead5cc",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "8eafcfa39ff2ca3e1705790be3e564b0",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "58def316b9eabd4aa0bf07aaa6c25be4",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "b7ed03914b74d69595e5977a8d65f0e3",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "131b919fc8640faaeef8682e672eb2a0",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "96d80aa04c75f0ad70472a71faf11b11",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "82440bdfc32d90bdcd70091a14c821f7",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "d3095724191d11c1350ed7226dccf5b2",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "76d39dd2d9f53da923b3d62b7bdd43e5",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "f91efb006c1ed697c455192cbe259e99",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "d5b23e846a31ebe9f6b1746ec6c2f516",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "236944acec7dfb22e90e82bb5f297049",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "c809460c9ceb2720a6a7d99812d5c397",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "70593a8d74cb697aad15a72870fe0410",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "a45ba9d4e81b1926ca142b8640c0d495",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "1b1b503b1c7541304b3d57a5b28c4041",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "bb7f724496caecb43e73bd4ed710cd16",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "92a7571c8f3df56fb0bf356331b9033f",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "881a80e6baedfe7e180b7523f82c7a51",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "0f03e28e010dde23cc913eabe540bb8d",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "fbe4ed731a863e170ddd909af60bd307",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      },
+      {
+        "trace_id": "68efc4241805a4ec98486fc621cfca17",
+        "status": "failed",
+        "phase": "preflight_read",
+        "error_type": "Error",
+        "message": "Langfuse export/read-back failed; sensitive upstream text omitted",
+        "http_status": 400
+      }
+    ],
+    "delivery_semantics": "at-least-once; stable trace IDs and local ACKs do not promise exactly-once spans"
+  },
+  "experiment": {
+    "stage_goal": "V1.2：将预计算合成结果导出为现代 Langfuse SDK experiment，避免重跑模型",
+    "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83",
+    "dataset_name": "repomind-v12-live-dev-27953acce518",
+    "dataset_prefix": "repomind-v12-live-dev",
+    "status": "partial",
+    "cloud_verified": false,
+    "blocked_non_synthetic": [],
+    "experiments": [
+      {
+        "provider": "mem0",
+        "experiment_id": "73ed5d988c5e9459e8cc561e17c58df7",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:73ed5d988c5e9459e8cc561e17c58df7",
+        "status": "sent_unconfirmed"
+      },
+      {
+        "provider": "no_memory",
+        "experiment_id": "f12f53ed5b857034a13dd3f1187366db",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:f12f53ed5b857034a13dd3f1187366db",
+        "status": "sent_unconfirmed"
+      },
+      {
+        "provider": "repomind_hybrid",
+        "experiment_id": "39469f3a0bf5d68ea4a90a3df3e904a5",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:39469f3a0bf5d68ea4a90a3df3e904a5",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "provider": "repomind_semantic",
+        "experiment_id": "ed0356cb0e9b951672850d6fb987bf89",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:ed0356cb0e9b951672850d6fb987bf89",
+        "status": "sent_unconfirmed"
+      }
+    ],
+    "model_executed_during_export": false,
+    "delivery_semantics": "at-least-once; interrupted replays can create duplicate observation IDs"
+  },
+  "cloud_verified": false
+}

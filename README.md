@@ -2,7 +2,7 @@
 
 公平比较受控Mem0与自研MemoryProvider的质量、延迟和实际模型用量，并把固定实验的trace、dataset、experiment显式同步到用户配置的既有Langfuse项目。保留V1/V1.1的项目隔离、双时间、计划/完成/纠错和来源证据；本轮不进入V2代码Agent、OpenViking或Harness优化。
 
-当前为 **1.2.0候选交付**。最终测试、真实比较与cloud验证分别见[V1.2交付记录](docs/v1.2-delivery.md)，不把离线回放或flush当作真实平台验收。上一版V1.1的311项测试和24条真实查询属于历史基线，见[原验收报告](reports/v1.1/acceptance.md)。
+当前交付 **1.2.0**（2026-10-28）：426项平台测试通过，基础环境407项通过、19项按预期跳过；80条trace和8个experiment已真实读回核验。真实dev仍有检索质量限制，详见[V1.2交付记录](docs/v1.2-delivery.md)。上一版V1.1的311项测试和24条真实查询属于历史基线，见[原验收报告](reports/v1.1/acceptance.md)。
 
 ## 核心架构与技术选择
 
@@ -38,6 +38,13 @@ $RepoMindExe = '.\.venv-v12\Scripts\repomind.exe'
 ```
 
 本次工作区已准备的平台环境可直接设置`$RepoMindExe = '..\..\work\v12-venv\Scripts\repomind.exe'`。platform锁定Langfuse5.0.4、mem0ai2.2.1、qdrant-client1.20.0；受控环境不额外安装会触发模型下载的spaCy/fastembed组件。
+
+精确复现本次验收时，使用Python3.12和`requirements-platform.lock`安装完整依赖，再安装项目；锁文件来自本轮Windows隔离环境，不声称覆盖所有Python/操作系统组合：
+
+```powershell
+.\.venv-v12\Scripts\python.exe -m pip install -r requirements-platform.lock
+.\.venv-v12\Scripts\python.exe -m pip install --no-deps -e .
+```
 
 ## 配置现有服务
 

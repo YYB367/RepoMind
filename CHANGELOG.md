@@ -1,10 +1,10 @@
-# 阶段目标：RepoMind V1.2 Evaluation Platform — 2026-10-27
+# 阶段目标：RepoMind V1.2 Evaluation Platform — 2026-10-28
 
-本阶段增加公平MemoryProvider对照、实际usage/延迟与可选价卡估算，以及Langfuse trace/dataset/experiment的outbox与服务读回核验。当前为1.2.0候选交付，最终测试、live与cloud结果以docs/v1.2-delivery.md和reports/v1.2为准，不沿用V1.1历史数字作为本轮成绩。
+本阶段增加公平MemoryProvider对照、实际usage/延迟与可选价卡估算，以及Langfuse trace/dataset/experiment的outbox与服务读回核验。1.2.0平台工程验收完成：426项测试通过，真实云端核对80条trace和8个experiment；真实dev质量限制仍保留。完整结果见docs/v1.2-delivery.md和reports/v1.2，不沿用V1.1历史数字作为本轮成绩。
 
 ## V1.2 新增/修改
 
-- `docs/v1.2-stage-plan.md`、`docs/v1.2-technologies.md`、ADR0011–0014：SDK5/OTEL、受控Mem0公共配置桥、公平测量、usage/价卡和云端ACK设计。
+- `docs/v1.2-stage-plan.md`、`docs/v1.2-technologies.md`、ADR0011–0015：SDK5/OTEL、受控Mem0公共配置桥、公平测量、usage/价卡和云端ACK设计，以及真实云端契约修复。
 - `src/repomind/comparison/`：no_memory、repomind_semantic、repomind_hybrid、mem0受控profile；共享V1事实规则，主后端比较限定semantic与Mem0。
 - `comparison/mem0.py`：infer=False、项目/known_at快照、本地Qdrant/history、Embedding回环桥、遥测/目录/可选模型控制、状态与资源关闭。
 - `comparison/telemetry.py`、`pricing.py`：实际请求/usage和输入/向量hash、可选明确价卡估算；默认费用null。
@@ -13,7 +13,8 @@
 - `data/v1.2/`：3新项目、30事件、12dev/8holdout、44条6维人工理想向量、UTF-8 LF冻结manifest；未改旧版金标。
 - `pyproject.toml`的可选platform extra：Langfuse5.0.4、mem0ai2.2.1、qdrant-client1.20.0；基础依赖继续轻量，平台延迟import。
 - `README.md`、`docs/v1.2-usage.md`、`docs/v1.2-delivery.md`、`price-card.example.json`：安装、配置、对照、同步、费用缺失和回滚说明。价格示例为CNY空models，未包含真实报价。
-- 新比较/桥接/测量/价卡/outbox/平台SDK/CLI测试与reports/v1.2产物：最终数量和真实结果由主线验收填入，不预写通过。
+- 新比较/桥接/测量/价卡/outbox/平台SDK/CLI测试：平台426 passed，基础407 passed/19 skipped。真实dev最终语义7/12、混合8/12、Mem0受控7/12；首次真实holdout三组有记忆方案均8/8。旧门槛失败、校准和云端初次失败均留档。
+- 云端读取移除弃用参数，token别名转input/output/total防重复求和；SDK批量flush后核验，并支持--verify-only只读确认。没有为同步重跑模型，货币费用维持未知。
 
 V1/V1.1代码入口、冻结数据、报告和历史标签保留。本轮不实现V2代码Agent、OpenViking或Harness优化，不推送远程或部署平台服务器。以下旧版本记录保留其当时语境。
 

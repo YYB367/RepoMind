@@ -1,0 +1,487 @@
+{
+  "stage_goal": "V1.2 Evaluation Platform: controlled backend comparisons, measured usage and verified Langfuse experiments",
+  "date": "2026-10-28",
+  "version": "1.2.0",
+  "status": "engineering_accepted_with_quality_limitations",
+  "scope": "controlled retrieval only; Mem0 infer=False; shared V1 resolver; V2 not implemented",
+  "tests": {
+    "platform": {
+      "tests": 426,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 426,
+      "seconds": 39.495
+    },
+    "base": {
+      "tests": 426,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 19,
+      "passed": 407,
+      "seconds": 27.611
+    }
+  },
+  "quality": {
+    "dev_first_055": {
+      "no_memory": {
+        "total_queries": 12,
+        "correct": 2,
+        "accuracy": 0.16666666666666666,
+        "key_queries": 10,
+        "recalled_at_3": 0,
+        "recall_at_3": 0.0,
+        "top1_key_correct": 0,
+        "top1_key_accuracy": 0.0,
+        "no_key_queries": 2,
+        "no_key_correct": 2,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 0,
+        "citation_total": 0,
+        "source_validity": null,
+        "project_leakage_count": 0,
+        "answer_correct_count": 2,
+        "source_set_correct_count": 2,
+        "failure_stage_counts": {
+          "retrieval": 10,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_semantic": {
+        "total_queries": 12,
+        "correct": 2,
+        "accuracy": 0.16666666666666666,
+        "key_queries": 10,
+        "recalled_at_3": 0,
+        "recall_at_3": 0.0,
+        "top1_key_correct": 0,
+        "top1_key_accuracy": 0.0,
+        "no_key_queries": 2,
+        "no_key_correct": 2,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 0,
+        "citation_total": 0,
+        "source_validity": null,
+        "project_leakage_count": 0,
+        "answer_correct_count": 2,
+        "source_set_correct_count": 2,
+        "failure_stage_counts": {
+          "retrieval": 10,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_hybrid": {
+        "total_queries": 12,
+        "correct": 7,
+        "accuracy": 0.5833333333333334,
+        "key_queries": 10,
+        "recalled_at_3": 10,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 5,
+        "top1_key_accuracy": 0.5,
+        "no_key_queries": 2,
+        "no_key_correct": 2,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 16,
+        "citation_total": 16,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 7,
+        "source_set_correct_count": 7,
+        "failure_stage_counts": {
+          "retrieval": 5,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "mem0": {
+        "total_queries": 12,
+        "correct": 2,
+        "accuracy": 0.16666666666666666,
+        "key_queries": 10,
+        "recalled_at_3": 0,
+        "recall_at_3": 0.0,
+        "top1_key_correct": 0,
+        "top1_key_accuracy": 0.0,
+        "no_key_queries": 2,
+        "no_key_correct": 2,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 0,
+        "citation_total": 0,
+        "source_validity": null,
+        "project_leakage_count": 0,
+        "answer_correct_count": 2,
+        "source_set_correct_count": 2,
+        "failure_stage_counts": {
+          "retrieval": 10,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      }
+    },
+    "dev_final_020": {
+      "no_memory": {
+        "total_queries": 12,
+        "correct": 2,
+        "accuracy": 0.16666666666666666,
+        "key_queries": 10,
+        "recalled_at_3": 0,
+        "recall_at_3": 0.0,
+        "top1_key_correct": 0,
+        "top1_key_accuracy": 0.0,
+        "no_key_queries": 2,
+        "no_key_correct": 2,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 0,
+        "citation_total": 0,
+        "source_validity": null,
+        "project_leakage_count": 0,
+        "answer_correct_count": 2,
+        "source_set_correct_count": 2,
+        "failure_stage_counts": {
+          "retrieval": 10,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_semantic": {
+        "total_queries": 12,
+        "correct": 7,
+        "accuracy": 0.5833333333333334,
+        "key_queries": 10,
+        "recalled_at_3": 10,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 7,
+        "top1_key_accuracy": 0.7,
+        "no_key_queries": 2,
+        "no_key_correct": 0,
+        "no_key_rejection_rate": 0.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 0,
+        "unknown_information_handling_rate": 0.0,
+        "citation_valid": 36,
+        "citation_total": 36,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 7,
+        "source_set_correct_count": 7,
+        "failure_stage_counts": {
+          "retrieval": 5,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_hybrid": {
+        "total_queries": 12,
+        "correct": 8,
+        "accuracy": 0.6666666666666666,
+        "key_queries": 10,
+        "recalled_at_3": 10,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 8,
+        "top1_key_accuracy": 0.8,
+        "no_key_queries": 2,
+        "no_key_correct": 0,
+        "no_key_rejection_rate": 0.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 0,
+        "unknown_information_handling_rate": 0.0,
+        "citation_valid": 36,
+        "citation_total": 36,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 8,
+        "source_set_correct_count": 8,
+        "failure_stage_counts": {
+          "retrieval": 4,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "mem0": {
+        "total_queries": 12,
+        "correct": 7,
+        "accuracy": 0.5833333333333334,
+        "key_queries": 10,
+        "recalled_at_3": 10,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 7,
+        "top1_key_accuracy": 0.7,
+        "no_key_queries": 2,
+        "no_key_correct": 0,
+        "no_key_rejection_rate": 0.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 0,
+        "unknown_information_handling_rate": 0.0,
+        "citation_valid": 36,
+        "citation_total": 36,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 7,
+        "source_set_correct_count": 7,
+        "failure_stage_counts": {
+          "retrieval": 5,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      }
+    },
+    "holdout_first_020": {
+      "no_memory": {
+        "total_queries": 8,
+        "correct": 1,
+        "accuracy": 0.125,
+        "key_queries": 7,
+        "recalled_at_3": 0,
+        "recall_at_3": 0.0,
+        "top1_key_correct": 0,
+        "top1_key_accuracy": 0.0,
+        "no_key_queries": 1,
+        "no_key_correct": 1,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 1,
+        "unknown_information_handling_rate": 0.5,
+        "citation_valid": 0,
+        "citation_total": 0,
+        "source_validity": null,
+        "project_leakage_count": 0,
+        "answer_correct_count": 2,
+        "source_set_correct_count": 2,
+        "failure_stage_counts": {
+          "retrieval": 7,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_semantic": {
+        "total_queries": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "key_queries": 7,
+        "recalled_at_3": 7,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 7,
+        "top1_key_accuracy": 1.0,
+        "no_key_queries": 1,
+        "no_key_correct": 1,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 21,
+        "citation_total": 21,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 8,
+        "source_set_correct_count": 8,
+        "failure_stage_counts": {
+          "retrieval": 0,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "repomind_hybrid": {
+        "total_queries": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "key_queries": 7,
+        "recalled_at_3": 7,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 7,
+        "top1_key_accuracy": 1.0,
+        "no_key_queries": 1,
+        "no_key_correct": 1,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 21,
+        "citation_total": 21,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 8,
+        "source_set_correct_count": 8,
+        "failure_stage_counts": {
+          "retrieval": 0,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      },
+      "mem0": {
+        "total_queries": 8,
+        "correct": 8,
+        "accuracy": 1.0,
+        "key_queries": 7,
+        "recalled_at_3": 7,
+        "recall_at_3": 1.0,
+        "top1_key_correct": 7,
+        "top1_key_accuracy": 1.0,
+        "no_key_queries": 1,
+        "no_key_correct": 1,
+        "no_key_rejection_rate": 1.0,
+        "unknown_expected_count": 2,
+        "unknown_correct": 2,
+        "unknown_information_handling_rate": 1.0,
+        "citation_valid": 21,
+        "citation_total": 21,
+        "source_validity": 1.0,
+        "project_leakage_count": 0,
+        "answer_correct_count": 8,
+        "source_set_correct_count": 8,
+        "failure_stage_counts": {
+          "retrieval": 0,
+          "resolution": 0,
+          "provenance": 0
+        },
+        "infrastructure_error_count": 0
+      }
+    }
+  },
+  "calibration": {
+    "min_cosine": 0.2,
+    "top_k": 3,
+    "seed": 0,
+    "selected_on_dev_only": true,
+    "protocol": "holdout-protocol.json"
+  },
+  "models": {
+    "embedding": "qwen3.7-text-embedding-flash",
+    "dimensions": 1024,
+    "chat_invoked_this_stage": false
+  },
+  "actual_usage_all_paid_runs": {
+    "request_count": 163,
+    "input_tokens": 8036,
+    "monetary_cost": null,
+    "price_card": null,
+    "billing_verified": false
+  },
+  "cloud": {
+    "verified_traces": 80,
+    "verified_dataset_items": 20,
+    "verified_experiments": 8,
+    "verified_experiment_item_outputs": 80,
+    "receipts": [
+      "langfuse-dev-verified.json",
+      "langfuse-holdout-verified.json"
+    ],
+    "experiments": [
+      {
+        "split": "dev",
+        "provider": "mem0",
+        "experiment_id": "7fdbf728a5ff521d140ce73ead5ed403",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:7fdbf728a5ff521d140ce73ead5ed403",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "dev",
+        "provider": "no_memory",
+        "experiment_id": "29b38ef4240dc1ac36ac11ddc458a69b",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:29b38ef4240dc1ac36ac11ddc458a69b",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "dev",
+        "provider": "repomind_hybrid",
+        "experiment_id": "a02a3368b5e045acc7c72846daaf279b",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:a02a3368b5e045acc7c72846daaf279b",
+        "status": "verified",
+        "skipped_verified": true
+      },
+      {
+        "split": "dev",
+        "provider": "repomind_semantic",
+        "experiment_id": "c46a238b569fc911ba21cfb7549f65ed",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:c46a238b569fc911ba21cfb7549f65ed",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "holdout",
+        "provider": "mem0",
+        "experiment_id": "88ed26c9af6a6dffd3973a6137229943",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:88ed26c9af6a6dffd3973a6137229943",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "holdout",
+        "provider": "no_memory",
+        "experiment_id": "df45d79eb2dac68736a4685323545e86",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:df45d79eb2dac68736a4685323545e86",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "holdout",
+        "provider": "repomind_hybrid",
+        "experiment_id": "f9648319f858dcbe149dd6c8c8cb619b",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:f9648319f858dcbe149dd6c8c8cb619b",
+        "status": "verified",
+        "skipped_verified": false
+      },
+      {
+        "split": "holdout",
+        "provider": "repomind_semantic",
+        "experiment_id": "5f772ebcc12b835a138e13fa04136070",
+        "target_id": "langfuse:afba6ff998393dd7e84bb96a4b20fc83:experiment:5f772ebcc12b835a138e13fa04136070",
+        "status": "verified",
+        "skipped_verified": false
+      }
+    ],
+    "models_reexecuted_during_sync": false
+  },
+  "regression": {
+    "v1_dev": "32/32",
+    "v1_holdout": "16/16",
+    "v11_recorded_dev": "16/16 queries, 13/13 facts",
+    "v11_recorded_holdout": "8/8 queries, 7/7 facts"
+  },
+  "limitations": [
+    "dev unknown rejection and subject disambiguation remain weak",
+    "20 synthetic queries are not production evidence",
+    "live input-set parity is true but vector-digest parity false",
+    "no price card or invoice reconciliation",
+    "at-least-once export can duplicate spans",
+    "obsolete first cloud run has wrong raw-alias aggregate and is excluded from final cloud usage evidence"
+  ],
+  "first_results_preserved": true,
+  "frozen_gold_changed": false,
+  "live_reports_candidate_version": "1.2.0rc1",
+  "release_changes_after_model_measurement": [
+    "cloud field mapping and verification",
+    "batch export and read-only verification",
+    "release version metadata; retrieval algorithm unchanged"
+  ]
+}

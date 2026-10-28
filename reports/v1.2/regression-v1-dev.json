@@ -1,0 +1,2548 @@
+{
+  "report_version": "1.0",
+  "generated_at": "2026-10-28T05:20:18.404398+00:00",
+  "strategy": "v1_temporal_rules",
+  "config": {
+    "events_path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\fixtures\\conversations.jsonl",
+    "dataset_path": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind\\data\\dev\\questions.jsonl",
+    "events_sha256": "4542212c9842d1ba32a10fa492eed573db56bb77698d7bb68fb4ecd13e8bac69",
+    "dataset_sha256": "7820c63c1891be167e61e55354a378d20e62568c057351528f27c63bfd080c8b",
+    "python_version": "3.12.14",
+    "repomind_version": "1.1.0",
+    "pydantic_version": "2.14.1",
+    "sqlite_version": "3.53.1",
+    "database": "fresh temporary SQLite; removed after scoring",
+    "import": {
+      "imported": 60,
+      "duplicates": 0
+    },
+    "scoring": "all queries: exact status/value + exact event ID set + ledger citation validity",
+    "date_policy": "date-only queries mean end-of-day UTC; known_at is optional",
+    "baseline_policy": "same scope; observed_at<=as_of and known_at if given; max(observed_at,event_id); ignores event_type/effective_at/correction links",
+    "failure_stage_precedence": [
+      "invalid provenance",
+      "missing retrieval candidates",
+      "incorrect resolution",
+      "wrong evidence selection"
+    ],
+    "project_leakage_unit": "number of queries containing any out-of-project candidate/citation"
+  },
+  "metrics": {
+    "total": 32,
+    "correct": 32,
+    "accuracy": 1.0,
+    "answer_accuracy": 1.0,
+    "categories": {
+      "basic": {
+        "total": 6,
+        "correct": 6,
+        "accuracy": 1.0
+      },
+      "cross_session": {
+        "total": 6,
+        "correct": 6,
+        "accuracy": 1.0
+      },
+      "isolation": {
+        "total": 5,
+        "correct": 5,
+        "accuracy": 1.0
+      },
+      "state": {
+        "total": 5,
+        "correct": 5,
+        "accuracy": 1.0
+      },
+      "temporal": {
+        "total": 5,
+        "correct": 5,
+        "accuracy": 1.0
+      },
+      "unknown": {
+        "total": 5,
+        "correct": 5,
+        "accuracy": 1.0
+      }
+    },
+    "query_total": 43,
+    "unknown_correct": 5,
+    "unknown_expected_count": 5,
+    "unknown_information_handling_rate": 1.0,
+    "refusal_correct": 6,
+    "refusal_expected_count": 6,
+    "refusal_correctness": 1.0,
+    "project_leakage_count": 0,
+    "citation_valid": 42,
+    "citation_total": 42,
+    "source_citation_correctness": 1.0,
+    "evidence_match_count": 43,
+    "evidence_match_rate": 1.0,
+    "runtime_seconds": 0.08957360000931658
+  },
+  "failures": [],
+  "cases": [
+    {
+      "question_id": "D-B01",
+      "category": "basic",
+      "description": "召回校园招聘框架。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "framework",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Spring Boot 3",
+            "event_ids": [
+              "C02"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Spring Boot 3",
+            "evidence": [
+              {
+                "event_id": "C02",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "framework",
+                "value": "Spring Boot 3",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C02"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001143500005127862
+    },
+    {
+      "question_id": "D-B02",
+      "category": "basic",
+      "description": "召回校园招聘语言。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "language",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Java 21",
+            "event_ids": [
+              "C03"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Java 21",
+            "evidence": [
+              {
+                "event_id": "C03",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "language",
+                "value": "Java 21",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C03"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001138899999205023
+    },
+    {
+      "question_id": "D-B03",
+      "category": "basic",
+      "description": "召回账本框架。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "framework",
+            "as_of": "2026-03-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "FastAPI",
+            "event_ids": [
+              "S02"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "FastAPI",
+            "evidence": [
+              {
+                "event_id": "S02",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "framework",
+                "value": "FastAPI",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S02"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0009888999920804054
+    },
+    {
+      "question_id": "D-B04",
+      "category": "basic",
+      "description": "召回账本语言版本。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "language",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Python 3.12",
+            "event_ids": [
+              "S03"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Python 3.12",
+            "evidence": [
+              {
+                "event_id": "S03",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "language",
+                "value": "Python 3.12",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S03"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.000898600002983585
+    },
+    {
+      "question_id": "D-B05",
+      "category": "basic",
+      "description": "召回校园招聘接口风格。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "api",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "REST",
+            "event_ids": [
+              "C13"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "REST",
+            "evidence": [
+              {
+                "event_id": "C13",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "api",
+                "value": "REST",
+                "event_type": "declare",
+                "observed_at": "2026-01-03T00:00:00Z",
+                "effective_at": "2026-01-03T00:00:00Z",
+                "source_id": "campus-session-02",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C13"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0010731000220403075
+    },
+    {
+      "question_id": "D-B06",
+      "category": "basic",
+      "description": "召回账本接口风格。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "api",
+            "as_of": "2026-02-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "GraphQL",
+            "event_ids": [
+              "S12"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "GraphQL",
+            "evidence": [
+              {
+                "event_id": "S12",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "api",
+                "value": "GraphQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-07T00:00:00Z",
+                "effective_at": "2026-01-07T00:00:00Z",
+                "source_id": "shop-session-07",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S12"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0008687000081408769
+    },
+    {
+      "question_id": "D-T01",
+      "category": "temporal",
+      "description": "迁移计划之前仍使用旧数据库。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-02-15T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "C01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "C01",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001516399992397055
+    },
+    {
+      "question_id": "D-T02",
+      "category": "temporal",
+      "description": "迁移计划没有改变实际数据库。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "C01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "C01",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": [
+              "C05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001393500017002225
+    },
+    {
+      "question_id": "D-T03",
+      "category": "temporal",
+      "description": "完成迁移后使用新数据库。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "C06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "C06",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "complete",
+                "observed_at": "2026-04-02T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "campus-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": [
+              "C05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0016849000239744782
+    },
+    {
+      "question_id": "D-T04",
+      "category": "temporal",
+      "description": "账本迁移完成前使用 SQLite。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-02-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "S01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "S01",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S01",
+              "S05",
+              "S06"
+            ],
+            "plan_event_ids": [
+              "S05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0018671000143513083
+    },
+    {
+      "question_id": "D-T05",
+      "category": "temporal",
+      "description": "当时尚未观察到迟到的完成记录。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-03-01T23:59:59.999999Z",
+            "known_at": "2026-03-01T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "S01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "S01",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S01",
+              "S05"
+            ],
+            "plan_event_ids": [
+              "S05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0017632999806664884
+    },
+    {
+      "question_id": "D-S01",
+      "category": "state",
+      "description": "用当前知识重建被纠正的历史配置。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "runtime_memory",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "16GB",
+            "event_ids": [
+              "C09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "16GB",
+            "evidence": [
+              {
+                "event_id": "C09",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "runtime_memory",
+                "value": "16GB",
+                "event_type": "correct",
+                "observed_at": "2026-02-05T00:00:00Z",
+                "effective_at": "2026-01-10T00:00:00Z",
+                "source_id": "campus-session-07",
+                "supersedes_event_id": "C08"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C08",
+              "C09"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0017016000056173652
+    },
+    {
+      "question_id": "D-S02",
+      "category": "state",
+      "description": "纠错记录出现前所知的配置仍为旧值。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "runtime_memory",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": "2026-02-01T23:59:59.999999Z"
+          },
+          "expected": {
+            "status": "ok",
+            "value": "8GB",
+            "event_ids": [
+              "C08"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "8GB",
+            "evidence": [
+              {
+                "event_id": "C08",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "runtime_memory",
+                "value": "8GB",
+                "event_type": "declare",
+                "observed_at": "2026-01-10T00:00:00Z",
+                "effective_at": "2026-01-10T00:00:00Z",
+                "source_id": "campus-session-06",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C08"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0009165999945253134
+    },
+    {
+      "question_id": "D-S03",
+      "category": "state",
+      "description": "明确纠错替代币种错误。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "currency",
+            "as_of": "2026-02-15T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "CNY",
+            "event_ids": [
+              "S09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "CNY",
+            "evidence": [
+              {
+                "event_id": "S09",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "currency",
+                "value": "CNY",
+                "event_type": "correct",
+                "observed_at": "2026-02-02T00:00:00Z",
+                "effective_at": "2026-01-10T00:00:00Z",
+                "source_id": "shop-session-06",
+                "supersedes_event_id": "S08"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S08",
+              "S09"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0011457999935373664
+    },
+    {
+      "question_id": "D-S04",
+      "category": "state",
+      "description": "同刻时区相互矛盾，拒绝确定答案。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "timezone",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "event_ids": [
+              "S13",
+              "S14"
+            ]
+          },
+          "actual": {
+            "status": "insufficient_evidence",
+            "value": null,
+            "evidence": [
+              {
+                "event_id": "S13",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "timezone",
+                "value": "UTC",
+                "event_type": "declare",
+                "observed_at": "2026-01-08T00:00:00Z",
+                "effective_at": "2026-01-08T00:00:00Z",
+                "source_id": "shop-session-08",
+                "supersedes_event_id": null
+              },
+              {
+                "event_id": "S14",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "timezone",
+                "value": "Asia/Shanghai",
+                "event_type": "declare",
+                "observed_at": "2026-01-09T00:00:00Z",
+                "effective_at": "2026-01-08T00:00:00Z",
+                "source_id": "shop-session-09",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "conflicting_effective_facts",
+            "considered_event_ids": [
+              "S13",
+              "S14"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 2,
+          "citation_total": 2,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0013943999947514385
+    },
+    {
+      "question_id": "D-S05",
+      "category": "state",
+      "description": "纠错只替代指定分支，同值证据联合返回。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-03-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "RabbitMQ",
+            "event_ids": [
+              "C14",
+              "C16"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "RabbitMQ",
+            "evidence": [
+              {
+                "event_id": "C14",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "queue",
+                "value": "RabbitMQ",
+                "event_type": "declare",
+                "observed_at": "2026-03-10T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "campus-session-10",
+                "supersedes_event_id": null
+              },
+              {
+                "event_id": "C16",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "queue",
+                "value": "RabbitMQ",
+                "event_type": "correct",
+                "observed_at": "2026-03-12T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "campus-session-12",
+                "supersedes_event_id": "C15"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C14",
+              "C15",
+              "C16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 2,
+          "citation_total": 2,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0016919999907258898
+    },
+    {
+      "question_id": "D-C01",
+      "category": "cross_session",
+      "description": "关联校园招聘不同会话的框架与 CI。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "framework",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Spring Boot 3",
+            "event_ids": [
+              "C02"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Spring Boot 3",
+            "evidence": [
+              {
+                "event_id": "C02",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "framework",
+                "value": "Spring Boot 3",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C02"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "ci",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "GitHub Actions",
+            "event_ids": [
+              "C07"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "GitHub Actions",
+            "evidence": [
+              {
+                "event_id": "C07",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "ci",
+                "value": "GitHub Actions",
+                "event_type": "declare",
+                "observed_at": "2026-01-05T00:00:00Z",
+                "effective_at": "2026-01-05T00:00:00Z",
+                "source_id": "campus-session-05",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C07"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0017686000210233033
+    },
+    {
+      "question_id": "D-C02",
+      "category": "cross_session",
+      "description": "关联已完成迁移与已纠错配置。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "C06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "C06",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "complete",
+                "observed_at": "2026-04-02T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "campus-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": [
+              "C05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "runtime_memory",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "16GB",
+            "event_ids": [
+              "C09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "16GB",
+            "evidence": [
+              {
+                "event_id": "C09",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "runtime_memory",
+                "value": "16GB",
+                "event_type": "correct",
+                "observed_at": "2026-02-05T00:00:00Z",
+                "effective_at": "2026-01-10T00:00:00Z",
+                "source_id": "campus-session-07",
+                "supersedes_event_id": "C08"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C08",
+              "C09"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.002571100019849837
+    },
+    {
+      "question_id": "D-C03",
+      "category": "cross_session",
+      "description": "关联账本框架与独立会话币种决定。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "framework",
+            "as_of": "2026-02-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "FastAPI",
+            "event_ids": [
+              "S02"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "FastAPI",
+            "evidence": [
+              {
+                "event_id": "S02",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "framework",
+                "value": "FastAPI",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S02"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "currency",
+            "as_of": "2026-02-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "CNY",
+            "event_ids": [
+              "S09"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "CNY",
+            "evidence": [
+              {
+                "event_id": "S09",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "currency",
+                "value": "CNY",
+                "event_type": "correct",
+                "observed_at": "2026-02-02T00:00:00Z",
+                "effective_at": "2026-01-10T00:00:00Z",
+                "source_id": "shop-session-06",
+                "supersedes_event_id": "S08"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S08",
+              "S09"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001969599979929626
+    },
+    {
+      "question_id": "D-C04",
+      "category": "cross_session",
+      "description": "账本数据库和部署均来自各自完成记录。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "event_ids": [
+              "S06"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "PostgreSQL",
+            "evidence": [
+              {
+                "event_id": "S06",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "PostgreSQL",
+                "event_type": "complete",
+                "observed_at": "2026-03-03T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "shop-session-04",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S01",
+              "S05",
+              "S06"
+            ],
+            "plan_event_ids": [
+              "S05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "deployment",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Docker",
+            "event_ids": [
+              "S19"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Docker",
+            "evidence": [
+              {
+                "event_id": "S19",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "deployment",
+                "value": "Docker",
+                "event_type": "complete",
+                "observed_at": "2026-04-01T00:00:00Z",
+                "effective_at": "2026-04-01T00:00:00Z",
+                "source_id": "shop-session-14",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S04",
+              "S19"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.003167799994116649
+    },
+    {
+      "question_id": "D-C05",
+      "category": "cross_session",
+      "description": "关联缓存完成与队列纠错会话。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "cache",
+            "as_of": "2026-04-16T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "Redis",
+            "event_ids": [
+              "C19"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "Redis",
+            "evidence": [
+              {
+                "event_id": "C19",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "cache",
+                "value": "Redis",
+                "event_type": "complete",
+                "observed_at": "2026-04-15T00:00:00Z",
+                "effective_at": "2026-04-15T00:00:00Z",
+                "source_id": "campus-session-15",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C11",
+              "C19"
+            ],
+            "plan_event_ids": [
+              "C11"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-04-16T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "RabbitMQ",
+            "event_ids": [
+              "C14",
+              "C16"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "RabbitMQ",
+            "evidence": [
+              {
+                "event_id": "C14",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "queue",
+                "value": "RabbitMQ",
+                "event_type": "declare",
+                "observed_at": "2026-03-10T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "campus-session-10",
+                "supersedes_event_id": null
+              },
+              {
+                "event_id": "C16",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "queue",
+                "value": "RabbitMQ",
+                "event_type": "correct",
+                "observed_at": "2026-03-12T00:00:00Z",
+                "effective_at": "2026-03-01T00:00:00Z",
+                "source_id": "campus-session-12",
+                "supersedes_event_id": "C15"
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C14",
+              "C15",
+              "C16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 2,
+          "citation_total": 2,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.002928100002463907
+    },
+    {
+      "question_id": "D-C06",
+      "category": "cross_session",
+      "description": "联合区域双来源佐证与接口记录。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "region",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "event_ids": [
+              "S15",
+              "S16"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "ap-east-1",
+            "evidence": [
+              {
+                "event_id": "S15",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "region",
+                "value": "ap-east-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-12T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "shop-session-10",
+                "supersedes_event_id": null
+              },
+              {
+                "event_id": "S16",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "region",
+                "value": "ap-east-1",
+                "event_type": "declare",
+                "observed_at": "2026-01-13T00:00:00Z",
+                "effective_at": "2026-01-12T00:00:00Z",
+                "source_id": "shop-session-11",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S15",
+              "S16"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 2,
+          "citation_total": 2,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "api",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "GraphQL",
+            "event_ids": [
+              "S12"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "GraphQL",
+            "evidence": [
+              {
+                "event_id": "S12",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "api",
+                "value": "GraphQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-07T00:00:00Z",
+                "effective_at": "2026-01-07T00:00:00Z",
+                "source_id": "shop-session-07",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S12"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0023034999903757125
+    },
+    {
+      "question_id": "D-I01",
+      "category": "isolation",
+      "description": "相同字段在两个项目中各自解析。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "C01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "C01",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-01-20T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "S01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "S01",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S01",
+              "S05",
+              "S06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0032970000174827874
+    },
+    {
+      "question_id": "D-I02",
+      "category": "isolation",
+      "description": "分析模块不能覆盖项目默认数据库。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "analytics",
+            "predicate": "database",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "DuckDB",
+            "event_ids": [
+              "S18"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "DuckDB",
+            "evidence": [
+              {
+                "event_id": "S18",
+                "project_id": "ShopLedger",
+                "subject": "analytics",
+                "predicate": "database",
+                "value": "DuckDB",
+                "event_type": "declare",
+                "observed_at": "2026-01-11T00:00:00Z",
+                "effective_at": "2026-01-11T00:00:00Z",
+                "source_id": "shop-session-13",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S18"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "S01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "S01",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-02T00:00:00Z",
+                "effective_at": "2026-01-02T00:00:00Z",
+                "source_id": "shop-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S01",
+              "S05",
+              "S06"
+            ],
+            "plan_event_ids": [
+              "S05"
+            ]
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0023805000237189233
+    },
+    {
+      "question_id": "D-I03",
+      "category": "isolation",
+      "description": "测试工具数据库与项目数据库隔离。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "test-harness",
+            "predicate": "database",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "SQLite",
+            "event_ids": [
+              "C20"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "SQLite",
+            "evidence": [
+              {
+                "event_id": "C20",
+                "project_id": "CampusRecruit",
+                "subject": "test-harness",
+                "predicate": "database",
+                "value": "SQLite",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C20"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "MySQL",
+            "event_ids": [
+              "C01"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "MySQL",
+            "evidence": [
+              {
+                "event_id": "C01",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "database",
+                "value": "MySQL",
+                "event_type": "declare",
+                "observed_at": "2026-01-01T00:00:00Z",
+                "effective_at": "2026-01-01T00:00:00Z",
+                "source_id": "campus-session-01",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.002345700020669028
+    },
+    {
+      "question_id": "D-I04",
+      "category": "isolation",
+      "description": "同名 CI 字段不会跨项目串用。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "ci",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "GitHub Actions",
+            "event_ids": [
+              "C07"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "GitHub Actions",
+            "evidence": [
+              {
+                "event_id": "C07",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "ci",
+                "value": "GitHub Actions",
+                "event_type": "declare",
+                "observed_at": "2026-01-05T00:00:00Z",
+                "effective_at": "2026-01-05T00:00:00Z",
+                "source_id": "campus-session-05",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C07"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "ci",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "GitLab CI",
+            "event_ids": [
+              "S07"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "GitLab CI",
+            "evidence": [
+              {
+                "event_id": "S07",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "ci",
+                "value": "GitLab CI",
+                "event_type": "declare",
+                "observed_at": "2026-01-04T00:00:00Z",
+                "effective_at": "2026-01-04T00:00:00Z",
+                "source_id": "shop-session-02",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S07",
+              "S20"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0020425999828148633
+    },
+    {
+      "question_id": "D-I05",
+      "category": "isolation",
+      "description": "分支策略按项目隔离。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "branch",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "main",
+            "event_ids": [
+              "C10"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "main",
+            "evidence": [
+              {
+                "event_id": "C10",
+                "project_id": "CampusRecruit",
+                "subject": "project",
+                "predicate": "branch",
+                "value": "main",
+                "event_type": "declare",
+                "observed_at": "2026-01-03T00:00:00Z",
+                "effective_at": "2026-01-03T00:00:00Z",
+                "source_id": "campus-session-02",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "C10"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        },
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "branch",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "ok",
+            "value": "develop",
+            "event_ids": [
+              "S10"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "value": "develop",
+            "evidence": [
+              {
+                "event_id": "S10",
+                "project_id": "ShopLedger",
+                "subject": "project",
+                "predicate": "branch",
+                "value": "develop",
+                "event_type": "declare",
+                "observed_at": "2026-01-03T00:00:00Z",
+                "effective_at": "2026-01-03T00:00:00Z",
+                "source_id": "shop-session-02",
+                "supersedes_event_id": null
+              }
+            ],
+            "reason": "latest_effective_fact",
+            "considered_event_ids": [
+              "S10"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 1,
+          "citation_total": 1,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001722499990137294
+    },
+    {
+      "question_id": "D-U01",
+      "category": "unknown",
+      "description": "从未记录的移动平台不能臆测。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "mobile_platform",
+            "as_of": "2026-02-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "no_effective_fact",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00027320001390762627
+    },
+    {
+      "question_id": "D-U02",
+      "category": "unknown",
+      "description": "只有计划，没有队列实际状态证据。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "project",
+            "predicate": "queue",
+            "as_of": "2026-03-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "only_plans",
+            "considered_event_ids": [
+              "S17"
+            ],
+            "plan_event_ids": [
+              "S17"
+            ]
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0005830999871250242
+    },
+    {
+      "question_id": "D-U03",
+      "category": "unknown",
+      "description": "不存在项目不能借用其它项目事实。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "MissingProject",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2026-04-10T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "no_effective_fact",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.00026780000189319253
+    },
+    {
+      "question_id": "D-U04",
+      "category": "unknown",
+      "description": "首条事件之前的历史状态未知。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "CampusRecruit",
+            "subject": "project",
+            "predicate": "database",
+            "as_of": "2025-12-31T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "no_effective_fact",
+            "considered_event_ids": [
+              "C01",
+              "C05",
+              "C06"
+            ],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.001090999983716756
+    },
+    {
+      "question_id": "D-U05",
+      "category": "unknown",
+      "description": "没有记录的主体不能回退到项目主体。",
+      "passed": true,
+      "answers": [
+        {
+          "passed": true,
+          "answer_correct": true,
+          "evidence_correct": true,
+          "provenance_correct": true,
+          "failure_stage": null,
+          "query": {
+            "project_id": "ShopLedger",
+            "subject": "mobile",
+            "predicate": "framework",
+            "as_of": "2026-04-01T23:59:59.999999Z",
+            "known_at": null
+          },
+          "expected": {
+            "status": "unknown",
+            "value": null,
+            "event_ids": []
+          },
+          "actual": {
+            "status": "unknown",
+            "value": null,
+            "evidence": [],
+            "reason": "no_effective_fact",
+            "considered_event_ids": [],
+            "plan_event_ids": []
+          },
+          "citation_valid": 0,
+          "citation_total": 0,
+          "citation_issues": [],
+          "project_leakage": false,
+          "leaked_event_ids": [],
+          "missing_candidate_event_ids": []
+        }
+      ],
+      "runtime_seconds": 0.0002744999947026372
+    }
+  ]
+}

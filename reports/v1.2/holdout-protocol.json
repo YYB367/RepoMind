@@ -1,0 +1,16 @@
+{
+  "stage_goal": "V1.2: freeze the controlled comparison protocol before first holdout execution",
+  "frozen_on": "2026-10-28",
+  "dev_evidence": ["recorded-dev-first.json", "live-dev-first.json", "live-dev-cutoff-020.json"],
+  "selected_live_min_cosine": 0.2,
+  "selection_reason": "On dev only, 0.2 improved both dense providers from 0/10 to 10/10 Recall@3 and from 2/12 to 7/12 strict accuracy. Hybrid improved 7/12 to 8/12. Unknown false positives remain and are not hidden.",
+  "top_k": 3,
+  "seed": 0,
+  "variants": ["no_memory", "repomind_semantic", "repomind_hybrid", "mem0"],
+  "embedding": "existing qwen3.7-text-embedding-flash configuration; independent clients and isolated indexes",
+  "gold_changes_allowed": false,
+  "holdout_tuning_allowed": false,
+  "engineering_gate": "complete measurements without infrastructure errors or project/snapshot scope violations; keep all actual quality failures",
+  "quality_claim": "descriptive small synthetic benchmark, no general production-quality threshold or winner assumed",
+  "cost_policy": "actual reported usage; no price card supplied, monetary cost stays unknown"
+}

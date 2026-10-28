@@ -1,0 +1,25 @@
+{
+  "stage_goal": "V1.2: retain evidence of interrupted real-cloud attempts",
+  "first_cloud_receipt": "langfuse-dev-first.json",
+  "journals_preserved": [
+    "live-dev-first.traces.jsonl.status.jsonl",
+    "live-dev-cutoff-020.traces.jsonl.status.jsonl",
+    "live-holdout-first.traces.jsonl.status.jsonl"
+  ],
+  "interrupted_attempts": [
+    {
+      "run": "live-dev-first",
+      "reason": "obsolete raw token aliases caused wrong cloud aggregate; stopped further obsolete validation; final evidence uses calibrated run"
+    },
+    {
+      "run": "live-dev-cutoff-020 and live-holdout-first",
+      "reason": "per-item flush and immediate polling amplified network waiting; interrupted and resumed same immutable outboxes using batch flush"
+    }
+  ],
+  "model_rerun_due_to_sync": false,
+  "data_deleted": false,
+  "final_receipts": [
+    "langfuse-dev-verified.json",
+    "langfuse-holdout-verified.json"
+  ]
+}
