@@ -1,0 +1,172 @@
+{
+  "dataset_version": "2.0.0",
+  "frozen_on": "2026-10-28",
+  "synthetic": true,
+  "task_counts": {
+    "dev": 6,
+    "holdout": 4
+  },
+  "event_count": 18,
+  "reference_kind": "scripted_solution_not_model_quality",
+  "oracle": "manually specified requirements/assertions; no product or remote model output used as gold",
+  "current_memory_as_of": "2026-10-01",
+  "experience_policy": "within-run earlier successful tasks only; no dev/holdout sharing",
+  "holdout_policy": "freeze before real runs; tune on dev only; preserve first holdout; no gold changes",
+  "files": {
+    "dev/tasks.jsonl": {
+      "sha256": "b1226690e185a0607c29c59557543b636c970af81ddbd8e9ab014e63f2c86d95",
+      "bytes": 3679
+    },
+    "events.jsonl": {
+      "sha256": "f009a86e9cdecbe519ed3056e5f054262f580ebb8c95de662c7e03d84939a00f",
+      "bytes": 5208
+    },
+    "holdout/tasks.jsonl": {
+      "sha256": "4b7f7a23facce3564ebaf126a0a7e290b5615e11a74d9282e157c29707137785",
+      "bytes": 2610
+    },
+    "judges/dev-01/test_acceptance.py": {
+      "sha256": "073068f4bac5dadb5baabda33a3cb553833b8d0146fd4b79ad4ea48130b52913",
+      "bytes": 486
+    },
+    "judges/dev-02/test_acceptance.py": {
+      "sha256": "e318d12781e7a4e4f08328b5e955353b95fd8a6c929e78723a448d32a764116c",
+      "bytes": 409
+    },
+    "judges/dev-03/test_acceptance.py": {
+      "sha256": "ecc7f24a08549032be0a9088ff62c1a6d2c207f52ee23161e9c940e0f7778a9a",
+      "bytes": 383
+    },
+    "judges/dev-04/test_acceptance.py": {
+      "sha256": "d883f3d0c289b9fa19e195567fe0707f20dd0cede4992499c8e5a8cda21d4a87",
+      "bytes": 355
+    },
+    "judges/dev-05/test_acceptance.py": {
+      "sha256": "c0324cea9cd744c1495ea213f512c3421a1b975b836452b8abc276ed4de39d50",
+      "bytes": 458
+    },
+    "judges/dev-06/test_acceptance.py": {
+      "sha256": "df9f880355b61d8d0197760fcd9e1054694d6094879428fbe3474d4ce809d814",
+      "bytes": 588
+    },
+    "judges/hold-01/test_acceptance.py": {
+      "sha256": "6b4fb58bf52f565b876c1ee9d5c6c94d019c4efe66fa3ae9a825fc2421cb7ce1",
+      "bytes": 464
+    },
+    "judges/hold-02/test_acceptance.py": {
+      "sha256": "4147d3e88f6bad3f4914335a5c70ba4f83e2bfea57eb76a02e7380f591261ec6",
+      "bytes": 510
+    },
+    "judges/hold-03/test_acceptance.py": {
+      "sha256": "ea440094fbe9b559d5ea38d285ed88a2d7d1a61de0243091885e26bea2799216",
+      "bytes": 357
+    },
+    "judges/hold-04/test_acceptance.py": {
+      "sha256": "65ae8b7195c4ba0b3a53228165bee1c64d588fcb66bd62b8ee92041fccdb9e31",
+      "bytes": 699
+    },
+    "public/dev-01/test_public.py": {
+      "sha256": "cba59d28c79026a08389adaa177dd5de96537149f77b1ed165f4dfd29d2412bd",
+      "bytes": 162
+    },
+    "public/dev-02/test_public.py": {
+      "sha256": "ca54789adb55498b53bc9885f3b65d01e0568855fe7a9f26bcc42f47aae7d58a",
+      "bytes": 181
+    },
+    "public/dev-03/test_public.py": {
+      "sha256": "b8af21994589a6d59aeb34d7ec78b301869f450619331d970e6120d6ea7bfba8",
+      "bytes": 205
+    },
+    "public/dev-04/test_public.py": {
+      "sha256": "9d1af75fdafee9921de964884a0c70e94237a507fd2dbf47a4bd2cf81764970f",
+      "bytes": 154
+    },
+    "public/dev-05/test_public.py": {
+      "sha256": "6b109ed9a98a245f3b9be3b58c3829ec22d07243657749bf5c5935d44bca54b2",
+      "bytes": 238
+    },
+    "public/dev-06/test_public.py": {
+      "sha256": "1739ae655118d9b37fe5a56f2bdba7a50c10fda3e01ea167d4c4b3ca4f5d1ff0",
+      "bytes": 194
+    },
+    "public/hold-01/test_public.py": {
+      "sha256": "739829b9cd2ee79142ce8f276bb208def4a99d122348e32bac3bd48f88d1ab20",
+      "bytes": 192
+    },
+    "public/hold-02/test_public.py": {
+      "sha256": "811987c6cac850254cc458746d0e364d648beff395ca7349b7029c98b0d3c45d",
+      "bytes": 199
+    },
+    "public/hold-03/test_public.py": {
+      "sha256": "5820a1e28079bf6db427b48fa60213d5592aac2c866e4de50276c32acf2074a5",
+      "bytes": 188
+    },
+    "public/hold-04/test_public.py": {
+      "sha256": "3707b716e8b8e8f0521f5e692d399b84cac9c6324bce9bf402c83169cd053dfb",
+      "bytes": 251
+    },
+    "README.md": {
+      "sha256": "b1d70e8107d2ad4059b331d477708f54ae0889ecdbfc94c43daf64969031b94c",
+      "bytes": 1006
+    },
+    "recorded-actions.jsonl": {
+      "sha256": "f114f48fc4f29c3f1e86b0f1053872953d7759d27f1c01279e25e7e1d7846602",
+      "bytes": 8213
+    },
+    "repository/pyproject.toml": {
+      "sha256": "6fe8af1d9db66ff7f6fff66abb202fa19c44a486389ad5565da69922963e54f4",
+      "bytes": 81
+    },
+    "repository/README.md": {
+      "sha256": "3a9d4879355d610352bb3919208ad5d74a04532168dca3677d9dbf820bb2e6eb",
+      "bytes": 360
+    },
+    "repository/src/parcelkit/__init__.py": {
+      "sha256": "0f0218ffe36b333eca82daa1b413f6ae937530ab7a86c27e66abafcbbb0e7899",
+      "bytes": 63
+    },
+    "repository/src/parcelkit/discounts.py": {
+      "sha256": "4749bc9fadbe8434e25aeb9a460b02c3f0269e97385482897025843d8a71e943",
+      "bytes": 183
+    },
+    "repository/src/parcelkit/inventory.py": {
+      "sha256": "df85541c5bf70a9e9505efa0c62f59497b544f74ad4e56d60e71ff0fb02729a6",
+      "bytes": 171
+    },
+    "repository/src/parcelkit/merges.py": {
+      "sha256": "67a75bcab155101560f70c59855e6da3b2d9939bfb3613fb4f06fa3d3340fe53",
+      "bytes": 162
+    },
+    "repository/src/parcelkit/money.py": {
+      "sha256": "62870736bfbfc6603d3991e833599d60df9ba54a9896e27afe731d06aac2cd98",
+      "bytes": 159
+    },
+    "repository/src/parcelkit/pagination.py": {
+      "sha256": "11e7e9678794dd80550f27d98d499a048f44d5fe8dae2fb0f044e2513be49dd5",
+      "bytes": 169
+    },
+    "repository/src/parcelkit/references.py": {
+      "sha256": "292f3876f1533f1848e16eafba69d80cbe7f97aab2609f7a6dd807325ca1dd3b",
+      "bytes": 160
+    },
+    "repository/src/parcelkit/retry.py": {
+      "sha256": "be459eaa24d477f4416ed45ea7a63be4e71ef27100210e4023cfae1407631729",
+      "bytes": 160
+    },
+    "repository/src/parcelkit/shipping.py": {
+      "sha256": "370cadc25f7931465308df9001f97c291387de4575b55e3aaaddcc785a658bec",
+      "bytes": 166
+    },
+    "repository/src/parcelkit/sku.py": {
+      "sha256": "9e41e94f0041508913997b5e7d8b9b50a1af160f580e12bd20399aad4dea89eb",
+      "bytes": 160
+    },
+    "repository/src/parcelkit/timestamps.py": {
+      "sha256": "af22b56085fdcbf451d142a2e81ab3111f14e0f46e7cc66e8b56f92cbf83ad7d",
+      "bytes": 156
+    }
+  },
+  "revision": 2,
+  "based_on_manifest_sha256": "cfcbcdc3e565ee00da27aa0e5df0ec83eea283a8f4b8b2e55a33e94c666da32f",
+  "revision_reason": "clarify existing dev-01 ValueError contract; hidden oracle unchanged; do not reinterpret first results"
+}
