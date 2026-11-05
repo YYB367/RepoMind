@@ -2,6 +2,7 @@
 import re
 
 from repomind.agent.workspace import digest
+from repomind.intelligence.providers import _json_loads
 from repomind.platform.tracing import TraceOutbox
 
 REFERENCE = "reference"
@@ -11,6 +12,7 @@ POLICIES = {
     "guided": (False, True),
     "compact-guided": (True, True),
 }
+RECOVERY_POLICIES = {"guided-recovery": (False, True), "compact-guided-recovery": (True, True)}
 
 
 def history_receipt(path, expected_sha256):
@@ -36,6 +38,34 @@ def history_receipt(path, expected_sha256):
     return {"sha256": expected_sha256, "traces": len(traces), "run_id": "live-dev-r2",
             "verified_but_unfinished": unfinished, "successful_write_events": writes,
             "candidates": candidates, "kind": "historical_event_replay_for_nomination"}
+
+
+def recovery_receipt(path, expected_sha256):
+    """Read only the frozen prior experiment for evidence of a missed reminder."""
+    if digest(path) != expected_sha256:
+        raise ValueError("recovery history differs from frozen protocol")
+    rows = [_json_loads(line) for line in path.read_bytes().splitlines() if line.strip()]
+    misses = []
+    for row in rows:
+        trial = row["trial"]
+        if (row["split"] != "holdout" or trial["policy"] != "guided"
+                or not trial["code_verified"] or trial["agent"]["status"] != "turn_budget_exhausted"):
+            continue
+        calls = trial["model_calls"]
+        if len(calls) < 2:
+            continue
+        budget = _json_loads(calls[0]["input"][1]["content"])["budgets"]["max_turns"]
+        error_turn = budget - 2
+        if not 1 <= error_turn < len(calls):
+            continue
+        next_input = _json_loads(calls[error_turn]["input"][-1]["content"])
+        if (calls[error_turn - 1]["error_type"] in {"ValueError", "JSONDecodeError", "ValidationError"}
+                and next_input.get("protocol_error") and "controller_note" not in next_input):
+            misses.append({"task_id": trial["task_id"], "repeat": trial["repeat"], "turn": error_turn})
+    if not misses:
+        raise ValueError("frozen history has no missed protocol recovery reminder")
+    return {"sha256": expected_sha256, "traces": len(rows), "missed_reminders": misses,
+            "candidates": [REFERENCE, *RECOVERY_POLICIES], "kind": "prior_protocol_recovery_diagnosis"}
 
 
 def finish_feedback(observations, remaining):

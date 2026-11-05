@@ -1,0 +1,21 @@
+{
+  "stage_goal": "Freeze independent V3 recovery dev",
+  "version": 1,
+  "split": "dev",
+  "files": {
+    "judges/dev-batch/test_acceptance.py": "75d24a868c1d99c4f54b491a2500fed21ca21086524a9a4b13883acbe2bdef03",
+    "judges/dev-clip/test_acceptance.py": "83455dcb7ef776be98949acb2fd180aad61146844eb394bf2ad1f3457ced8b67",
+    "judges/dev-tally/test_acceptance.py": "e2b4cc9306f875a8dd19a5b982e455fadde19d7ba1e05bb1a8ede0c33cf9e656",
+    "public/dev-batch/test_public.py": "eced65f2aebb5ef459f2a7866130fe01877b955b5ee6f78417c5b2fea9ff927a",
+    "public/dev-clip/test_public.py": "46aa65685d48a141f13aa4f4dc13f9e42cc3cddf9527dea659b43d0292426711",
+    "public/dev-tally/test_public.py": "801038a0bab1cb4360ca843b6b8b3af2debf1bac2669aa83e6ebb053124152e0",
+    "recorded-actions.jsonl": "bbd23a6ebfe52591472fd112d1bb92f11b772c6b36343b2daa6c84e29089351c",
+    "repository/pyproject.toml": "7a2a46da797f64d63eaff9aef9113ba4b1bc14220b27693cc7533e973f148916",
+    "repository/README.md": "2856fb524e2c833d9899d48900f85857c078e950940c8208388032ec564a3d9a",
+    "repository/src/relaybox/__init__.py": "38b28484c6c561c342700a8c67bdbaa4566920897d059598ee6d049f06390dce",
+    "repository/src/relaybox/batch_key.py": "253a772591d04863e67621ea6dfa1c2eb948c593997406dd2230aca179316185",
+    "repository/src/relaybox/clip_spans.py": "52ef347b8ebad585f460499d65a0071e7709a11e83bf86dbaf8f961a1bf42690",
+    "repository/src/relaybox/status_tally.py": "851c7308004d46e5688a9d1c43f1d5be2a1ef406e98909ce4de106e718f917d5",
+    "tasks.jsonl": "5bd30e7b1124200e5823eee14e765ade62bbfac4e7a3f12c01ccdd027dfeceb9"
+  }
+}

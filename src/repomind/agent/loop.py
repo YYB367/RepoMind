@@ -7,7 +7,8 @@ from repomind.agent.providers import SYSTEM_PROMPT,AgentTransportError
 from repomind.agent.workspace import ToolDenied
 
 
-def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writes=False,feedback=None):
+def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writes=False,feedback=None,
+              feedback_on_protocol_error=False):
     budget=budget or AgentBudget()
     initial={'task_id':task.task_id,'project_id':task.project_id,'task':task.prompt,
              'as_of':task.as_of.isoformat(),'known_at':task.known_at.isoformat() if task.known_at else None,
@@ -20,6 +21,14 @@ def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writ
     summary=None
     error_type=None
     started=perf_counter()
+
+    def append_response(body, *, include_note=True):
+        if include_note and feedback is not None:
+            note=feedback(observations,budget.max_turns-turns)
+            if note:
+                body['controller_note']=note
+        messages.append({'role':'user','content':json.dumps(body,ensure_ascii='protocol_error' in body)})
+
     for turn in range(budget.max_turns):
         if len(json.dumps(messages,ensure_ascii=False))>budget.max_context_chars:
             status='context_budget_exhausted'
@@ -33,11 +42,13 @@ def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writ
             error_type=type(exc).__name__
             issues=([{'location':list(e['loc']),'type':e['type'],'message':e['msg']} for e in exc.errors(include_input=False,include_url=False)[:6]]
                     if isinstance(exc,ValidationError) else [])
-            messages.append({'role':'user','content':json.dumps({'protocol_error':error_type,'issues':issues,'request':'Return a valid JSON actions object using only the declared schema; finish must be alone.'})})
+            response={'protocol_error':error_type,'issues':issues,
+                      'request':'Return a valid JSON actions object using only the declared schema; finish must be alone.'}
             observations.append({'tool':'model','status':'error','error_type':error_type})
             if isinstance(exc,AgentTransportError):
                 status='model_transport_error'
                 break
+            append_response(response,include_note=feedback_on_protocol_error and isinstance(exc,ValueError))
             continue
         if compact_writes:
             transcript=batch.model_dump()
@@ -99,12 +110,7 @@ def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writ
                 break
         if finished:
             break
-        response={'tool_results':outputs}
-        if feedback is not None:
-            note=feedback(observations,budget.max_turns-turns)
-            if note:
-                response['controller_note']=note
-        messages.append({'role':'user','content':json.dumps(response,ensure_ascii=False)})
+        append_response({'tool_results':outputs})
     workspace.protected_integrity()
     return {'status':status,'summary':summary,'turns':turns,'action_count':actions,'test_runs':test_runs,
             'public_test_failures':public_failures,'retry_count':max(0,test_runs-1),'blocked_actions':blocked,

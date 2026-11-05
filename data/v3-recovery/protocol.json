@@ -1,0 +1,10 @@
+{
+  "stage_goal": "Preserve missed-recovery evidence and verify new independent tasks",
+  "version": 2,
+  "repetitions": 2,
+  "manifests": {
+    "dev": "2e171d4800766bf0db9ee4a327fdae4bcd893ad10a750d7b6c995a817a86c32c",
+    "holdout": "7c4b2751c2d9d1d811bd31e5eaf2ab8270bd957ef705ff6186fd0ebf123f2e94"
+  },
+  "history_sha256": "b1e8d2243294470b1a04097639226d4592752c73665f8f14b9359fccecc9551d"
+}

@@ -14,11 +14,12 @@ from repomind.agent.providers import LiveAgentProvider, ReplayAgentProvider, PRO
 from repomind.agent.sandbox import DockerSandbox
 from repomind.agent.workspace import TaskWorkspace, checked_path, digest
 from repomind.evaluation.intelligent import _implementation_hash
-from repomind.harness.policy import POLICIES, REFERENCE, finish_feedback, history_receipt
+from repomind.harness.policy import POLICIES, RECOVERY_POLICIES, REFERENCE, finish_feedback, history_receipt, recovery_receipt
 from repomind.intelligence.providers import ProviderConfig, _json_loads
 from repomind.platform.tracing import clean_payload
 
 GOAL = "V3.0: select a finite harness on development tasks and independently test promotion"
+RECOVERY_GOAL = "V3.0 recovery: preserve budget guidance after protocol errors and independently test it"
 BUDGET = AgentBudget()
 REPETITIONS = 2
 
@@ -65,13 +66,15 @@ def _inputs(root, split, protocol):
 
 
 def _trial(folder, task, path, name, sandbox, config):
-    compact, guided = POLICIES[name]
+    recovery = name in RECOVERY_POLICIES
+    compact, guided = (RECOVERY_POLICIES if recovery else POLICIES)[name]
     workspace = TaskWorkspace(path / "repo", task, folder)
     provider = (LiveAgentProvider(config) if config is not None else
                 ReplayAgentProvider(folder / "recorded-actions.jsonl", task.task_id))
     context = {"mode": "baseline", "facts": [], "experiences": []}
     agent = run_agent(task, workspace, provider, sandbox, context, budget=BUDGET,
-                      compact_writes=compact, feedback=finish_feedback if guided else None)
+                      compact_writes=compact, feedback=finish_feedback if guided else None,
+                      feedback_on_protocol_error=recovery)
     public = hidden = None
     infrastructure = (
         agent["status"] in {"model_transport_error", "sandbox_error"}
@@ -144,7 +147,7 @@ def choose_challenger(metrics):
         tokens = _token_total(row)
         return (-row["strict"], -row["code_verified"], tokens if tokens is not None else float("inf"), name)
 
-    eligible = [name for name in POLICIES if name != REFERENCE and name in metrics]
+    eligible = [name for name in (*POLICIES, *RECOVERY_POLICIES) if name != REFERENCE and name in metrics]
     if not eligible or any(row["infrastructure_errors"] for row in metrics.values()):
         raise ValueError("development evidence has no usable comparison; no challenger locked")
     return min(eligible, key=rank)
@@ -176,8 +179,10 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
         raise ValueError("use a dedicated run directory outside the frozen suite")
     protocol_path = checked_path(root, "protocol.json")
     protocol = _read(protocol_path)
-    if protocol.get("version") != 1 or protocol.get("repetitions") != REPETITIONS:
+    protocol_version = protocol.get("version")
+    if protocol_version not in {1, 2} or protocol.get("repetitions") != REPETITIONS:
         raise ValueError("unsupported V3 protocol")
+    goal = RECOVERY_GOAL if protocol_version == 2 else GOAL
     lock_path, dev_path = directory / "selection-lock.json", directory / "dev.json"
     split = "dev" if phase == "tune" else "holdout"
     if phase == "tune" and directory.exists():
@@ -201,7 +206,8 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
         names = [REFERENCE, lock["challenger"]]
         provenance = {"selection_lock_sha256": digest(lock_path)}
     else:
-        historical = history_receipt(Path(history), protocol["history_sha256"])
+        diagnose = recovery_receipt if protocol_version == 2 else history_receipt
+        historical = diagnose(Path(history), protocol["history_sha256"])
         names = historical["candidates"]
         if len(names) < 2:
             raise ValueError("historical traces did not nominate a challenger")
@@ -220,7 +226,7 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
     trials = _run(run, folder, tasks, names, repeats, sandbox, config)
     metrics = _summarize(trials, names)
     report = {
-        "stage_goal": GOAL, "identity": identity, "sandbox": sandbox_info, "split": split, "metrics": metrics,
+        "stage_goal": goal, "identity": identity, "sandbox": sandbox_info, "split": split, "metrics": metrics,
         "max_model_requests": len(tasks) * len(names) * repeats * BUDGET.max_turns,
         "created_at": datetime.now(timezone.utc).isoformat(), **provenance,
         "trials": [{key: row[key] for key in ("task_id", "policy", "repeat", "strict_success", "code_verified",
@@ -231,7 +237,7 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
     if phase == "tune":
         _write(dev_path, report)
         challenger = choose_challenger(metrics)
-        lock = {"stage_goal": GOAL, "identity": identity, "challenger": challenger, "dev_sha256": digest(dev_path)}
+        lock = {"stage_goal": goal, "identity": identity, "challenger": challenger, "dev_sha256": digest(dev_path)}
         _write(lock_path, lock)
         report["locked_challenger"] = challenger
     else:

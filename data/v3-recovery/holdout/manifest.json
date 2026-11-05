@@ -1,0 +1,24 @@
+{
+  "stage_goal": "Freeze independent V3 recovery holdout",
+  "version": 1,
+  "split": "holdout",
+  "files": {
+    "judges/hold-counter/test_acceptance.py": "e639fcb91fa72682e460d431f4cd87eca72bc990c578dc2b30131fef59b736dc",
+    "judges/hold-runs/test_acceptance.py": "2a4e088771808c9d899181642f0139711f81c9b994cc8e501083daaaf7b38c5c",
+    "judges/hold-stages/test_acceptance.py": "fe3194ef3f31dcf635586f00aa35691b7ee61b68cbae497665e9d369b4a58e37",
+    "judges/hold-stock/test_acceptance.py": "74e675704fdd7bd3eacb68c6da1c7f205f3dc42093eec41dccf72ff0025e34ca",
+    "public/hold-counter/test_public.py": "bb3201bef11b4e4c98af2d525787069a2af3adcec9e2489c10cb3ea02a64788d",
+    "public/hold-runs/test_public.py": "e4654289912d4fe383addd07a7d54807e49934eca89ad35b3825d2b01e5b65bf",
+    "public/hold-stages/test_public.py": "6f2f7add468606d02a873b1b4a585efd7f0e462e2af7ce71f4c2ed0516866bdc",
+    "public/hold-stock/test_public.py": "d3e75219be47047f26202672bdc1c613d5ec9a7dc220e6cd95c7e1c14a10b425",
+    "recorded-actions.jsonl": "bf90fe6fd162c6c08fbb01e567ae358a8965418eabe5b58619e88bb52ddd0333",
+    "repository/pyproject.toml": "7a2a46da797f64d63eaff9aef9113ba4b1bc14220b27693cc7533e973f148916",
+    "repository/README.md": "2856fb524e2c833d9899d48900f85857c078e950940c8208388032ec564a3d9a",
+    "repository/src/relaybox/__init__.py": "38b28484c6c561c342700a8c67bdbaa4566920897d059598ee6d049f06390dce",
+    "repository/src/relaybox/collapse_runs.py": "db5687a01af9f5d885551c76b7f5c1db29b6f12f0140c027e74039aa161773b5",
+    "repository/src/relaybox/daily_counters.py": "adf63c756fc1895b6aeebd4748dd5415c07e083a698988e7fab4907b459ce607",
+    "repository/src/relaybox/dependency_stages.py": "21078ef6d715e59efa24030ccc86b9b0aa3071caaacd06689d6b7d537bfc1851",
+    "repository/src/relaybox/transfer_stock.py": "da37a98198fc6426a4cebdc04765773aa8badf9195126ad38dfa5e51b39442d9",
+    "tasks.jsonl": "c976cd17f43c5809e3600303cbea4f0dd059cce938c35865c38a29ea8bbb7673"
+  }
+}
