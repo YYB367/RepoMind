@@ -1,0 +1,10 @@
+{
+  "stage_goal": "V3 isolate tuning from independent validation",
+  "version": 1,
+  "repetitions": 2,
+  "manifests": {
+    "dev": "0db8aa494ee0583e599bf39658afd4ab713046734002972f935e71f1cb761368",
+    "holdout": "63ffd481d4ce329117f3f4276a5c063c6acd19ffaa157599e9116b4afa04b4d0"
+  },
+  "history_sha256": "3009e81f18a0810ee22a9f73fffe9f31c4546de93a76a478896c488fd89ebd19"
+}

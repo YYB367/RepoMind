@@ -1,3 +1,3 @@
 """RepoMind: grounded intelligent retrieval around an auditable temporal core."""
 
-__version__ = "2.1.0"
+__version__ = "3.0.0"

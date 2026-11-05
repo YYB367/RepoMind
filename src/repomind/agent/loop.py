@@ -7,7 +7,7 @@ from repomind.agent.providers import SYSTEM_PROMPT,AgentTransportError
 from repomind.agent.workspace import ToolDenied
 
 
-def run_agent(task,workspace,provider,sandbox,context,*,budget=None):
+def run_agent(task,workspace,provider,sandbox,context,*,budget=None,compact_writes=False,feedback=None):
     budget=budget or AgentBudget()
     initial={'task_id':task.task_id,'project_id':task.project_id,'task':task.prompt,
              'as_of':task.as_of.isoformat(),'known_at':task.known_at.isoformat() if task.known_at else None,
@@ -39,7 +39,15 @@ def run_agent(task,workspace,provider,sandbox,context,*,budget=None):
                 status='model_transport_error'
                 break
             continue
-        messages.append({'role':'assistant','content':batch.model_dump_json()})
+        if compact_writes:
+            transcript=batch.model_dump()
+            for item in transcript['actions']:
+                if item['tool']=='write_file':
+                    item['content']='[Write request recorded. Read the file for its current contents.]'
+            assistant_content=json.dumps(transcript,ensure_ascii=False,separators=(',',':'))
+        else:
+            assistant_content=batch.model_dump_json()
+        messages.append({'role':'assistant','content':assistant_content})
         outputs=[]
         finished=False
         for action in batch.actions:
@@ -91,7 +99,12 @@ def run_agent(task,workspace,provider,sandbox,context,*,budget=None):
                 break
         if finished:
             break
-        messages.append({'role':'user','content':json.dumps({'tool_results':outputs},ensure_ascii=False)})
+        response={'tool_results':outputs}
+        if feedback is not None:
+            note=feedback(observations,budget.max_turns-turns)
+            if note:
+                response['controller_note']=note
+        messages.append({'role':'user','content':json.dumps(response,ensure_ascii=False)})
     workspace.protected_integrity()
     return {'status':status,'summary':summary,'turns':turns,'action_count':actions,'test_runs':test_runs,
             'public_test_failures':public_failures,'retry_count':max(0,test_runs-1),'blocked_actions':blocked,

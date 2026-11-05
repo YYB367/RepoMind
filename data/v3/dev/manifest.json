@@ -1,0 +1,21 @@
+{
+  "stage_goal": "Freeze V3 dev inputs",
+  "version": 1,
+  "split": "dev",
+  "files": {
+    "judges/dev-email/test_acceptance.py": "4a7e5abf5231e549f8f379a7e8d4fcf821680d3fd4e7e2d751788828dcae5ab5",
+    "judges/dev-flags/test_acceptance.py": "dad6c84727d3c356fcbffee5e9c152882587e75c1eb8e82d89347375e34f6965",
+    "judges/dev-window/test_acceptance.py": "98215987a769ddd713cb1e5711e5b9efcfaf09559272a7713690287812765f42",
+    "public/dev-email/test_public.py": "e498a010427785cdae7fddf04bdcbad29c06d6221d373f6c12ef2f96d5ae694b",
+    "public/dev-flags/test_public.py": "344cb5c4bfaf239d2bb2df1c286738b92743928a11e299a40173a45798fa92d1",
+    "public/dev-window/test_public.py": "865dbfdce60b16721719f4bd758f83919d6808f4ad82420cfbce06212729748a",
+    "recorded-actions.jsonl": "e5ca8ba423fbc761e5811ef02d3692f73cefacff57ee40eb6c7362ce30e41d71",
+    "repository/pyproject.toml": "e4db03ed5bd5519a1651ba990f5712fc056aa35c940a5514d9f97c8b912b7d94",
+    "repository/README.md": "012eb58ceb1160f3084749c00fff251359ba05af0762d4a136dee032f068d5e6",
+    "repository/src/signalbox/__init__.py": "26d89bdad73c78793afb9c0f507eb270fc60457a77fd48a7676a7feecb6eea1c",
+    "repository/src/signalbox/email_host.py": "2b20e7aea2846f4c2fe8037351853bf95c33b8cfdd27b742a27a9c497d5913dc",
+    "repository/src/signalbox/merge_windows.py": "954b0e5c6ec79b20a3a7969dc8fc640ab3c1de95c94284c8e02bddf23d5a8e29",
+    "repository/src/signalbox/parse_flags.py": "52aaa1f2f9ff12df1e32f209f85f709f398fc43aa61660fbd7b5f4d49756f8ee",
+    "tasks.jsonl": "405bd45bf9bd298f6b1065917b404e969bcb1c621a463d429bf029236776605c"
+  }
+}

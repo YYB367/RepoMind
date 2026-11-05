@@ -125,6 +125,15 @@ def build_parser() -> argparse.ArgumentParser:
     bench.add_argument("--budgets", nargs="+", type=int, default=(640, 1800))
     bench.add_argument("--live", action="store_true", help="Use configured embedding and chat services")
     bench.add_argument("--output", type=Path, required=True)
+    for phase in ("tune", "validate"):
+        harness = commands.add_parser("harness-" + phase, help="Run the " + phase + " phase of a bounded harness experiment")
+        harness.add_argument("--suite", type=Path, default=Path("data/v3"))
+        harness.add_argument("--history", type=Path, default=Path("reports/v2/live-dev-r2.traces.jsonl"))
+        harness.add_argument("--run-dir", type=Path, required=True)
+        harness.add_argument("--live", action="store_true", help="Use the configured real chat model")
+        harness.add_argument("--image")
+        harness.add_argument("--sandbox-config", type=Path, default=Path("work/v2-sandbox.json"))
+        harness.add_argument("--config-dir", type=Path, default=Path("work/v2-docker-config"))
     return parser
 
 
@@ -215,6 +224,15 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "config":
             from repomind.intelligence.config import configuration_status
             output = configuration_status()
+        elif args.command in ("harness-tune", "harness-validate"):
+            from repomind.harness.experiment import run_phase
+
+            phase = args.command.removeprefix("harness-")
+            report = run_phase(phase, suite=args.suite, history=args.history, run_dir=args.run_dir,
+                               image=_agent_image(args), config_dir=args.config_dir, live=args.live)
+            keys = ("split", "metrics", "locked_challenger", "holdout_gate", "promotion_supported", "recommended_policy")
+            print(json.dumps({key: report[key] for key in keys if key in report}, ensure_ascii=False, indent=2))
+            return int(not report["completed_without_infrastructure_errors"])
         elif args.command == "context-select":
             import os
             from repomind.context.selection import Corpus, ContextSelector

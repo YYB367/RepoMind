@@ -1,0 +1,24 @@
+{
+  "stage_goal": "Freeze V3 holdout inputs",
+  "version": 1,
+  "split": "holdout",
+  "files": {
+    "judges/hold-audit/test_acceptance.py": "24c2a6ca75db87c5c004a857fff050be1b0489fdf3676cc8efac676b9b828e18",
+    "judges/hold-quota/test_acceptance.py": "1c4309716a40df44686beb75ea22407b815fa6b8b5d4850b6ed61887c1f1cb48",
+    "judges/hold-routing/test_acceptance.py": "25432d9a50b009e6e1a393dff6f71ece2e4ff00573e785c8469b7c838822e32b",
+    "judges/hold-samples/test_acceptance.py": "44bdb0f115bbc401b95e572fe1c1a042c7573c4900d9418f220ef4195f9a2931",
+    "public/hold-audit/test_public.py": "b03ae31ed25d25d21c2990546ba67b7ee832212e0dca930a624a2ba33af15ba1",
+    "public/hold-quota/test_public.py": "415a9ba69f1763b44fb53e6bf1c77b543c1011f5943bc3bb2c39316318f807d1",
+    "public/hold-routing/test_public.py": "964ba9cbcd5848f69fe6d4037070d3ef1bd520848b5fb7e75f1520a947c83161",
+    "public/hold-samples/test_public.py": "0e9a24e4a1a6d384800a3c958c5131f79df6556709f9e347a5e320f84c4f5d90",
+    "recorded-actions.jsonl": "8785e6cb220891f8044180bde79562058b73184c45898b6840f2eb6d1f651353",
+    "repository/pyproject.toml": "e4db03ed5bd5519a1651ba990f5712fc056aa35c940a5514d9f97c8b912b7d94",
+    "repository/README.md": "012eb58ceb1160f3084749c00fff251359ba05af0762d4a136dee032f068d5e6",
+    "repository/src/signalbox/__init__.py": "26d89bdad73c78793afb9c0f507eb270fc60457a77fd48a7676a7feecb6eea1c",
+    "repository/src/signalbox/allocate_quota.py": "65af040d3951c187127f039a9e40323b9de90b1d1de5568bbed06a253d021554",
+    "repository/src/signalbox/audit_gaps.py": "b67db1a718c4818a836144c1d0474eb98bdeee0b36d09499c59d359fdf2c8b13",
+    "repository/src/signalbox/peak_sample.py": "1a6b5b666c93a4744431365c1be89e80b1c33f13d885badeba1e2d70cc5c28dd",
+    "repository/src/signalbox/route_name.py": "63e6420ac8c0f65011ef32c4eefbaf8a56858fa98b5a25c5f388e168520b0ea9",
+    "tasks.jsonl": "b32651b933ed732e42973a609358141f04f75a1cc1633e052e4478a0b9fe76ac"
+  }
+}
