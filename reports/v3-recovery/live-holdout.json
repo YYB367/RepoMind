@@ -1,0 +1,304 @@
+{
+  "stage_goal": "V3.0 recovery: preserve budget guidance after protocol errors and independently test it",
+  "identity": {
+    "version": "3.0.0",
+    "implementation_sha256": "b9fa12bb6920406208811e62e9553e6726938a87ffb70d41c8da659885127461",
+    "protocol_sha256": "458d36ed558cdbc928bad884096acec68dd9b48523c7d4e7ec76a4e555a17908",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "mode": "live",
+    "model_config": {
+      "base_url": "https://api.deepseek.com",
+      "chat_model": "deepseek-flash",
+      "embedding_model": null,
+      "api_style": "deepseek",
+      "chat_format": "json_object",
+      "timeout_seconds": 60.0,
+      "max_response_bytes": 1000000,
+      "max_request_bytes": 2000000,
+      "max_completion_tokens": 2048,
+      "embedding_dimensions": null
+    }
+  },
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "split": "holdout",
+  "metrics": {
+    "reference": {
+      "tasks": 8,
+      "strict": 8,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 41,
+      "input_tokens": 56115,
+      "output_tokens": 4984,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 8
+      }
+    },
+    "compact-guided-recovery": {
+      "tasks": 8,
+      "strict": 8,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 43,
+      "input_tokens": 56405,
+      "output_tokens": 5630,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 8
+      }
+    }
+  },
+  "max_model_requests": 96,
+  "created_at": "2026-11-05T09:13:45.766100+00:00",
+  "selection_lock_sha256": "825628e5f725613d3fd7670ba117ee467bdab2eaf40a11463e22ddd54f0f7517",
+  "trials": [
+    {
+      "task_id": "hold-stages",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stages",
+      "policy": "compact-guided-recovery",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-counter",
+      "policy": "compact-guided-recovery",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-counter",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-runs",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-runs",
+      "policy": "compact-guided-recovery",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stock",
+      "policy": "compact-guided-recovery",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stock",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stages",
+      "policy": "compact-guided-recovery",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stages",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-counter",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-counter",
+      "policy": "compact-guided-recovery",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-runs",
+      "policy": "compact-guided-recovery",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-runs",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stock",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-stock",
+      "policy": "compact-guided-recovery",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    }
+  ],
+  "completed_without_infrastructure_errors": true,
+  "repetitions": [
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 22,
+        "input_tokens": 31136,
+        "output_tokens": 2269,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "compact-guided-recovery": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 21,
+        "input_tokens": 27560,
+        "output_tokens": 2801,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    },
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 19,
+        "input_tokens": 24979,
+        "output_tokens": 2715,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "compact-guided-recovery": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 22,
+        "input_tokens": 28845,
+        "output_tokens": 2829,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    }
+  ],
+  "development_gate": "strict_completion_gain",
+  "holdout_gate": [
+    "no_threshold_gain",
+    "no_threshold_gain"
+  ],
+  "model_consistent_across_splits": true,
+  "promotion_supported": false,
+  "recommended_policy": "reference"
+}

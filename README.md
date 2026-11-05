@@ -1,5 +1,10 @@
 # 阶段目标
 
+V3.0 验收补强修复了可恢复协议错误后的预算提醒，并通过新冻结任务复测。恢复提醒加写入压缩未达到可复现改善门槛，实验保留原始流程。
+全量测试通过 477 项。运行方法、技术变更与遗留问题见 [V3 补验交付](docs/v3-recovery-delivery.md)。
+
+## 首轮 V3 预览
+
 V3.0 Self-improving Harness 使用历史轨迹提名有限候选，按开发结果锁定方案，再独立复测。新增 harness-tune 和 harness-validate。
 
 guided 未通过预定的可复现改善门槛，推荐保留 reference。 全量 pytest 473 项通过，另有 28 次人工动作回放通过。技术原理、运行方法与完整证据见 [V3 交付说明](docs/v3-delivery.md)。

@@ -1,5 +1,14 @@
 # 阶段目标
 
+V3.0 验收补强，2026-11-05。修复可恢复协议错误后的提示路径，以独立新任务重复验证。
+
+- 恢复提醒加写入压缩未达到可复现改善门槛，实验保留原始流程。 测试通过 477 项，另有 25 次人工动作回放通过。
+- 证据与运行方法见 docs/v3-recovery-delivery.md。
+
+---
+
+# 阶段目标
+
 RepoMind V3.0 Self-improving Harness，2026-11-05。交付历史轨迹提名、开发排序、候选锁和独立重复验证。
 
 - 新增 V3 SignalBox 合成任务、harness-tune 与 harness-validate。
