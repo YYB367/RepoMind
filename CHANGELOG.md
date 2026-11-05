@@ -1,5 +1,14 @@
 # 阶段目标
 
+RepoMind V3.0 Self-improving Harness，2026-11-05。交付历史轨迹提名、开发排序、候选锁和独立重复验证。
+
+- 新增 V3 SignalBox 合成任务、harness-tune 与 harness-validate。
+- guided 未通过预定的可复现改善门槛，推荐保留 reference。 首轮全量回归 473 项通过，真实模型运行和回放独立记录。
+
+---
+
+# 阶段目标
+
 RepoMind V2.1 Context Engineering，2026-11-05。增加项目文档预算选择、OpenViking 分层读取和三组固定条件对照。
 
 - 新增 context-select 和 context-bench，支持直接加载、向量检索和目录分层。

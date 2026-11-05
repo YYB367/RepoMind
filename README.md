@@ -1,5 +1,11 @@
 # 阶段目标
 
+V3.0 Self-improving Harness 使用历史轨迹提名有限候选，按开发结果锁定方案，再独立复测。新增 harness-tune 和 harness-validate。
+
+guided 未通过预定的可复现改善门槛，推荐保留 reference。 全量 pytest 473 项通过，另有 28 次人工动作回放通过。技术原理、运行方法与完整证据见 [V3 交付说明](docs/v3-delivery.md)。
+
+## V2.1 Context Engineering
+
 V2.1 Context Engineering 为项目选取受预算约束的文档证据，并对照直接、向量和目录分层三种策略。新增命令 context-select 和 context-bench，支持本地语料和可选的 OpenViking 只读分层访问。
 
 首次保留集在 1800 字节下，向量与本地分层均答对 8/8，分层少用约 28% 的回答输入 Token。640 字节下，向量为 7/8，分层为 5/8。运行方法、测试证据和技术原理见 [V2.1 交付说明](docs/v2.1-delivery.md)。

@@ -1,0 +1,20 @@
+{
+  "stage_goal": "V3.0: select a finite harness on development tasks and independently test promotion",
+  "identity": {
+    "version": "3.0.0",
+    "implementation_sha256": "4e4be7e3cf8f122cbf3c932527fe7006d9eca7daf19806393ffae8b42af8af39",
+    "protocol_sha256": "8b0d650bd64039985bb6b5f20b8b124172f2243a673a503182dc5e1effc7f649",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "mode": "replay",
+    "model_config": null
+  },
+  "challenger": "compact",
+  "dev_sha256": "efd5ba8eac2eccbbc197e28e03ef3220fa243ad6dee0372d3b27c3426d504746"
+}

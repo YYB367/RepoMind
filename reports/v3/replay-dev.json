@@ -1,0 +1,218 @@
+{
+  "stage_goal": "V3.0: select a finite harness on development tasks and independently test promotion",
+  "identity": {
+    "version": "3.0.0",
+    "implementation_sha256": "4e4be7e3cf8f122cbf3c932527fe7006d9eca7daf19806393ffae8b42af8af39",
+    "protocol_sha256": "8b0d650bd64039985bb6b5f20b8b124172f2243a673a503182dc5e1effc7f649",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "mode": "replay",
+    "model_config": null
+  },
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "split": "dev",
+  "metrics": {
+    "reference": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 3
+      }
+    },
+    "compact": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 3
+      }
+    },
+    "guided": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 3
+      }
+    },
+    "compact-guided": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 3
+      }
+    }
+  },
+  "max_model_requests": 72,
+  "created_at": "2026-11-05T08:20:00.675754+00:00",
+  "history": {
+    "sha256": "3009e81f18a0810ee22a9f73fffe9f31c4546de93a76a478896c488fd89ebd19",
+    "traces": 18,
+    "run_id": "live-dev-r2",
+    "verified_but_unfinished": 2,
+    "successful_write_events": 19,
+    "candidates": [
+      "reference",
+      "compact",
+      "guided",
+      "compact-guided"
+    ],
+    "kind": "historical_event_replay_for_nomination"
+  },
+  "trials": [
+    {
+      "task_id": "dev-email",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-email",
+      "policy": "compact",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-email",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-email",
+      "policy": "compact-guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-window",
+      "policy": "compact",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-window",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-window",
+      "policy": "compact-guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-window",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-flags",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-flags",
+      "policy": "compact-guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-flags",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-flags",
+      "policy": "compact",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    }
+  ],
+  "completed_without_infrastructure_errors": true
+}

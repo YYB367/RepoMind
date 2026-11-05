@@ -1,0 +1,170 @@
+{
+  "stage_goal": "V3.0: select a finite harness on development tasks and independently test promotion",
+  "tests": {
+    "tests": 473,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 473
+  },
+  "replay_trials_passed": 28,
+  "live_totals": {
+    "requests": 133,
+    "input_tokens": 159792,
+    "output_tokens": 11814
+  },
+  "nomination": {
+    "sha256": "3009e81f18a0810ee22a9f73fffe9f31c4546de93a76a478896c488fd89ebd19",
+    "traces": 18,
+    "run_id": "live-dev-r2",
+    "verified_but_unfinished": 2,
+    "successful_write_events": 19,
+    "candidates": [
+      "reference",
+      "compact",
+      "guided",
+      "compact-guided"
+    ],
+    "kind": "historical_event_replay_for_nomination"
+  },
+  "challenger": "guided",
+  "development": {
+    "reference": {
+      "tasks": 3,
+      "strict": 2,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 16,
+      "input_tokens": 18590,
+      "output_tokens": 1138,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 2,
+        "turn_budget_exhausted": 1
+      }
+    },
+    "compact": {
+      "tasks": 3,
+      "strict": 2,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 16,
+      "input_tokens": 18540,
+      "output_tokens": 1184,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 2,
+        "turn_budget_exhausted": 1
+      }
+    },
+    "guided": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 14,
+      "input_tokens": 16587,
+      "output_tokens": 1163,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 3
+      }
+    },
+    "compact-guided": {
+      "tasks": 3,
+      "strict": 3,
+      "code_verified": 3,
+      "infrastructure_errors": 0,
+      "requests": 15,
+      "input_tokens": 17197,
+      "output_tokens": 1227,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 3
+      }
+    }
+  },
+  "holdout_repetitions": [
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 18,
+        "input_tokens": 22037,
+        "output_tokens": 1783,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "guided": {
+        "tasks": 4,
+        "strict": 3,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 20,
+        "input_tokens": 24899,
+        "output_tokens": 1744,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "turn_budget_exhausted": 1,
+          "finished": 3
+        }
+      }
+    },
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 18,
+        "input_tokens": 22570,
+        "output_tokens": 1835,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "guided": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 16,
+        "input_tokens": 19372,
+        "output_tokens": 1740,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    }
+  ],
+  "development_gate": "strict_completion_gain",
+  "holdout_gate": [
+    "quality_regression",
+    "token_saving_at_equal_or_better_quality"
+  ],
+  "promotion_supported": false,
+  "recommended_policy": "reference",
+  "monetary_cost": null
+}

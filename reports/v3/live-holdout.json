@@ -1,0 +1,306 @@
+{
+  "stage_goal": "V3.0: select a finite harness on development tasks and independently test promotion",
+  "identity": {
+    "version": "3.0.0",
+    "implementation_sha256": "4e4be7e3cf8f122cbf3c932527fe7006d9eca7daf19806393ffae8b42af8af39",
+    "protocol_sha256": "8b0d650bd64039985bb6b5f20b8b124172f2243a673a503182dc5e1effc7f649",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "mode": "live",
+    "model_config": {
+      "base_url": "https://api.deepseek.com",
+      "chat_model": "deepseek-flash",
+      "embedding_model": null,
+      "api_style": "deepseek",
+      "chat_format": "json_object",
+      "timeout_seconds": 60.0,
+      "max_response_bytes": 1000000,
+      "max_request_bytes": 2000000,
+      "max_completion_tokens": 2048,
+      "embedding_dimensions": null
+    }
+  },
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "split": "holdout",
+  "metrics": {
+    "reference": {
+      "tasks": 8,
+      "strict": 8,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 36,
+      "input_tokens": 44607,
+      "output_tokens": 3618,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "finished": 8
+      }
+    },
+    "guided": {
+      "tasks": 8,
+      "strict": 7,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 36,
+      "input_tokens": 44271,
+      "output_tokens": 3484,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "turn_budget_exhausted": 1,
+        "finished": 7
+      }
+    }
+  },
+  "max_model_requests": 96,
+  "created_at": "2026-11-05T08:27:36.963276+00:00",
+  "selection_lock_sha256": "7bfd9177e9a9016801d04d8de3c09ffac6c5a2b216746c9845a308cc89a409c5",
+  "trials": [
+    {
+      "task_id": "hold-samples",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-samples",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": false,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-routing",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-routing",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-quota",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-quota",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-audit",
+      "policy": "guided",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-audit",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-samples",
+      "policy": "guided",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-samples",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-routing",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-routing",
+      "policy": "guided",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-quota",
+      "policy": "guided",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-quota",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-audit",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-audit",
+      "policy": "guided",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    }
+  ],
+  "completed_without_infrastructure_errors": true,
+  "repetitions": [
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 18,
+        "input_tokens": 22037,
+        "output_tokens": 1783,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "guided": {
+        "tasks": 4,
+        "strict": 3,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 20,
+        "input_tokens": 24899,
+        "output_tokens": 1744,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "turn_budget_exhausted": 1,
+          "finished": 3
+        }
+      }
+    },
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 18,
+        "input_tokens": 22570,
+        "output_tokens": 1835,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "guided": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 16,
+        "input_tokens": 19372,
+        "output_tokens": 1740,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    }
+  ],
+  "development_gate": "strict_completion_gain",
+  "holdout_gate": [
+    "quality_regression",
+    "token_saving_at_equal_or_better_quality"
+  ],
+  "model_consistent_across_splits": true,
+  "promotion_supported": false,
+  "recommended_policy": "reference"
+}
