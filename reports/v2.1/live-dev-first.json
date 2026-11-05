@@ -1,0 +1,1096 @@
+{
+  "stage_goal": "V2.1 Context Engineering: measure answer quality and context cost at fixed evidence budgets",
+  "split": "dev",
+  "manifest": {
+    "version": 1,
+    "sha256": {
+      "corpus.json": "ef571b259806252c8af4af29c89342efbb551a5576f941ed1aacda75d2a56df3",
+      "dev.jsonl": "fde9ecc1ea6c747c67dac17f974b4dfc2de03fcfa5e3538dc2c1d8b397d39eec",
+      "holdout.jsonl": "3c9bcf853b609786763473004ce63617303f859dd87fe058003b87c02979faaa"
+    }
+  },
+  "budgets_bytes": [
+    640,
+    1800
+  ],
+  "mode": "live",
+  "answer_prompt_sha256": "b21a296ba4c4b85490608faab4edc3b33240cb329c82114ce7d7163e58aba80f",
+  "embedding": {
+    "name": "openai:chat=unset;embedding=qwen3.7-text-embedding-flash;format=json_schema",
+    "index_ms": 662.322900025174,
+    "index_requests": 1,
+    "index_usage": {
+      "prompt_tokens": 887,
+      "total_tokens": 887
+    },
+    "total_requests": 5,
+    "total_usage": {
+      "prompt_tokens": 987,
+      "total_tokens": 987
+    }
+  },
+  "model_requests": 12,
+  "cost_currency": null,
+  "summary": [
+    {
+      "strategy": "direct",
+      "budget_bytes": 640,
+      "questions": 2,
+      "evidence_hits": 0,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 0.5883499979972839,
+      "mean_evidence_bytes": 405,
+      "mean_retrieved_bytes": 362,
+      "exact_with_citations": 0,
+      "model_errors": 0,
+      "input_tokens": 376,
+      "output_tokens": 20
+    },
+    {
+      "strategy": "direct",
+      "budget_bytes": 1800,
+      "questions": 2,
+      "evidence_hits": 1,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 0.16269998741336167,
+      "mean_evidence_bytes": 1774,
+      "mean_retrieved_bytes": 1591,
+      "exact_with_citations": 1,
+      "model_errors": 0,
+      "input_tokens": 888,
+      "output_tokens": 25
+    },
+    {
+      "strategy": "vector",
+      "budget_bytes": 640,
+      "questions": 2,
+      "evidence_hits": 2,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 373.59645002288744,
+      "mean_evidence_bytes": 354,
+      "mean_retrieved_bytes": 315,
+      "exact_with_citations": 2,
+      "model_errors": 0,
+      "input_tokens": 353,
+      "output_tokens": 30
+    },
+    {
+      "strategy": "vector",
+      "budget_bytes": 1800,
+      "questions": 2,
+      "evidence_hits": 2,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 361.56279998249374,
+      "mean_evidence_bytes": 1720,
+      "mean_retrieved_bytes": 1537,
+      "exact_with_citations": 2,
+      "model_errors": 0,
+      "input_tokens": 860,
+      "output_tokens": 30
+    },
+    {
+      "strategy": "layered",
+      "budget_bytes": 640,
+      "questions": 2,
+      "evidence_hits": 2,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 0.10199999087490141,
+      "mean_evidence_bytes": 354,
+      "mean_retrieved_bytes": 900,
+      "exact_with_citations": 2,
+      "model_errors": 0,
+      "input_tokens": 353,
+      "output_tokens": 30
+    },
+    {
+      "strategy": "layered",
+      "budget_bytes": 1800,
+      "questions": 2,
+      "evidence_hits": 2,
+      "answerable_questions": 2,
+      "median_retrieval_ms": 0.16245001461356878,
+      "mean_evidence_bytes": 1069,
+      "mean_retrieved_bytes": 1543.5,
+      "exact_with_citations": 2,
+      "model_errors": 0,
+      "input_tokens": 617,
+      "output_tokens": 30
+    }
+  ],
+  "trials": [
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 1.0757999843917787,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 966.9377999962308,
+        "usage": {
+          "prompt_tokens": 187,
+          "completion_tokens": 10,
+          "total_tokens": 197,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 187,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 802
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 346,
+      "evidence": [
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        }
+      ],
+      "retrieval_ms": 379.85070003196597,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        }
+      ],
+      "retrieved_bytes": 309,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1155.6274999747984,
+        "usage": {
+          "prompt_tokens": 175,
+          "completion_tokens": 15,
+          "total_tokens": 190,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 175,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 743
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 346,
+      "evidence": [
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        }
+      ],
+      "retrieval_ms": 0.10389997623860836,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 250
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        }
+      ],
+      "retrieved_bytes": 887,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1414.5813999930397,
+        "usage": {
+          "prompt_tokens": 175,
+          "completion_tokens": 15,
+          "total_tokens": 190,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 175,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 743
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.16499997582286596,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 941.8618999770842,
+        "usage": {
+          "prompt_tokens": 443,
+          "completion_tokens": 15,
+          "total_tokens": 458,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 443,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 2171
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1739,
+      "evidence": [
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "retry-header",
+          "text": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+        },
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        }
+      ],
+      "retrieval_ms": 396.08779997797683,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "retry-header",
+          "bytes": 306
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        }
+      ],
+      "retrieved_bytes": 1552,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1291.4830000372604,
+        "usage": {
+          "prompt_tokens": 433,
+          "completion_tokens": 15,
+          "total_tokens": 448,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 433,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 2136
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1099,
+      "evidence": [
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        }
+      ],
+      "retrieval_ms": 0.11490000179037452,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 250
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        }
+      ],
+      "retrieved_bytes": 1564,
+      "question_id": "dev-01",
+      "question": "What is the gateway readiness probe path?",
+      "gold": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "/readyz",
+        "citations": [
+          "readiness"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1180.713600013405,
+        "usage": {
+          "prompt_tokens": 315,
+          "completion_tokens": 15,
+          "total_tokens": 330,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 315,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 1496
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 362,
+      "evidence": [
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        }
+      ],
+      "retrieval_ms": 367.3422000138089,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        }
+      ],
+      "retrieved_bytes": 321,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1164.1250000102445,
+        "usage": {
+          "prompt_tokens": 178,
+          "completion_tokens": 15,
+          "total_tokens": 193,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 178,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 772
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 362,
+      "evidence": [
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        }
+      ],
+      "retrieval_ms": 0.10010000551119447,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 264
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        }
+      ],
+      "retrieved_bytes": 913,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 933.1196999992244,
+        "usage": {
+          "prompt_tokens": 178,
+          "completion_tokens": 15,
+          "total_tokens": 193,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 178,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 772
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.16039999900385737,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 833.2343999645673,
+        "usage": {
+          "prompt_tokens": 445,
+          "completion_tokens": 10,
+          "total_tokens": 455,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 445,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 2184
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1701,
+      "evidence": [
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        },
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        },
+        {
+          "source_id": "storage",
+          "text": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "page-cursor",
+          "text": "Pagination continuation is exposed as next_cursor. Treat the value as opaque when using it on the next request. Keep filters consistent across pages of the same listing. Customer support uses a small fixture to reproduce pagination behavior and attach request identifiers to bug reports."
+        }
+      ],
+      "retrieval_ms": 327.03779998701066,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "page-cursor",
+          "bytes": 287
+        }
+      ],
+      "retrieved_bytes": 1522,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1202.412299986463,
+        "usage": {
+          "prompt_tokens": 427,
+          "completion_tokens": 15,
+          "total_tokens": 442,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 427,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 2111
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1039,
+      "evidence": [
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        },
+        {
+          "source_id": "storage",
+          "text": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+        },
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        }
+      ],
+      "retrieval_ms": 0.21000002743676305,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 264
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        }
+      ],
+      "retrieved_bytes": 1523,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1265.4998999787495,
+        "usage": {
+          "prompt_tokens": 302,
+          "completion_tokens": 15,
+          "total_tokens": 317,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 302,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 1449
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 0.10090001160278916,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "dev-02",
+      "question": "What file format does the scheduled data export write?",
+      "gold": {
+        "answer": "Parquet",
+        "citations": [
+          "export-format"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1118.0938999750651,
+        "usage": {
+          "prompt_tokens": 189,
+          "completion_tokens": 10,
+          "total_tokens": 199,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 189,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 815
+      }
+    }
+  ]
+}

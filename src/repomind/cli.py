@@ -111,6 +111,20 @@ def build_parser() -> argparse.ArgumentParser:
     agent.add_argument("--max-turns", type=int, default=6)
     agent.add_argument("--max-test-runs", type=int, default=3)
     agent.add_argument("--pricing", type=Path)
+    from repomind.context.selection import STRATEGIES
+    context = commands.add_parser("context-select", help="Select project evidence under an explicit byte budget")
+    context.add_argument("--corpus", type=Path, default=Path("data/v2.1/corpus.json"))
+    context.add_argument("--project", required=True)
+    context.add_argument("--query", required=True)
+    context.add_argument("--strategy", choices=STRATEGIES, default="layered")
+    context.add_argument("--budget", type=int, default=1536, help="Maximum UTF-8 bytes of evidence JSON")
+    context.add_argument("--openviking-root", help="Read layered data from a named viking://resources subtree")
+    bench = commands.add_parser("context-bench", help="Compare direct, vector, and layered context on frozen questions")
+    bench.add_argument("--data-root", type=Path, default=Path("data/v2.1"))
+    bench.add_argument("--split", choices=("dev", "holdout"), default="dev")
+    bench.add_argument("--budgets", nargs="+", type=int, default=(640, 1800))
+    bench.add_argument("--live", action="store_true", help="Use configured embedding and chat services")
+    bench.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -201,6 +215,41 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "config":
             from repomind.intelligence.config import configuration_status
             output = configuration_status()
+        elif args.command == "context-select":
+            import os
+            from repomind.context.selection import Corpus, ContextSelector
+            from repomind.context.openviking import OpenVikingReader
+            from repomind.intelligence.config import load_env_file
+            from repomind.intelligence.dashscope import embedding_provider_from_env
+
+            reader = None
+            if args.openviking_root:
+                if args.strategy != "layered":
+                    raise ValueError("OpenViking requires --strategy layered")
+                load_env_file()
+                reader = OpenVikingReader(os.environ.get("REPOMIND_OPENVIKING_URL", "http://127.0.0.1:1933"),
+                                         args.openviking_root, os.environ.get("REPOMIND_OPENVIKING_KEY") or None)
+            embedder = embedding_provider_from_env() if args.strategy == "vector" else None
+            selector = ContextSelector(Corpus.load(args.corpus), embedder=embedder, reader=reader)
+            if embedder is not None:
+                selector.index(args.project)
+            output = selector.select(args.project, args.query, args.strategy, args.budget)
+        elif args.command == "context-bench":
+            from repomind.context.benchmark import LiveAnswerer, run_benchmark
+            from repomind.intelligence.dashscope import embedding_provider_from_env
+
+            path = args.output.resolve()
+            if path.suffix != ".json" or path.is_relative_to(args.data_root.resolve()) or path.exists():
+                raise ValueError("context benchmark requires a new .json output outside frozen data")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            report = run_benchmark(args.data_root, args.split, tuple(args.budgets),
+                                   embedder=embedding_provider_from_env() if args.live else None,
+                                   answerer=LiveAnswerer() if args.live else None)
+            with path.open("x", encoding="utf-8", newline="\n") as stream:
+                json.dump(report, stream, ensure_ascii=False, indent=2, allow_nan=False)
+                stream.write("\n")
+            print(json.dumps({"output": str(path), "summary": report["summary"]}, ensure_ascii=False, indent=2))
+            return int(any(row["model_errors"] for row in report["summary"]))
         elif args.command == "agent-prepare":
             from repomind.agent.sandbox import prepare_image
             if args.output.suffix != ".json" or args.output.name.startswith(".env"):

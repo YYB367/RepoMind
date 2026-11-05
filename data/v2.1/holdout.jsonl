@@ -1,0 +1,8 @@
+{"id":"hold-01","project":"cedar-api","question":"What is the required CI merge check name?","gold":{"answer":"build-verify","citations":["build-gate"]}}
+{"id":"hold-02","project":"cedar-api","question":"How long is the production release canary observation window? Return the number and unit.","gold":{"answer":"12 minutes","citations":["canary"]}}
+{"id":"hold-03","project":"cedar-api","question":"What is the backup retention period? Return the number and unit.","gold":{"answer":"21 days","citations":["backup"]}}
+{"id":"hold-04","project":"cedar-api","question":"What is the HTTP header for verifying the webhook signature?","gold":{"answer":"X-Cedar-Signature","citations":["webhook"]}}
+{"id":"hold-05","project":"pine-api","question":"Which database engine stores durable application records?","gold":{"answer":"MariaDB","citations":["storage"]}}
+{"id":"hold-06","project":"pine-api","question":"Which vendor provides the team's customer SMS service?","gold":{"answer":null,"citations":[]}}
+{"id":"hold-07","project":"cedar-api","question":"For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.","gold":{"answer":"12 minutes / build-verify","citations":["build-gate","canary"]}}
+{"id":"hold-08","project":"pine-api","question":"How long are database backups retained? Return the number and unit.","gold":{"answer":"35 days","citations":["backup"]}}

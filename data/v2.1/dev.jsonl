@@ -1,0 +1,2 @@
+{"id":"dev-01","project":"cedar-api","question":"What is the gateway readiness probe path?","gold":{"answer":"/readyz","citations":["readiness"]}}
+{"id":"dev-02","project":"cedar-api","question":"What file format does the scheduled data export write?","gold":{"answer":"Parquet","citations":["export-format"]}}

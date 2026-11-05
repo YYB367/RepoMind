@@ -1,0 +1,130 @@
+{
+  "projects": {
+    "cedar-api": [
+      {
+        "id": "runtime",
+        "abstract": "Runtime deployment, worker process, gateway, readiness checks, regions, rollout.",
+        "overview": "runtime-workers | Worker concurrency. Pool sizing and concurrency for production containers.\nreadiness | Gateway readiness probe. Gateway health path, traffic draining and readiness.\nregions | Runtime regions. Primary region and deployment inventory.",
+        "documents": [
+          {
+            "id": "runtime-workers",
+            "title": "Worker concurrency",
+            "body": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+          },
+          {
+            "id": "readiness",
+            "title": "Gateway readiness probe",
+            "body": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+          },
+          {
+            "id": "regions",
+            "title": "Runtime regions",
+            "body": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+          }
+        ]
+      },
+      {
+        "id": "delivery",
+        "abstract": "CI pipeline, build checks, release gates, canary observation window, rollbacks.",
+        "overview": "build-gate | Required merge check. CI name, required check, merge validation.\ncanary | Release canary observation. Production release rollout and observation duration.\nrollback | Release rollback owner. Decision owner and escalation for rolling back a release.",
+        "documents": [
+          {
+            "id": "build-gate",
+            "title": "Required merge check",
+            "body": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+          },
+          {
+            "id": "canary",
+            "title": "Release canary observation",
+            "body": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+          },
+          {
+            "id": "rollback",
+            "title": "Release rollback owner",
+            "body": "The incident commander owns the release rollback decision. Support routes urgent reports to the commander and publishes the decision in the incident channel. The platform team operates the deployment tooling. This process also requires a short timeline covering the traffic shift and the observed error window."
+          }
+        ]
+      },
+      {
+        "id": "data",
+        "abstract": "Storage data database backups retention, scheduled export format, service accounts.",
+        "overview": "storage | Database storage engine. Database engine, migrations and persistent application data.\nbackup | Backup retention and restore. Retention duration in days, storage restore rehearsal.\nexport-format | Scheduled export format. Format for periodic data exports.",
+        "documents": [
+          {
+            "id": "storage",
+            "title": "Database storage engine",
+            "body": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+          },
+          {
+            "id": "backup",
+            "title": "Backup retention and restore",
+            "body": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+          },
+          {
+            "id": "export-format",
+            "title": "Scheduled export format",
+            "body": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+          }
+        ]
+      },
+      {
+        "id": "api",
+        "abstract": "API contract, client pagination cursor, webhook authentication, failure retry headers.",
+        "overview": "webhook | Webhook signature header. Webhook signature verification and header name.\npage-cursor | Pagination continuation field. Cursor field for listing pagination.\nretry-header | Retry hint header. Header for retry hints and client rate limiting.",
+        "documents": [
+          {
+            "id": "webhook",
+            "title": "Webhook signature header",
+            "body": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+          },
+          {
+            "id": "page-cursor",
+            "title": "Pagination continuation field",
+            "body": "Pagination continuation is exposed as next_cursor. Treat the value as opaque when using it on the next request. Keep filters consistent across pages of the same listing. Customer support uses a small fixture to reproduce pagination behavior and attach request identifiers to bug reports."
+          },
+          {
+            "id": "retry-header",
+            "title": "Retry hint header",
+            "body": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+          }
+        ]
+      }
+    ],
+    "pine-api": [
+      {
+        "id": "delivery",
+        "abstract": "CI pipeline build merge checks and production canary observation.",
+        "overview": "build-gate | Required merge check. Merge validation check for the Pine CI pipeline.\ncanary | Release canary observation. Production rollout and observation duration.",
+        "documents": [
+          {
+            "id": "build-gate",
+            "title": "Required merge check",
+            "body": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+          },
+          {
+            "id": "canary",
+            "title": "Release canary observation",
+            "body": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+          }
+        ]
+      },
+      {
+        "id": "data",
+        "abstract": "Storage database, backup retention, export format.",
+        "overview": "storage | Database storage engine. Database engine and migration review.\nbackup | Backup retention and restore. Retention duration and restore rehearsal.",
+        "documents": [
+          {
+            "id": "storage",
+            "title": "Database storage engine",
+            "body": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+          },
+          {
+            "id": "backup",
+            "title": "Backup retention and restore",
+            "body": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+          }
+        ]
+      }
+    ]
+  }
+}

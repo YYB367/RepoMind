@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "sha256": {
+    "corpus.json": "ef571b259806252c8af4af29c89342efbb551a5576f941ed1aacda75d2a56df3",
+    "dev.jsonl": "fde9ecc1ea6c747c67dac17f974b4dfc2de03fcfa5e3538dc2c1d8b397d39eec",
+    "holdout.jsonl": "3c9bcf853b609786763473004ce63617303f859dd87fe058003b87c02979faaa"
+  }
+}
