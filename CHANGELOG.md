@@ -1,3 +1,14 @@
+# 阶段目标
+
+RepoMind V2.1 Context Engineering，2026-11-05。增加项目文档预算选择、OpenViking 分层读取和三组固定条件对照。
+
+- 新增 context-select 和 context-bench，支持直接加载、向量检索和目录分层。
+- 新增两档预算与冻结评测输入。首次保留集在 1800 字节下，分层与向量均为 8/8，分层少用 900 个回答输入 Token。640 字节下，分层为 5/8，向量为 7/8。
+- 首轮平台测试通过 465 项，Docker 重启后补测 4 项全部通过。OpenViking 0.4.21 独立服务的两项目三层读取通过。
+- 部署、技术变更及验收证据见 docs/v2.1-delivery.md 和 ADR 0020。
+
+---
+
 # 阶段目标：RepoMind V2.0 Developer Agent — 2026-10-28
 
 交付2.0.0：有限JSON动作、限定文件/Git工具、Docker禁网只读限额执行、独立判题、成功任务经验。工程465项测试通过，基础442通过/23跳过；真实云端30条Trace、6个Experiment核验完成。没有实施V2.1/V3。

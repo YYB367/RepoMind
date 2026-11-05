@@ -1,0 +1,123 @@
+{
+  "stage_goal": "V2.1 verify the three native content routes on loopback",
+  "server_version": "0.4.21",
+  "passed": true,
+  "server_stopped": true,
+  "storage": "native RAGFS with curated fixture summaries",
+  "models_called": false,
+  "authentication": "loopback dev mode",
+  "cases": [
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "openviking",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 135.16369997523725,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "rollback",
+          "bytes": 310
+        }
+      ],
+      "retrieved_bytes": 1503
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "openviking",
+      "budget_bytes": 640,
+      "evidence_bytes": 346,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        }
+      ],
+      "retrieval_ms": 27.04539999831468,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 165
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        }
+      ],
+      "retrieved_bytes": 866
+    }
+  ]
+}

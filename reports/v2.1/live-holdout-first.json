@@ -1,0 +1,3948 @@
+{
+  "stage_goal": "V2.1 Context Engineering: measure answer quality and context cost at fixed evidence budgets",
+  "split": "holdout",
+  "manifest": {
+    "version": 1,
+    "sha256": {
+      "corpus.json": "ef571b259806252c8af4af29c89342efbb551a5576f941ed1aacda75d2a56df3",
+      "dev.jsonl": "fde9ecc1ea6c747c67dac17f974b4dfc2de03fcfa5e3538dc2c1d8b397d39eec",
+      "holdout.jsonl": "3c9bcf853b609786763473004ce63617303f859dd87fe058003b87c02979faaa"
+    }
+  },
+  "budgets_bytes": [
+    640,
+    1800
+  ],
+  "mode": "live",
+  "answer_prompt_sha256": "b21a296ba4c4b85490608faab4edc3b33240cb329c82114ce7d7163e58aba80f",
+  "embedding": {
+    "name": "openai:chat=unset;embedding=qwen3.7-text-embedding-flash;format=json_schema",
+    "fingerprint": "openai-compatible-59b516d961af2658c5ea6c0738e720a7b4299cfb418c1468e9a3cc6ecfb8cd7a",
+    "index_ms": 1177.479600009974,
+    "index_requests": 2,
+    "index_usage": {
+      "prompt_tokens": 1166,
+      "total_tokens": 1166
+    },
+    "total_requests": 18,
+    "total_usage": {
+      "prompt_tokens": 1646,
+      "total_tokens": 1646
+    }
+  },
+  "model_requests": 48,
+  "cost_currency": null,
+  "summary": [
+    {
+      "strategy": "direct",
+      "budget_bytes": 640,
+      "questions": 8,
+      "evidence_hits": 1,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 0.12600002810359,
+      "mean_evidence_bytes": 487.5,
+      "mean_retrieved_bytes": 433.625,
+      "exact_with_citations": 2,
+      "model_errors": 0,
+      "input_tokens": 1662,
+      "output_tokens": 83
+    },
+    {
+      "strategy": "direct",
+      "budget_bytes": 1800,
+      "questions": 8,
+      "evidence_hits": 5,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 0.1910499995574355,
+      "mean_evidence_bytes": 1584.625,
+      "mean_retrieved_bytes": 1418.5,
+      "exact_with_citations": 6,
+      "model_errors": 0,
+      "input_tokens": 3305,
+      "output_tokens": 108
+    },
+    {
+      "strategy": "vector",
+      "budget_bytes": 640,
+      "questions": 8,
+      "evidence_hits": 6,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 388.5576000029687,
+      "mean_evidence_bytes": 408,
+      "mean_retrieved_bytes": 364.875,
+      "exact_with_citations": 7,
+      "model_errors": 0,
+      "input_tokens": 1559,
+      "output_tokens": 114
+    },
+    {
+      "strategy": "vector",
+      "budget_bytes": 1800,
+      "questions": 8,
+      "evidence_hits": 7,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 411.7124500044156,
+      "mean_evidence_bytes": 1560.75,
+      "mean_retrieved_bytes": 1395.25,
+      "exact_with_citations": 8,
+      "model_errors": 0,
+      "input_tokens": 3264,
+      "output_tokens": 120
+    },
+    {
+      "strategy": "layered",
+      "budget_bytes": 640,
+      "questions": 8,
+      "evidence_hits": 4,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 0.132200017105788,
+      "mean_evidence_bytes": 405.375,
+      "mean_retrieved_bytes": 850.25,
+      "exact_with_citations": 5,
+      "model_errors": 0,
+      "input_tokens": 1552,
+      "output_tokens": 106
+    },
+    {
+      "strategy": "layered",
+      "budget_bytes": 1800,
+      "questions": 8,
+      "evidence_hits": 7,
+      "answerable_questions": 7,
+      "median_retrieval_ms": 0.14089999604038894,
+      "mean_evidence_bytes": 956.125,
+      "mean_retrieved_bytes": 1343.375,
+      "exact_with_citations": 8,
+      "model_errors": 0,
+      "input_tokens": 2364,
+      "output_tokens": 120
+    }
+  ],
+  "trials": [
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 1.1071999906562269,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 819.2128000082448,
+        "usage": {
+          "prompt_tokens": 188,
+          "completion_tokens": 10,
+          "total_tokens": 198,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 188,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 802
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 339,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        }
+      ],
+      "retrieval_ms": 392.4257999751717,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        }
+      ],
+      "retrieved_bytes": 301,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1274.870200024452,
+        "usage": {
+          "prompt_tokens": 179,
+          "completion_tokens": 16,
+          "total_tokens": 195,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 179,
+        "output_tokens": 16,
+        "input_message_utf8_bytes": 736
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 339,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        }
+      ],
+      "retrieval_ms": 0.1789000234566629,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        }
+      ],
+      "retrieved_bytes": 889,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1207.2875000303611,
+        "usage": {
+          "prompt_tokens": 179,
+          "completion_tokens": 16,
+          "total_tokens": 195,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 179,
+        "output_tokens": 16,
+        "input_message_utf8_bytes": 736
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.1697000116109848,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 966.6677999775857,
+        "usage": {
+          "prompt_tokens": 444,
+          "completion_tokens": 16,
+          "total_tokens": 460,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 444,
+        "output_tokens": 16,
+        "input_message_utf8_bytes": 2171
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1703,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "webhook",
+          "text": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+        },
+        {
+          "source_id": "retry-header",
+          "text": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+        }
+      ],
+      "retrieval_ms": 478.01640001125634,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "webhook",
+          "bytes": 303
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "retry-header",
+          "bytes": 306
+        }
+      ],
+      "retrieved_bytes": 1523,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1461.9651000248268,
+        "usage": {
+          "prompt_tokens": 432,
+          "completion_tokens": 16,
+          "total_tokens": 448,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 432,
+        "output_tokens": 16,
+        "input_message_utf8_bytes": 2100
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1021,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "rollback",
+          "text": "The incident commander owns the release rollback decision. Support routes urgent reports to the commander and publishes the decision in the incident channel. The platform team operates the deployment tooling. This process also requires a short timeline covering the traffic shift and the observed error window."
+        }
+      ],
+      "retrieval_ms": 0.1066999975591898,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "rollback",
+          "bytes": 310
+        }
+      ],
+      "retrieved_bytes": 1503,
+      "question_id": "hold-01",
+      "question": "What is the required CI merge check name?",
+      "gold": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "build-verify",
+        "citations": [
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1173.9606999908574,
+        "usage": {
+          "prompt_tokens": 303,
+          "completion_tokens": 16,
+          "total_tokens": 319,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 303,
+        "output_tokens": 16,
+        "input_message_utf8_bytes": 1418
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 350.3633000073023,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 304,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1226.1685999692418,
+        "usage": {
+          "prompt_tokens": 185,
+          "completion_tokens": 14,
+          "total_tokens": 199,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 185,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 783
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.12820004485547543,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 892,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1237.2991999727674,
+        "usage": {
+          "prompt_tokens": 185,
+          "completion_tokens": 14,
+          "total_tokens": 199,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 185,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 783
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.21239998750388622,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 965.3540999861434,
+        "usage": {
+          "prompt_tokens": 452,
+          "completion_tokens": 14,
+          "total_tokens": 466,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 452,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 2219
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        },
+        {
+          "source_id": "rollback",
+          "text": "The incident commander owns the release rollback decision. Support routes urgent reports to the commander and publishes the decision in the incident channel. The platform team operates the deployment tooling. This process also requires a short timeline covering the traffic shift and the observed error window."
+        }
+      ],
+      "retrieval_ms": 393.17599998321384,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "rollback",
+          "bytes": 310
+        }
+      ],
+      "retrieved_bytes": 1596,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1061.8499999982305,
+        "usage": {
+          "prompt_tokens": 451,
+          "completion_tokens": 14,
+          "total_tokens": 465,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 451,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 2219
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1021,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "rollback",
+          "text": "The incident commander owns the release rollback decision. Support routes urgent reports to the commander and publishes the decision in the incident channel. The platform team operates the deployment tooling. This process also requires a short timeline covering the traffic shift and the observed error window."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        }
+      ],
+      "retrieval_ms": 0.14479999663308263,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "rollback",
+          "bytes": 310
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        }
+      ],
+      "retrieved_bytes": 1503,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 809.4594000140205,
+        "usage": {
+          "prompt_tokens": 311,
+          "completion_tokens": 14,
+          "total_tokens": 325,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 311,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1466
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 0.12879999121651053,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "hold-02",
+      "question": "How long is the production release canary observation window? Return the number and unit.",
+      "gold": {
+        "answer": "12 minutes",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 557.9196999897249,
+        "usage": {
+          "prompt_tokens": 196,
+          "completion_tokens": 10,
+          "total_tokens": 206,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 196,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 850
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 340,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+        }
+      ],
+      "retrieval_ms": 0.16459997277706861,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 264
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 305
+        }
+      ],
+      "retrieved_bytes": 897,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1194.5052000228316,
+        "usage": {
+          "prompt_tokens": 177,
+          "completion_tokens": 10,
+          "total_tokens": 187,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 177,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 760
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.3030000370927155,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 947.7694000233896,
+        "usage": {
+          "prompt_tokens": 448,
+          "completion_tokens": 10,
+          "total_tokens": 458,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 448,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 2194
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        },
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        },
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "retry-header",
+          "text": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+        },
+        {
+          "source_id": "page-cursor",
+          "text": "Pagination continuation is exposed as next_cursor. Treat the value as opaque when using it on the next request. Keep filters consistent across pages of the same listing. Customer support uses a small fixture to reproduce pagination behavior and attach request identifiers to bug reports."
+        }
+      ],
+      "retrieval_ms": 461.4856000407599,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "retry-header",
+          "bytes": 306
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "page-cursor",
+          "bytes": 287
+        }
+      ],
+      "retrieved_bytes": 1581,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1015.406200021971,
+        "usage": {
+          "prompt_tokens": 446,
+          "completion_tokens": 14,
+          "total_tokens": 460,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 446,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 2194
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1039,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+        },
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        },
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        }
+      ],
+      "retrieval_ms": 0.1659000408835709,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 264
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        }
+      ],
+      "retrieved_bytes": 1523,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1145.5395999946631,
+        "usage": {
+          "prompt_tokens": 305,
+          "completion_tokens": 14,
+          "total_tokens": 319,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 305,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1459
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 0.1268000341951847,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 958.4877999732271,
+        "usage": {
+          "prompt_tokens": 192,
+          "completion_tokens": 10,
+          "total_tokens": 202,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 192,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 825
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 339,
+      "evidence": [
+        {
+          "source_id": "backup",
+          "text": "The backup retention period is 21 days. During restore rehearsals the data team selects a point from the inventory and verifies checksums in the restored database. Restores are rehearsed in isolated infrastructure with synthetic inputs. Save validation output with the exercise record for the next review."
+        }
+      ],
+      "retrieval_ms": 503.9153999532573,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 305
+        }
+      ],
+      "retrieved_bytes": 305,
+      "question_id": "hold-03",
+      "question": "What is the backup retention period? Return the number and unit.",
+      "gold": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "21 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1128.991900011897,
+        "usage": {
+          "prompt_tokens": 183,
+          "completion_tokens": 14,
+          "total_tokens": 197,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 183,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 759
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.26920001255348325,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1288.6757999658585,
+        "usage": {
+          "prompt_tokens": 447,
+          "completion_tokens": 10,
+          "total_tokens": 457,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 447,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 2190
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1703,
+      "evidence": [
+        {
+          "source_id": "webhook",
+          "text": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+        },
+        {
+          "source_id": "retry-header",
+          "text": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 443.82729998324066,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "webhook",
+          "bytes": 303
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "retry-header",
+          "bytes": 306
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1523,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1146.053300006315,
+        "usage": {
+          "prompt_tokens": 435,
+          "completion_tokens": 18,
+          "total_tokens": 453,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 435,
+        "output_tokens": 18,
+        "input_message_utf8_bytes": 2119
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1008,
+      "evidence": [
+        {
+          "source_id": "webhook",
+          "text": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+        },
+        {
+          "source_id": "retry-header",
+          "text": "Clients receive Retry-After for rate limit recovery. The integration team reviews traffic and uses a safe delay before repeating requests. A request log can show whether the API replied during a brief surge. The transport middleware writes the related response identifiers to the client diagnostics stream."
+        },
+        {
+          "source_id": "page-cursor",
+          "text": "Pagination continuation is exposed as next_cursor. Treat the value as opaque when using it on the next request. Keep filters consistent across pages of the same listing. Customer support uses a small fixture to reproduce pagination behavior and attach request identifiers to bug reports."
+        }
+      ],
+      "retrieval_ms": 0.1346999779343605,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "api",
+          "source_id": null,
+          "bytes": 248
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "webhook",
+          "bytes": 303
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "retry-header",
+          "bytes": 306
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "page-cursor",
+          "bytes": 287
+        }
+      ],
+      "retrieved_bytes": 1472,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1066.8475999846123,
+        "usage": {
+          "prompt_tokens": 307,
+          "completion_tokens": 18,
+          "total_tokens": 325,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 307,
+        "output_tokens": 18,
+        "input_message_utf8_bytes": 1424
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 0.12520002201199532,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 2026.534000004176,
+        "usage": {
+          "prompt_tokens": 191,
+          "completion_tokens": 10,
+          "total_tokens": 201,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 191,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 821
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "webhook",
+          "text": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+        }
+      ],
+      "retrieval_ms": 384.6894000307657,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "webhook",
+          "bytes": 303
+        }
+      ],
+      "retrieved_bytes": 303,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1186.8473999784328,
+        "usage": {
+          "prompt_tokens": 181,
+          "completion_tokens": 18,
+          "total_tokens": 199,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 181,
+        "output_tokens": 18,
+        "input_message_utf8_bytes": 754
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "webhook",
+          "text": "The webhook signature is provided in X-Cedar-Signature. Receivers validate the signature against the exact request bytes before decoding the payload. Logs record verification success without including private material. When debugging delivery, keep the event ID and request time with the original trace."
+        }
+      ],
+      "retrieval_ms": 0.14900002861395478,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "api",
+          "source_id": null,
+          "bytes": 248
+        },
+        {
+          "level": "L2",
+          "group": "api",
+          "source_id": "webhook",
+          "bytes": 303
+        }
+      ],
+      "retrieved_bytes": 879,
+      "question_id": "hold-04",
+      "question": "What is the HTTP header for verifying the webhook signature?",
+      "gold": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "X-Cedar-Signature",
+        "citations": [
+          "webhook"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1157.5562999933027,
+        "usage": {
+          "prompt_tokens": 181,
+          "completion_tokens": 18,
+          "total_tokens": 199,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 181,
+        "output_tokens": 18,
+        "input_message_utf8_bytes": 754
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        }
+      ],
+      "retrieval_ms": 430.24890002561733,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 643.2222000439651,
+        "usage": {
+          "prompt_tokens": 347,
+          "completion_tokens": 13,
+          "total_tokens": 360,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 347,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1681
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 613,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.08510000770911574,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 153
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 813,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1085.951799992472,
+        "usage": {
+          "prompt_tokens": 226,
+          "completion_tokens": 13,
+          "total_tokens": 239,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 226,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1025
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 625,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        }
+      ],
+      "retrieval_ms": 0.11549994815140963,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        }
+      ],
+      "retrieved_bytes": 553,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 994.9433000292629,
+        "usage": {
+          "prompt_tokens": 226,
+          "completion_tokens": 13,
+          "total_tokens": 239,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 226,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1037
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 613,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 352.9145999928005,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 545,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 927.59350000415,
+        "usage": {
+          "prompt_tokens": 226,
+          "completion_tokens": 13,
+          "total_tokens": 239,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 226,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1025
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 613,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.07959996582940221,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 153
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 813,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 816.0109999589622,
+        "usage": {
+          "prompt_tokens": 226,
+          "completion_tokens": 13,
+          "total_tokens": 239,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 226,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1025
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.14030002057552338,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-05",
+      "question": "Which database engine stores durable application records?",
+      "gold": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "MariaDB",
+        "citations": [
+          "storage"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 919.6667000069283,
+        "usage": {
+          "prompt_tokens": 347,
+          "completion_tokens": 13,
+          "total_tokens": 360,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 347,
+        "output_tokens": 13,
+        "input_message_utf8_bytes": 1681
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 657,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        }
+      ],
+      "retrieval_ms": 0.17010001465678215,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 165
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        }
+      ],
+      "retrieved_bytes": 866,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1015.3201000066474,
+        "usage": {
+          "prompt_tokens": 235,
+          "completion_tokens": 10,
+          "total_tokens": 245,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 235,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1066
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 625,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        }
+      ],
+      "retrieval_ms": 0.07870001718401909,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        }
+      ],
+      "retrieved_bytes": 553,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 602.5609000353143,
+        "usage": {
+          "prompt_tokens": 228,
+          "completion_tokens": 10,
+          "total_tokens": 238,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 228,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1034
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 346,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        }
+      ],
+      "retrieval_ms": 346.0124999983236,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        }
+      ],
+      "retrieved_bytes": 312,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1077.2657000343315,
+        "usage": {
+          "prompt_tokens": 175,
+          "completion_tokens": 10,
+          "total_tokens": 185,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 175,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 755
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 312,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        }
+      ],
+      "retrieval_ms": 0.11009996524080634,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 165
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        }
+      ],
+      "retrieved_bytes": 554,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 815.0682999985293,
+        "usage": {
+          "prompt_tokens": 174,
+          "completion_tokens": 10,
+          "total_tokens": 184,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 174,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 721
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.14349998673424125,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 853.2828000024892,
+        "usage": {
+          "prompt_tokens": 349,
+          "completion_tokens": 10,
+          "total_tokens": 359,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 349,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1678
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        }
+      ],
+      "retrieval_ms": 391.85020001605153,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-06",
+      "question": "Which vendor provides the team's customer SMS service?",
+      "gold": {
+        "answer": null,
+        "citations": []
+      },
+      "answerable": false,
+      "evidence_hit": null,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 900.9218999999575,
+        "usage": {
+          "prompt_tokens": 349,
+          "completion_tokens": 10,
+          "total_tokens": 359,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 349,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1678
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 405,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        }
+      ],
+      "retrieval_ms": 0.14189997455105186,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        }
+      ],
+      "retrieved_bytes": 362,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1248.6794000142254,
+        "usage": {
+          "prompt_tokens": 210,
+          "completion_tokens": 10,
+          "total_tokens": 220,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 210,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 919
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 396.1589999962598,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 304,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": "12 minutes/",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 980.4067999939434,
+        "usage": {
+          "prompt_tokens": 199,
+          "completion_tokens": 15,
+          "total_tokens": 214,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 199,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 852
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 338,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.12099999003112316,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 892,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": "12 minutes/",
+        "citations": [
+          "canary"
+        ]
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 953.8709000335075,
+        "usage": {
+          "prompt_tokens": 199,
+          "completion_tokens": 15,
+          "total_tokens": 214,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 199,
+        "output_tokens": 15,
+        "input_message_utf8_bytes": 852
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1774,
+      "evidence": [
+        {
+          "source_id": "runtime-workers",
+          "text": "Worker concurrency is fixed at 8 per container in production. On-call operators can look at the worker saturation panel before increasing replicas. The service maintains an independent job queue, and the per-container pool should stay aligned with the runtime profile. The application team owns tuning requests and records findings in the weekly operational log."
+        },
+        {
+          "source_id": "readiness",
+          "text": "The HTTP gateway readiness path is /readyz. The probe checks boot completion and the local worker heartbeat. A failed readiness result temporarily drains new traffic from this replica. Use the application logs to confirm the replica began accepting requests after deployment. Only readiness is described here."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        }
+      ],
+      "retrieval_ms": 0.33949996577575803,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "runtime-workers",
+          "bytes": 362
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "readiness",
+          "bytes": 309
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        }
+      ],
+      "retrieved_bytes": 1591,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes/build-verify",
+        "citations": [
+          "canary",
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 855.8254999807104,
+        "usage": {
+          "prompt_tokens": 466,
+          "completion_tokens": 21,
+          "total_tokens": 487,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 466,
+        "output_tokens": 21,
+        "input_message_utf8_bytes": 2288
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1725,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "regions",
+          "text": "The Cedar API primary region is eu-west-1. A platform operator reviews region inventory each month and checks that the deployment profile is consistent with the approved launch map. The test workspace has a separate inventory. The runbook explains where production capacity is provisioned and who reviews the notes."
+        },
+        {
+          "source_id": "storage",
+          "text": "Cedar API uses PostgreSQL for durable application records. Schema changes go through the migration review before deployment. Large changes are planned around the quiet traffic window, and owners record checkpoints in the release ticket. An operator can check connection pressure on the database dashboard."
+        },
+        {
+          "source_id": "export-format",
+          "text": "The scheduled export writes Parquet files. Consumers compare row counts with the producer's daily reconciliation report. The export job emits a completion notification after finalizing its object prefix. Retries may update the reported completion time, so downstream checks should validate the latest successful manifest."
+        }
+      ],
+      "retrieval_ms": 339.5262000267394,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "runtime",
+          "source_id": "regions",
+          "bytes": 315
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 305
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "export-format",
+          "bytes": 321
+        }
+      ],
+      "retrieved_bytes": 1546,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes/build-verify",
+        "citations": [
+          "canary",
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 927.424699999392,
+        "usage": {
+          "prompt_tokens": 452,
+          "completion_tokens": 21,
+          "total_tokens": 473,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 452,
+        "output_tokens": 21,
+        "input_message_utf8_bytes": 2239
+      }
+    },
+    {
+      "project": "cedar-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1021,
+      "evidence": [
+        {
+          "source_id": "canary",
+          "text": "The Cedar API production canary observation window is 12 minutes. At the end of that interval the release owner compares error rates with the control group and records the decision. Metrics may be delayed briefly after a traffic change. Engineers review the rollout chart before advancing the deployment."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Git merge check is build-verify. Developers should attach a run URL to the review when re-running an intermittent job. The merge queue reads the status from the default workflow. A manually triggered smoke pipeline is used to investigate failures before the team requests a second review."
+        },
+        {
+          "source_id": "rollback",
+          "text": "The incident commander owns the release rollback decision. Support routes urgent reports to the commander and publishes the decision in the incident channel. The platform team operates the deployment tooling. This process also requires a short timeline covering the traffic shift and the observed error window."
+        }
+      ],
+      "retrieval_ms": 0.13699999544769526,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "runtime",
+          "source_id": null,
+          "bytes": 80
+        },
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 79
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 83
+        },
+        {
+          "level": "L0",
+          "group": "api",
+          "source_id": null,
+          "bytes": 86
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 260
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 304
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 301
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "rollback",
+          "bytes": 310
+        }
+      ],
+      "retrieved_bytes": 1503,
+      "question_id": "hold-07",
+      "question": "For a release, what is the production canary observation window and required CI merge check? Return duration followed by the check name, separated by a slash.",
+      "gold": {
+        "answer": "12 minutes / build-verify",
+        "citations": [
+          "build-gate",
+          "canary"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "12 minutes/build-verify",
+        "citations": [
+          "canary",
+          "build-gate"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 931.8305000197142,
+        "usage": {
+          "prompt_tokens": 325,
+          "completion_tokens": 21,
+          "total_tokens": 346,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 325,
+        "output_tokens": 21,
+        "input_message_utf8_bytes": 1535
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 613,
+      "evidence": [
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        }
+      ],
+      "retrieval_ms": 430.4164999630302,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        }
+      ],
+      "retrieved_bytes": 545,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1046.312999969814,
+        "usage": {
+          "prompt_tokens": 231,
+          "completion_tokens": 14,
+          "total_tokens": 245,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 231,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1035
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 625,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        }
+      ],
+      "retrieval_ms": 0.13619998935610056,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 165
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 153
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        }
+      ],
+      "retrieved_bytes": 986,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 980.346099997405,
+        "usage": {
+          "prompt_tokens": 231,
+          "completion_tokens": 10,
+          "total_tokens": 241,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 231,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1047
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.14220003504306078,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 1045.6576000433415,
+        "usage": {
+          "prompt_tokens": 352,
+          "completion_tokens": 14,
+          "total_tokens": 366,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 352,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1691
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "vector",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        }
+      ],
+      "retrieval_ms": 367.19899997115135,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        }
+      ],
+      "retrieved_bytes": 1131,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 678.1329000368714,
+        "usage": {
+          "prompt_tokens": 352,
+          "completion_tokens": 14,
+          "total_tokens": 366,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 352,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1691
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "layered",
+      "backend": "local",
+      "budget_bytes": 1800,
+      "evidence_bytes": 1269,
+      "evidence": [
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        },
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "canary",
+          "text": "Pine API has a 7 minute production canary observation window. The release owner checks errors and saturation before increasing traffic. The central status page only displays incidents that the response team has reviewed. Engineers keep the previous deployment available until the monitoring decision is recorded."
+        },
+        {
+          "source_id": "backup",
+          "text": "Pine API backup retention is 35 days. The data owner tests restore scenarios quarterly. Test restores use a separate workspace and are disposed of after the result has been documented. Attach the operator notes to the drill issue and record the validation timestamp."
+        }
+      ],
+      "retrieval_ms": 0.18479995196685195,
+      "visits": [
+        {
+          "level": "L0",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 65
+        },
+        {
+          "level": "L0",
+          "group": "data",
+          "source_id": null,
+          "bytes": 50
+        },
+        {
+          "level": "L1",
+          "group": "delivery",
+          "source_id": null,
+          "bytes": 165
+        },
+        {
+          "level": "L1",
+          "group": "data",
+          "source_id": null,
+          "bytes": 153
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "canary",
+          "bytes": 312
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "backup",
+          "bytes": 266
+        }
+      ],
+      "retrieved_bytes": 1564,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": true,
+      "answer": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answer_correct": true,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 850.6517999921925,
+        "usage": {
+          "prompt_tokens": 352,
+          "completion_tokens": 14,
+          "total_tokens": 366,
+          "cached_input_tokens": 128
+        },
+        "error_type": null,
+        "input_tokens": 352,
+        "output_tokens": 14,
+        "input_message_utf8_bytes": 1691
+      }
+    },
+    {
+      "project": "pine-api",
+      "strategy": "direct",
+      "backend": "local",
+      "budget_bytes": 640,
+      "evidence_bytes": 625,
+      "evidence": [
+        {
+          "source_id": "build-gate",
+          "text": "The required Pine API merge check is pine-ci. The team asks reviewers to include the status link when reopening a change. Maintainers inspect the queue on the project dashboard. A project-specific webhook forwards validation events to the release owner during working hours."
+        },
+        {
+          "source_id": "storage",
+          "text": "Pine API uses MariaDB for durable application records. Schema changes are reviewed by the service owner. A separate non-production environment is available for testing migrations. The database dashboard tracks connection pressure and the aggregate number of long-running queries."
+        }
+      ],
+      "retrieval_ms": 0.07499998901039362,
+      "visits": [
+        {
+          "level": "L2",
+          "group": "delivery",
+          "source_id": "build-gate",
+          "bytes": 274
+        },
+        {
+          "level": "L2",
+          "group": "data",
+          "source_id": "storage",
+          "bytes": 279
+        }
+      ],
+      "retrieved_bytes": 553,
+      "question_id": "hold-08",
+      "question": "How long are database backups retained? Return the number and unit.",
+      "gold": {
+        "answer": "35 days",
+        "citations": [
+          "backup"
+        ]
+      },
+      "answerable": true,
+      "evidence_hit": false,
+      "answer": {
+        "answer": null,
+        "citations": []
+      },
+      "answer_correct": false,
+      "model": {
+        "model": "deepseek-flash",
+        "resolved_model": "deepseek-flash",
+        "elapsed_ms": 732.4040999519639,
+        "usage": {
+          "prompt_tokens": 231,
+          "completion_tokens": 10,
+          "total_tokens": 241,
+          "cached_input_tokens": 0
+        },
+        "error_type": null,
+        "input_tokens": 231,
+        "output_tokens": 10,
+        "input_message_utf8_bytes": 1047
+      }
+    }
+  ]
+}

@@ -1,6 +1,12 @@
-# 阶段目标：V2.0 Developer Agent，隔离代码任务与可追溯经验
+# 阶段目标
 
-RepoMind从事实记忆发展到有限步样例代码Agent：读取/修改限定源码、运行隔离pytest、查看Git diff，最后独立判题并记录成功经验。本轮停止在V2.0，不实施V2.1的OpenViking或V3策略优化。
+V2.1 Context Engineering 为项目选取受预算约束的文档证据，并对照直接、向量和目录分层三种策略。新增命令 context-select 和 context-bench，支持本地语料和可选的 OpenViking 只读分层访问。
+
+首次保留集在 1800 字节下，向量与本地分层均答对 8/8，分层少用约 28% 的回答输入 Token。640 字节下，向量为 7/8，分层为 5/8。运行方法、测试证据和技术原理见 [V2.1 交付说明](docs/v2.1-delivery.md)。
+
+## V2.0 Developer Agent
+
+RepoMind 从事实记忆发展到有限步样例代码 Agent，支持读取和修改限定源码、运行隔离 pytest、查看 Git diff、独立判题并记录成功经验。
 
 **2.0.0工程验收完成，效果结论保留。** 465项平台测试通过，基础环境442通过/23跳过；30条Trace和6个Experiment已经真实云端读回。首次holdout三组完整流程均1/4，未证明增强记忆提升完成率；单独代码验收为baseline2/4、memory2/4、enhanced3/4。10个任务为合成样例，不是生产或SWE-bench结论。
 
