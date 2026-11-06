@@ -1,0 +1,33 @@
+{
+  "stage_goal": "V4.0 prove the independent follow-up used automatically recalled memory",
+  "kind": "real_codex_exec_wrapper",
+  "task_input": "Draft the next acceptance handoff using the fact key harness.recovery_acceptance_recommendation. Cite source ID and path.",
+  "human_copied_fact_or_source": false,
+  "receipt": {
+    "mode": "codex_exec_wrapper",
+    "session_id": "01a1af7a-e6cc-7111-9d27-eba7a2611620",
+    "recalled": [
+      {
+        "subject": "harness",
+        "field": "recovery_acceptance_recommendation",
+        "value": "reference",
+        "source_id": "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+        "event_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+        "path": "D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/reports/v3-recovery/acceptance.json",
+        "commit": null,
+        "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851"
+      }
+    ],
+    "capture": {
+      "pending_ids": [],
+      "created": 0,
+      "skipped": 0
+    },
+    "assistant_message": "Use the `reference` execution strategy for the next RepoMind acceptance run, as recommended by the approved `harness.recovery_acceptance_recommendation` fact. Verify that the run records `reference` as the effective execution strategy.\n\n- Source ID `review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce`\n- Evidence path `D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/reports/v3-recovery/acceptance.json`"
+  },
+  "other_project_recall": {
+    "project": "OtherProject",
+    "facts": []
+  },
+  "passed": true
+}

@@ -1,0 +1,21 @@
+{
+  "stage_goal": "V4.0 validate capture, user approval, and recall between two real Codex sessions",
+  "passed": true,
+  "version": "4.0.0",
+  "accepted_path": "codex_exec_wrapper",
+  "session_a": "01a1af78-6c96-7d13-b6bf-3eaf7a6d8623",
+  "session_b": "01a1af7a-e6cc-7111-9d27-eba7a2611620",
+  "human_confirmed": true,
+  "pending_hidden": true,
+  "other_project_hidden": true,
+  "used_strategy": "reference",
+  "native_hook_verification": "generated commands exercised with simulated lifecycle payloads",
+  "native_real_delivery": "requires trusted project hook activation and a live hook run",
+  "automated_tests": {
+    "tests": 485,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "repomind_strategy_experiment_calls": 0
+}

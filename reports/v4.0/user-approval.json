@@ -1,0 +1,33 @@
+{
+  "stage_goal": "V4.0 record the human review boundary",
+  "approved_via": "explicit user response in this task",
+  "decision": "批准这条候选并继续验收",
+  "session_a": "01a1af78-6c96-7d13-b6bf-3eaf7a6d8623",
+  "confirmed": {
+    "candidate_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+    "draft": {
+      "event_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "project_id": "RepoMind",
+      "subject": "harness",
+      "predicate": "recovery_acceptance_recommendation",
+      "value": "reference",
+      "event_type": "declare",
+      "observed_at": "2026-11-06T06:08:07.226225Z",
+      "effective_at": "2026-11-06T06:08:07.226225Z",
+      "source_id": "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "supersedes_event_id": null
+    },
+    "artifact": {
+      "kind": "file",
+      "path": "D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/reports/v3-recovery/acceptance.json",
+      "commit": null,
+      "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+      "recorded_at": "2026-11-06T06:08:07.226225Z"
+    },
+    "quote": "\"recommended_policy\": \"reference\",",
+    "status": "confirmed",
+    "revision": 1,
+    "reviewed_at": "2026-11-06T06:10:05.192853Z",
+    "event_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce"
+  }
+}

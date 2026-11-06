@@ -1,0 +1,64 @@
+{
+  "stage_goal": "V4.0 capture a candidate at the end of a real Codex session",
+  "kind": "real_codex_exec_wrapper",
+  "mode": "local read-only audit with selected repository evidence supplied",
+  "verified_original_commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+  "earlier_attempts": [
+    {
+      "session_id": "01a1af6f-978f-7b52-9dd1-35d70553d85a",
+      "result": "default read-only sandbox rejected file write"
+    },
+    {
+      "session_id": "01a1af72-ce78-7123-8d4d-640c129e3d5d",
+      "result": "workspace-write tool sandbox failed before tools ran"
+    },
+    {
+      "session_id": "01a1af75-784e-7960-8b3d-548731113aa0",
+      "result": "tool sandbox prevented reading repository report"
+    }
+  ],
+  "receipt": {
+    "mode": "codex_exec_wrapper",
+    "session_id": "01a1af78-6c96-7d13-b6bf-3eaf7a6d8623",
+    "recalled": [],
+    "capture": {
+      "pending_ids": [
+        "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce"
+      ],
+      "created": 1,
+      "skipped": 0
+    },
+    "assistant_message": "The candidate failed the promotion gate. The acceptance record has `promotion_supported: False`, both holdout decisions were `no_threshold_gain`, and the recommended execution policy is `reference`.\n\nThe handoff should record the `reference` policy, the promotion decision, and both holdout outcomes. Retain the acceptance record, prior frozen materials, and experiment results. Keep the candidate in the existing review queue pending your confirmation. The supplied excerpt supports the gate decision and policy recommendation. It contains no evidence of real-model accuracy, semantic quality, or cost."
+  },
+  "candidate_at_capture": {
+    "candidate_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+    "draft": {
+      "event_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "project_id": "RepoMind",
+      "subject": "harness",
+      "predicate": "recovery_acceptance_recommendation",
+      "value": "reference",
+      "event_type": "declare",
+      "observed_at": "2026-11-06T06:08:07.226225Z",
+      "effective_at": "2026-11-06T06:08:07.226225Z",
+      "source_id": "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "supersedes_event_id": null
+    },
+    "artifact": {
+      "kind": "file",
+      "path": "D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/reports/v3-recovery/acceptance.json",
+      "commit": null,
+      "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+      "recorded_at": "2026-11-06T06:08:07.226225Z"
+    },
+    "quote": "\"recommended_policy\": \"reference\",",
+    "status": "pending",
+    "revision": 1,
+    "reviewed_at": null,
+    "event_id": null
+  },
+  "before_approval_recall": {
+    "project": "RepoMind",
+    "facts": []
+  }
+}

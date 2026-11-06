@@ -30,6 +30,8 @@ def build_parser() -> argparse.ArgumentParser:
         command.add_argument("--db", type=Path, default=argparse.SUPPRESS, help="SQLite ledger path")
     from repomind.memory.review_cli import add_review_parser
     add_review_parser(commands)
+    from repomind.codex_cli import add_codex_parser
+    add_codex_parser(commands)
     evaluate = commands.add_parser("eval", help="Evaluate in a fresh temporary ledger; emit JSON and Markdown")
     evaluate.add_argument("--events", type=Path, default=Path("data/fixtures/conversations.jsonl"))
     evaluate.add_argument("--dataset", type=Path, required=True)
@@ -221,6 +223,10 @@ def main(argv: list[str] | None = None) -> int:
             from repomind.memory.review_cli import run_review
 
             output = run_review(args)
+        elif args.command == "codex":
+            from repomind.codex_cli import run_codex
+
+            output = run_codex(args)
         elif args.command == "query":
             query = MemoryQuery(project_id=args.project, subject=args.subject, predicate=args.predicate,
                                 as_of=args.as_of, known_at=args.known_at)

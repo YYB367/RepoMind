@@ -11,10 +11,13 @@ from repomind.memory.store import ImportValidationError, read_events, validate_l
 
 
 class SQLiteMemoryStore:
-    def __init__(self, path: str | Path):
-        self.connection = sqlite3.connect(str(path), isolation_level=None, timeout=10)
+    def __init__(self, path: str | Path, *, read_only: bool = False):
+        filename = Path(path).resolve().as_uri() + "?mode=ro" if read_only else str(path)
+        self.connection = sqlite3.connect(filename, uri=read_only, isolation_level=None, timeout=10)
         self.connection.row_factory = sqlite3.Row
         self.connection.execute("PRAGMA foreign_keys=ON")
+        if read_only:
+            return
         try:
             self.connection.execute("BEGIN IMMEDIATE")
             version = self.connection.execute("PRAGMA user_version").fetchone()[0]
