@@ -25,8 +25,11 @@ def build_parser() -> argparse.ArgumentParser:
     query.add_argument("--field", "--predicate", dest="predicate", required=True)
     query.add_argument("--as-of", required=True, help="UTC date (end of day) or ISO timestamp with zone")
     query.add_argument("--known-at", help="Optional observation cutoff; same date/time syntax")
+    query.add_argument("--with-sources", action="store_true", help="Resolve citations to stored evidence and artifact locators")
     for command in (importer, query):
         command.add_argument("--db", type=Path, default=argparse.SUPPRESS, help="SQLite ledger path")
+    from repomind.memory.review_cli import add_review_parser
+    add_review_parser(commands)
     evaluate = commands.add_parser("eval", help="Evaluate in a fresh temporary ledger; emit JSON and Markdown")
     evaluate.add_argument("--events", type=Path, default=Path("data/fixtures/conversations.jsonl"))
     evaluate.add_argument("--dataset", type=Path, required=True)
@@ -214,6 +217,10 @@ def main(argv: list[str] | None = None) -> int:
             with SQLiteMemoryStore(args.db) as store:
                 result = store.import_jsonl(args.path)
                 output = {**result.model_dump(), "total_events": store.count(), "db": str(args.db)}
+        elif args.command == "review":
+            from repomind.memory.review_cli import run_review
+
+            output = run_review(args)
         elif args.command == "query":
             query = MemoryQuery(project_id=args.project, subject=args.subject, predicate=args.predicate,
                                 as_of=args.as_of, known_at=args.known_at)
@@ -221,6 +228,16 @@ def main(argv: list[str] | None = None) -> int:
                 raise FileNotFoundError(f"database does not exist: {args.db}; import events first")
             with SQLiteMemoryStore(args.db) as store:
                 output = MemoryRetriever(store).query(query).model_dump(mode="json")
+                if args.with_sources:
+                    from repomind.memory.review import review_artifact
+
+                    output["sources"] = [
+                        {"source_id": event["source_id"], "event_id": event["event_id"],
+                         "record": store.get_source(query.project_id, event["source_id"]),
+                         "provenance": store.get_provenance(event["event_id"]),
+                         "artifact": review_artifact(store, query.project_id, event["source_id"])}
+                        for event in output["evidence"]
+                    ]
         elif args.command == "config":
             from repomind.intelligence.config import configuration_status
             output = configuration_status()

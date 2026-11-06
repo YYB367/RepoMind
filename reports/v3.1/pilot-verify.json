@@ -1,0 +1,418 @@
+{
+  "stage_goal": "V3.1 verify real RepoMind memory review across independent processes",
+  "kind": "real_project_cli",
+  "phase": "verify",
+  "session_id": "70425c847eb4425896eb6ed55ede8d78",
+  "parent_pid": 31356,
+  "recorded_at": "2026-11-06T05:35:46.025069+00:00",
+  "model_calls": 0,
+  "passed": true,
+  "commands": [
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "recovery_reminder",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 31644,
+      "exit": 0,
+      "result": {
+        "status": "ok",
+        "value": "implemented",
+        "evidence": [
+          {
+            "event_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+            "project_id": "RepoMind",
+            "subject": "harness",
+            "predicate": "recovery_reminder",
+            "value": "implemented",
+            "event_type": "complete",
+            "observed_at": "2026-11-06T05:35:37.115032Z",
+            "effective_at": "2026-11-05T09:04:55Z",
+            "source_id": "review-source-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c"
+        ],
+        "plan_event_ids": [],
+        "sources": [
+          {
+            "source_id": "review-source-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+            "event_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+            "record": {
+              "project_id": "RepoMind",
+              "source_id": "review-source-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+              "observed_at": "2026-11-06T05:35:37.115032Z",
+              "text": "append_response(response,include_note=feedback_on_protocol_error and isinstance(exc,ValueError))"
+            },
+            "provenance": {
+              "event_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+              "project_id": "RepoMind",
+              "source_id": "review-source-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+              "evidence_text": "append_response(response,include_note=feedback_on_protocol_error and isinstance(exc,ValueError))",
+              "provider": "explicit-review"
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "src/repomind/agent/loop.py",
+              "commit": "598c7cb71f38d0d75bb0d27821640039fae87eef",
+              "sha256": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+              "recorded_at": "2026-11-05T09:04:55Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "recovery_reminder",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources",
+        "--known-at",
+        "2026-11-05T09:04:55Z"
+      ],
+      "pid": 29580,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "default_strategy",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 36708,
+      "exit": 0,
+      "result": {
+        "status": "ok",
+        "value": "reference",
+        "evidence": [
+          {
+            "event_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+            "project_id": "RepoMind",
+            "subject": "harness",
+            "predicate": "default_strategy",
+            "value": "reference",
+            "event_type": "declare",
+            "observed_at": "2026-11-06T05:35:39.296767Z",
+            "effective_at": "2026-11-05T09:15:18Z",
+            "source_id": "review-source-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+            "supersedes_event_id": null
+          }
+        ],
+        "reason": "latest_effective_fact",
+        "considered_event_ids": [
+          "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d"
+        ],
+        "plan_event_ids": [],
+        "sources": [
+          {
+            "source_id": "review-source-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+            "event_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+            "record": {
+              "project_id": "RepoMind",
+              "source_id": "review-source-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+              "observed_at": "2026-11-06T05:35:39.296767Z",
+              "text": "\"recommended_policy\": \"reference\""
+            },
+            "provenance": {
+              "event_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+              "project_id": "RepoMind",
+              "source_id": "review-source-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+              "evidence_text": "\"recommended_policy\": \"reference\"",
+              "provider": "explicit-review"
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "reports/v3-recovery/acceptance.json",
+              "commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+              "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+              "recorded_at": "2026-11-05T09:15:18Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "default_strategy",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources",
+        "--known-at",
+        "2026-11-05T09:15:18Z"
+      ],
+      "pid": 17364,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "promotion_supported",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 25176,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "RepoMind",
+        "--subject",
+        "harness",
+        "--field",
+        "experiment_challenger",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 3316,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "OtherProject",
+        "--subject",
+        "harness",
+        "--field",
+        "default_strategy",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 12256,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "query",
+        "--project",
+        "OtherProject",
+        "--subject",
+        "harness",
+        "--field",
+        "recovery_reminder",
+        "--as-of",
+        "2026-11-06",
+        "--with-sources"
+      ],
+      "pid": 13288,
+      "exit": 0,
+      "result": {
+        "status": "unknown",
+        "value": null,
+        "evidence": [],
+        "reason": "no_effective_fact",
+        "considered_event_ids": [],
+        "plan_event_ids": [],
+        "sources": []
+      }
+    },
+    {
+      "args": [
+        "review",
+        "list",
+        "--project",
+        "RepoMind"
+      ],
+      "pid": 15456,
+      "exit": 0,
+      "result": {
+        "candidates": [
+          {
+            "candidate_id": "review-48f3abe93f22c7f9c4d66bb53eed536ee848b467eb184d1cb9d0db10aed70791",
+            "draft": {
+              "event_id": "review-48f3abe93f22c7f9c4d66bb53eed536ee848b467eb184d1cb9d0db10aed70791",
+              "project_id": "RepoMind",
+              "subject": "harness",
+              "predicate": "experiment_challenger",
+              "value": "compact-guided-recovery",
+              "event_type": "declare",
+              "observed_at": "2026-11-05T09:15:18Z",
+              "effective_at": "2026-11-05T09:15:18Z",
+              "source_id": "review-source-48f3abe93f22c7f9c4d66bb53eed536ee848b467eb184d1cb9d0db10aed70791",
+              "supersedes_event_id": null
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "reports/v3-recovery/acceptance.json",
+              "commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+              "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+              "recorded_at": "2026-11-05T09:15:18Z"
+            },
+            "quote": "\"challenger\": \"compact-guided-recovery\"",
+            "status": "rejected",
+            "revision": 1,
+            "reviewed_at": "2026-11-06T05:35:39.931077Z",
+            "event_id": null
+          },
+          {
+            "candidate_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+            "draft": {
+              "event_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+              "project_id": "RepoMind",
+              "subject": "harness",
+              "predicate": "default_strategy",
+              "value": "reference",
+              "event_type": "declare",
+              "observed_at": "2026-11-05T09:15:18Z",
+              "effective_at": "2026-11-05T09:15:18Z",
+              "source_id": "review-source-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d",
+              "supersedes_event_id": null
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "reports/v3-recovery/acceptance.json",
+              "commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+              "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+              "recorded_at": "2026-11-05T09:15:18Z"
+            },
+            "quote": "\"recommended_policy\": \"reference\"",
+            "status": "confirmed",
+            "revision": 1,
+            "reviewed_at": "2026-11-06T05:35:39.296767Z",
+            "event_id": "review-9045f94587d6e78d35605c3261e4232469d4cda3181f4cb3e202ab834954177d"
+          },
+          {
+            "candidate_id": "review-a927bb4b6d69a58058c4cc8bb2ddeaf4be68818c2f9ff7980e2310b25df1e415",
+            "draft": {
+              "event_id": "review-a927bb4b6d69a58058c4cc8bb2ddeaf4be68818c2f9ff7980e2310b25df1e415",
+              "project_id": "RepoMind",
+              "subject": "harness",
+              "predicate": "promotion_supported",
+              "value": "false",
+              "event_type": "declare",
+              "observed_at": "2026-11-05T09:15:18Z",
+              "effective_at": "2026-11-05T09:15:18Z",
+              "source_id": "review-source-a927bb4b6d69a58058c4cc8bb2ddeaf4be68818c2f9ff7980e2310b25df1e415",
+              "supersedes_event_id": null
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "reports/v3-recovery/acceptance.json",
+              "commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+              "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+              "recorded_at": "2026-11-05T09:15:18Z"
+            },
+            "quote": "\"promotion_supported\": false",
+            "status": "pending",
+            "revision": 1,
+            "reviewed_at": null,
+            "event_id": null
+          },
+          {
+            "candidate_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+            "draft": {
+              "event_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+              "project_id": "RepoMind",
+              "subject": "harness",
+              "predicate": "recovery_reminder",
+              "value": "implemented",
+              "event_type": "complete",
+              "observed_at": "2026-11-05T09:04:55Z",
+              "effective_at": "2026-11-05T09:04:55Z",
+              "source_id": "review-source-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c",
+              "supersedes_event_id": null
+            },
+            "artifact": {
+              "kind": "git",
+              "path": "src/repomind/agent/loop.py",
+              "commit": "598c7cb71f38d0d75bb0d27821640039fae87eef",
+              "sha256": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+              "recorded_at": "2026-11-05T09:04:55Z"
+            },
+            "quote": "append_response(response,include_note=feedback_on_protocol_error and isinstance(exc,ValueError))",
+            "status": "confirmed",
+            "revision": 2,
+            "reviewed_at": "2026-11-06T05:35:37.115032Z",
+            "event_id": "review-d6223aeabf75284d4f1ef8bc5a75b8bcca48779466c9501809618cf90d316d6c"
+          }
+        ]
+      }
+    }
+  ]
+}

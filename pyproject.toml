@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repomind"
-version = "3.0.0"
+version = "3.1.0"
 description = "Temporal project memory, isolated code tools, and bounded harness experiments"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -1,5 +1,6 @@
 """Append-only event ledger with serialized, all-or-nothing imports."""
 
+from contextlib import contextmanager
 import json
 import math
 from pathlib import Path
@@ -84,71 +85,82 @@ class SQLiteMemoryStore:
             (event for memory in memories for event in memory.events), 1)]
         return self._import_records(records, "extracted events", memories)
 
-    def _import_records(self, records: list[tuple[Event, str, int]], path: str, memories: list | None = None) -> ImportResult:
+    @contextmanager
+    def write_transaction(self):
         self.connection.execute("BEGIN IMMEDIATE")
         try:
-            existing = {
-                row["event_id"]: Event.model_validate_json(row["canonical_json"])
-                for row in self.connection.execute("SELECT event_id, canonical_json FROM events")
-            }
-            ledger = existing.copy()
-            pending = []
-            duplicates = 0
-            for event, raw, number in records:
-                if event.event_id in ledger:
-                    if event != ledger[event.event_id]:
-                        raise ImportValidationError(
-                            f"{path}:{number}: event_id {event.event_id} already has different content"
-                        )
-                    duplicates += 1
-                    continue
-                ledger[event.event_id] = event
-                pending.append((event, raw))
-            try:
-                validate_links(ledger)
-            except ImportValidationError as exc:
-                lines = ", ".join(f"{n}:{e.event_id}" for e, _, n in records)
-                raise ImportValidationError(f"{path}: correction validation failed ({lines}): {exc}") from exc
-            for event, raw in pending:
-                data = event.model_dump(mode="json")
-                columns = ("event_id", "project_id", "subject", "predicate", "value", "event_type",
-                           "observed_at", "effective_at", "source_id", "supersedes_event_id")
-                self.connection.execute(
-                    "INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    tuple(data[column] for column in columns) + (self._canonical(event), raw),
-                )
-            for memory in memories or []:
-                source = memory.source
-                old = self.connection.execute(
-                    "SELECT content_hash FROM nl_sources WHERE project_id=? AND source_id=?",
-                    (source.project_id, source.source_id),
-                ).fetchone()
-                if old is not None and old[0] != source.content_hash:
-                    raise ImportValidationError("source_id already exists with different source content")
-                self.connection.execute(
-                    "INSERT OR IGNORE INTO nl_sources VALUES (?, ?, ?, ?)",
-                    (source.project_id, source.source_id, source.content_hash, source.model_dump_json()),
-                )
-                for event in memory.events:
-                    quote = memory.evidence_by_event.get(event.event_id, "")
-                    if (event.project_id, event.source_id, event.observed_at) != (source.project_id, source.source_id, source.observed_at):
-                        raise ImportValidationError("extracted event is outside its trusted source envelope")
-                    if not quote or quote not in source.text:
-                        raise ImportValidationError("extracted event lacks an exact source quote")
-                    old_quote = self.connection.execute(
-                        "SELECT evidence_text FROM extraction_provenance WHERE event_id=?", (event.event_id,)
-                    ).fetchone()
-                    if old_quote is not None and old_quote[0] != quote:
-                        raise ImportValidationError("existing event has a different extraction quote")
-                    self.connection.execute(
-                        "INSERT OR IGNORE INTO extraction_provenance VALUES (?, ?, ?, ?, ?)",
-                        (event.event_id, source.project_id, source.source_id, quote, memory.provider),
-                    )
+            yield
             self.connection.commit()
-            return ImportResult(imported=len(pending), duplicates=duplicates)
-        except Exception:
+        except BaseException:
             self.connection.rollback()
             raise
+
+    def _import_records(self, records: list[tuple[Event, str, int]], path: str, memories: list | None = None) -> ImportResult:
+        with self.write_transaction():
+            return self._append_records(records, path, memories)
+
+    def _append_records(self, records: list[tuple[Event, str, int]], path: str, memories: list | None = None) -> ImportResult:
+        """Append validated events and evidence inside the caller's write transaction."""
+        if not self.connection.in_transaction:
+            raise RuntimeError("append requires a write transaction")
+        existing = {
+            row["event_id"]: Event.model_validate_json(row["canonical_json"])
+            for row in self.connection.execute("SELECT event_id, canonical_json FROM events")
+        }
+        ledger = existing.copy()
+        pending = []
+        duplicates = 0
+        for event, raw, number in records:
+            if event.event_id in ledger:
+                if event != ledger[event.event_id]:
+                    raise ImportValidationError(
+                        f"{path}:{number}: event_id {event.event_id} already has different content"
+                    )
+                duplicates += 1
+                continue
+            ledger[event.event_id] = event
+            pending.append((event, raw))
+        try:
+            validate_links(ledger)
+        except ImportValidationError as exc:
+            lines = ", ".join(f"{n}:{e.event_id}" for e, _, n in records)
+            raise ImportValidationError(f"{path}: correction validation failed ({lines}): {exc}") from exc
+        for event, raw in pending:
+            data = event.model_dump(mode="json")
+            columns = ("event_id", "project_id", "subject", "predicate", "value", "event_type",
+                       "observed_at", "effective_at", "source_id", "supersedes_event_id")
+            self.connection.execute(
+                "INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                tuple(data[column] for column in columns) + (self._canonical(event), raw),
+            )
+        for memory in memories or []:
+            source = memory.source
+            old = self.connection.execute(
+                "SELECT content_hash FROM nl_sources WHERE project_id=? AND source_id=?",
+                (source.project_id, source.source_id),
+            ).fetchone()
+            if old is not None and old[0] != source.content_hash:
+                raise ImportValidationError("source_id already exists with different source content")
+            self.connection.execute(
+                "INSERT OR IGNORE INTO nl_sources VALUES (?, ?, ?, ?)",
+                (source.project_id, source.source_id, source.content_hash, source.model_dump_json()),
+            )
+            for event in memory.events:
+                quote = memory.evidence_by_event.get(event.event_id, "")
+                if (event.project_id, event.source_id, event.observed_at) != (source.project_id, source.source_id, source.observed_at):
+                    raise ImportValidationError("extracted event is outside its trusted source envelope")
+                if not quote or quote not in source.text:
+                    raise ImportValidationError("extracted event lacks an exact source quote")
+                old_quote = self.connection.execute(
+                    "SELECT evidence_text FROM extraction_provenance WHERE event_id=?", (event.event_id,)
+                ).fetchone()
+                if old_quote is not None and old_quote[0] != quote:
+                    raise ImportValidationError("existing event has a different extraction quote")
+                self.connection.execute(
+                    "INSERT OR IGNORE INTO extraction_provenance VALUES (?, ?, ?, ?, ?)",
+                    (event.event_id, source.project_id, source.source_id, quote, memory.provider),
+                )
+        return ImportResult(imported=len(pending), duplicates=duplicates)
 
     def list_events(self, query: MemoryQuery) -> list[Event]:
         # Datetime strings serialize with optional fractions. Compare parsed times

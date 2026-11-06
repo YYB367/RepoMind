@@ -1,0 +1,50 @@
+{
+  "stage_goal": "V3.1 review real RepoMind decisions and recall the confirmed facts in an independent CLI run",
+  "passed": true,
+  "version": "3.1.0",
+  "recorded_at": "2026-11-06T05:39:55.989185+00:00",
+  "automated_tests": {
+    "tests": 481,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 481
+  },
+  "real_project_cli": {
+    "project": "RepoMind",
+    "capture_pid": 6092,
+    "verify_pid": 31356,
+    "capture_checks": 16,
+    "verify_checks": 9,
+    "facts": {
+      "recovery_reminder": "implemented",
+      "default_strategy": "reference"
+    },
+    "sources": {
+      "recovery_reminder": {
+        "kind": "git",
+        "path": "src/repomind/agent/loop.py",
+        "commit": "598c7cb71f38d0d75bb0d27821640039fae87eef",
+        "sha256": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+        "recorded_at": "2026-11-05T09:04:55Z"
+      },
+      "default_strategy": {
+        "kind": "git",
+        "path": "reports/v3-recovery/acceptance.json",
+        "commit": "53fa686f76195eda7e981bf0751398d4a011d91c",
+        "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851",
+        "recorded_at": "2026-11-05T09:15:18Z"
+      }
+    },
+    "unknown": [
+      "pending",
+      "rejected",
+      "other project",
+      "before confirmation"
+    ],
+    "repeated_proposal_and_confirmation": "same candidate and event"
+  },
+  "codex_cross_session": "V4.0 scope",
+  "live_model_calls": 0,
+  "default_strategy": "reference"
+}
