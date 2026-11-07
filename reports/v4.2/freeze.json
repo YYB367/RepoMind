@@ -1,0 +1,70 @@
+{
+  "stage_goal": "Freeze V4.2 evidence, tasks, implementation, budgets and score before any real model comparison",
+  "frozen_at": "2026-11-07T05:20:51.400716+00:00",
+  "base_commit": "9d3044c39e8b5d6aceb29ec34a18fd4773101161",
+  "implementation_sha256": "52f051de8711fbb7c164a0e029e18e0b215165078be21b039f6eadb883e762a0",
+  "protocol_sha256": "ad03236ec996d786cf28eb579a01cdb7da63d7edc9da6e406a7f7b821a141b76",
+  "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+  "protocol": {
+    "stage_goal": "V4.2 freeze before selection and independent two-round validation",
+    "version": 3,
+    "repetitions": 2,
+    "manifests": {
+      "dev": "6442ddc9805d4145246c792518f2362192c29b9b16405df015b8a29c2e668576",
+      "holdout": "4a529cae309cb381b5a878385b6effc904ed4e9d4c1d0e375d484ad2abd283a5"
+    },
+    "history_sha256": "bafccbda3795241c2682bb3ecd5693c6ef028d3940007bdaac5e9ca763214646",
+    "memory_sha256": "df36eb4ef6df6abe286ec9c7ebd6c2ebb8f8311f05df7d3ee47962fd9fa8ef66",
+    "provenance_sha256": "7f72cf88aee443a758d86e65de8f58f23aa4d3ffd0ad819198b78f7e29b58fbb",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "max_model_requests": 150,
+    "max_completion_tokens": 2048,
+    "scoring": "v3_original_quality_and_same_gain_two_rounds_10_percent_tokens",
+    "image": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97"
+  },
+  "model_config": {
+    "base_url": "https://api.deepseek.com",
+    "chat_model": "deepseek-flash",
+    "embedding_model": null,
+    "api_style": "deepseek",
+    "chat_format": "json_object",
+    "timeout_seconds": 60.0,
+    "max_response_bytes": 1000000,
+    "max_request_bytes": 2000000,
+    "max_completion_tokens": 2048,
+    "embedding_dimensions": null
+  },
+  "sampling": {
+    "temperature": 0,
+    "thinking": "disabled for deepseek API style"
+  },
+  "nomination": {
+    "kind": "real_pilot_context_redundancy",
+    "sha256": "bafccbda3795241c2682bb3ecd5693c6ef028d3940007bdaac5e9ca763214646",
+    "session_id": "01a1b43d-604d-7ca0-bf23-5f8b9d6c2740",
+    "requested_key": [
+      "codex",
+      "v4_acceptance_path"
+    ],
+    "recalled_facts": 2,
+    "unrelated_facts": 1,
+    "source_ids": [
+      "review-source-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce"
+    ],
+    "candidates": [
+      "reference",
+      "focused-evidence",
+      "focused-evidence-compact"
+    ]
+  },
+  "planned_live_trials": 25,
+  "max_live_requests": 150,
+  "extra_warmup_requests": 0,
+  "changes_after_holdout_start": "none permitted; preserve first results"
+}

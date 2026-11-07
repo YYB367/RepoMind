@@ -5,6 +5,7 @@ from collections import Counter
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import sys
 
 from repomind import __version__
 from repomind.agent.benchmark import load_tasks
@@ -15,11 +16,13 @@ from repomind.agent.sandbox import DockerSandbox
 from repomind.agent.workspace import TaskWorkspace, checked_path, digest
 from repomind.evaluation.intelligent import _implementation_hash
 from repomind.harness.policy import POLICIES, RECOVERY_POLICIES, REFERENCE, finish_feedback, history_receipt, recovery_receipt
+from repomind.harness.pilot import PILOT_POLICIES, pilot_receipt, task_context
 from repomind.intelligence.providers import ProviderConfig, _json_loads
 from repomind.platform.tracing import clean_payload
 
 GOAL = "V3.0: select a finite harness on development tasks and independently test promotion"
 RECOVERY_GOAL = "V3.0 recovery: preserve budget guidance after protocol errors and independently test it"
+PILOT_GOAL = "V4.2: independently validate pilot-nominated policies against reference on new RepoMind maintenance tasks"
 BUDGET = AgentBudget()
 REPETITIONS = 2
 
@@ -65,13 +68,17 @@ def _inputs(root, split, protocol):
     return folder, tasks
 
 
-def _trial(folder, task, path, name, sandbox, config):
+def _trial(folder, task, path, name, sandbox, config, *, snapshot=None):
     recovery = name in RECOVERY_POLICIES
-    compact, guided = (RECOVERY_POLICIES if recovery else POLICIES)[name]
+    if name in PILOT_POLICIES:
+        compact, guided = PILOT_POLICIES[name], False
+    else:
+        compact, guided = (RECOVERY_POLICIES if recovery else POLICIES)[name]
     workspace = TaskWorkspace(path / "repo", task, folder)
     provider = (LiveAgentProvider(config) if config is not None else
                 ReplayAgentProvider(folder / "recorded-actions.jsonl", task.task_id))
-    context = {"mode": "baseline", "facts": [], "experiences": []}
+    context = (task_context(task, snapshot, focused=name in PILOT_POLICIES) if snapshot is not None
+               else {"mode": "baseline", "facts": [], "experiences": []})
     agent = run_agent(task, workspace, provider, sandbox, context, budget=BUDGET,
                       compact_writes=compact, feedback=finish_feedback if guided else None,
                       feedback_on_protocol_error=recovery)
@@ -99,7 +106,7 @@ def _trial(folder, task, path, name, sandbox, config):
     }
 
 
-def _run(directory, folder, tasks, names, repeats, sandbox, config):
+def _run(directory, folder, tasks, names, repeats, sandbox, config, *, snapshot=None):
     trials = []
     for repeat in range(repeats):
         for index, task in enumerate(tasks):
@@ -107,10 +114,16 @@ def _run(directory, folder, tasks, names, repeats, sandbox, config):
             for name in names[offset:] + names[:offset]:
                 path = directory / f"repeat-{repeat + 1}" / task.task_id / name
                 path.mkdir(parents=True, exist_ok=False)
-                result = _trial(folder, task, path, name, sandbox, config)
+                result = _trial(folder, task, path, name, sandbox, config, snapshot=snapshot)
                 result["repeat"] = repeat + 1
                 _write(path / "result.json", result)
                 trials.append(result)
+                if snapshot is not None:
+                    print(json.dumps({"task":task.task_id,"policy":name,"repeat":repeat+1,
+                                      "strict":result["strict_success"],"code":result["code_verified"],
+                                      "requests":len(result["model_calls"])}), file=sys.stderr, flush=True)
+                    if result["infrastructure_error"]:
+                        raise ValueError("V4.2 infrastructure error; partial evidence preserved, experiment stopped")
     return trials
 
 
@@ -147,7 +160,7 @@ def choose_challenger(metrics):
         tokens = _token_total(row)
         return (-row["strict"], -row["code_verified"], tokens if tokens is not None else float("inf"), name)
 
-    eligible = [name for name in (*POLICIES, *RECOVERY_POLICIES) if name != REFERENCE and name in metrics]
+    eligible = [name for name in (*POLICIES, *RECOVERY_POLICIES, *PILOT_POLICIES) if name != REFERENCE and name in metrics]
     if not eligible or any(row["infrastructure_errors"] for row in metrics.values()):
         raise ValueError("development evidence has no usable comparison; no challenger locked")
     return min(eligible, key=rank)
@@ -180,9 +193,22 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
     protocol_path = checked_path(root, "protocol.json")
     protocol = _read(protocol_path)
     protocol_version = protocol.get("version")
-    if protocol_version not in {1, 2} or protocol.get("repetitions") != REPETITIONS:
+    if protocol_version not in {1, 2, 3} or protocol.get("repetitions") != REPETITIONS:
         raise ValueError("unsupported V3 protocol")
-    goal = RECOVERY_GOAL if protocol_version == 2 else GOAL
+    goal = PILOT_GOAL if protocol_version == 3 else RECOVERY_GOAL if protocol_version == 2 else GOAL
+    snapshot = None
+    if protocol_version == 3:
+        if (protocol.get("budget") != BUDGET.model_dump() or protocol.get("max_model_requests") != 150
+                or protocol.get("max_completion_tokens") != 2048
+                or protocol.get("image") != image
+                or protocol.get("scoring") != "v3_original_quality_and_same_gain_two_rounds_10_percent_tokens"):
+            raise ValueError("V4.2 budget or scoring differs from the declared fixed gate")
+        snapshot_path = checked_path(root, "pilot-memory.json")
+        if digest(snapshot_path) != protocol["memory_sha256"]:
+            raise ValueError("pilot memory snapshot differs from frozen protocol")
+        snapshot = _read(snapshot_path)
+        if digest(checked_path(root,"provenance.json")) != protocol["provenance_sha256"]:
+            raise ValueError("pilot task provenance differs from frozen protocol")
     lock_path, dev_path = directory / "selection-lock.json", directory / "dev.json"
     split = "dev" if phase == "tune" else "holdout"
     if phase == "tune" and directory.exists():
@@ -192,6 +218,8 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
 
     # Read the lock and validate its provenance before touching holdout inputs.
     config = ProviderConfig.from_env() if live else None
+    if protocol_version == 3 and config and config.max_completion_tokens != protocol["max_completion_tokens"]:
+        raise ValueError("V4.2 completion budget differs from frozen protocol")
     identity = {
         "version": __version__, "implementation_sha256": _implementation_hash(),
         "protocol_sha256": digest(protocol_path), "prompt_sha256": PROMPT_SHA256,
@@ -206,7 +234,7 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
         names = [REFERENCE, lock["challenger"]]
         provenance = {"selection_lock_sha256": digest(lock_path)}
     else:
-        diagnose = recovery_receipt if protocol_version == 2 else history_receipt
+        diagnose = pilot_receipt if protocol_version == 3 else recovery_receipt if protocol_version == 2 else history_receipt
         historical = diagnose(Path(history), protocol["history_sha256"])
         names = historical["candidates"]
         if len(names) < 2:
@@ -223,7 +251,7 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
     run = directory / split
     run.mkdir(exist_ok=False)
     repeats = REPETITIONS if phase == "validate" else 1
-    trials = _run(run, folder, tasks, names, repeats, sandbox, config)
+    trials = _run(run, folder, tasks, names, repeats, sandbox, config, snapshot=snapshot)
     metrics = _summarize(trials, names)
     report = {
         "stage_goal": goal, "identity": identity, "sandbox": sandbox_info, "split": split, "metrics": metrics,
@@ -248,6 +276,11 @@ def run_phase(phase, *, suite, history, run_dir, image, config_dir, live=False):
         ]
         report["development_gate"] = promotion_reason(dev["metrics"][REFERENCE], dev["metrics"][challenger], live=live)
         reasons = [promotion_reason(rows[REFERENCE], rows[challenger], live=live) for rows in report["repetitions"]]
+        if protocol_version == 3 and live:
+            if any(_token_total(dev["metrics"][name]) is None for name in names):
+                report["development_gate"] = "usage_unverified"
+            reasons = ["usage_unverified" if any(_token_total(rows[name]) is None for name in names) else reason
+                       for rows,reason in zip(report["repetitions"],reasons)]
         report["holdout_gate"] = reasons
         eligible = {"strict_completion_gain", "token_saving_at_equal_or_better_quality"}
         all_models = {model for group in [dev["metrics"], *report["repetitions"]] for name in names

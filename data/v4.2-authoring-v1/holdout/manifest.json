@@ -1,0 +1,28 @@
+{
+  "stage_goal": "Freeze new V4.2 RepoMind holdout maintenance tasks",
+  "version": 1,
+  "split": "holdout",
+  "files": {
+    "judges/hold-pack/test_acceptance.py": "f017ec6977355f412c99e5dc78087c35bfdba386715d14aa2242dcd783b65921",
+    "judges/hold-review/test_acceptance.py": "35888a1bb7394f583181121c4f7f150c43aa60d0e25d324f6dd429e56f44a712",
+    "judges/hold-source/test_acceptance.py": "664a706d836bacb849431ef3d8d8e8b6a74f9c27a792906bab73e7a3dc117270",
+    "judges/hold-window/test_acceptance.py": "0b9a3a4fb3323cda174c8ad4283b6e230e03aac620393d61868d305590bdc881",
+    "public/hold-pack/test_public.py": "af969ce1f579a44196ea04f3f2b594a41a31b877503248580a9ba1edbe61383d",
+    "public/hold-review/test_public.py": "34ee275e3e4da8d9db2ffe06dd3a3afa2e29a29e0d05d8f67308784567fd97fa",
+    "public/hold-source/test_public.py": "a8c6c10f71519f294fc1a681f92d5618b0b69e15dce84ab7ae445ae455433352",
+    "public/hold-window/test_public.py": "4ac96058044b2b3ff959e6d890e9020ddfb0f48a5de80de7bbb76f9792e1a6c1",
+    "recorded-actions.jsonl": "57889f7f36a9d906f92c65e5f5fe05cd93dc675ef9a3c3e26e0fe1acb63e7c8f",
+    "repository/pyproject.toml": "8a39608054c58873fe18c65606182e1cb841131c622f2653962184fb2868812d",
+    "repository/README.md": "05d8ff21c9e64894f33ab05c2d491e6fe1ce4a7960b79dc1532f18cf056b9ff4",
+    "repository/src/repomind/__init__.py": "e076f794159d387096b87f4a776dd911392ba4ea177eedaf6a8fca2c0e2e1750",
+    "repository/src/repomind/context_pack.py": "a5718176629ba0aafce6634fd3c1c1fb79429f7205aa36d71cecde78498a68f5",
+    "repository/src/repomind/domain/__init__.py": "82b2f454cc9d24c1c54c44f6d234eb7f5aad39ec6d3c952b8e21564cb83c6129",
+    "repository/src/repomind/domain/models.py": "eae0b74903907b4c6bb146e0539844b754537f233f197749bc891f26d8e517a8",
+    "repository/src/repomind/memory/__init__.py": "65cb1a7e2025b227f872ae419893b15858e4fbc68ef2bb3edd2200c89766305f",
+    "repository/src/repomind/memory/resolver.py": "2f8e6645353146eaeb6ec261c3e1792fa791689267d2405b4b8a8ad6bd099f46",
+    "repository/src/repomind/review_request.py": "59681d76c6720b7e05e859585f67675a9a989b0540b7c2b53c96e425bdfe8871",
+    "repository/src/repomind/review_window.py": "5ac6042f7720d3968db7116f48d91fb3fb8ad71f941513b906f24024131f925f",
+    "repository/src/repomind/source_lookup.py": "291ac2011ee29b27e1296f8f79c2a25c2786566430dcd28a163f33207e7a89a1",
+    "tasks.jsonl": "8f004655fe697b6fbd521bc2a3d1f9f526d743a42a5de2689121bd3788dff935"
+  }
+}

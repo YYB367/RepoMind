@@ -1,0 +1,281 @@
+{
+  "stage_goal": "V4.2: independently validate pilot-nominated policies against reference on new RepoMind maintenance tasks",
+  "identity": {
+    "version": "4.2.0",
+    "implementation_sha256": "52f051de8711fbb7c164a0e029e18e0b215165078be21b039f6eadb883e762a0",
+    "protocol_sha256": "ad03236ec996d786cf28eb579a01cdb7da63d7edc9da6e406a7f7b821a141b76",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97",
+    "mode": "replay",
+    "model_config": null
+  },
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "split": "holdout",
+  "metrics": {
+    "reference": {
+      "tasks": 8,
+      "strict": 8,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 8
+      }
+    },
+    "focused-evidence": {
+      "tasks": 8,
+      "strict": 8,
+      "code_verified": 8,
+      "infrastructure_errors": 0,
+      "requests": 0,
+      "input_tokens": null,
+      "output_tokens": null,
+      "resolved_models": [],
+      "stop_counts": {
+        "finished": 8
+      }
+    }
+  },
+  "max_model_requests": 96,
+  "created_at": "2026-11-07T05:19:04.828402+00:00",
+  "selection_lock_sha256": "001c6730b0a5f6dbb9d8f3c2d8f1f5bf7eb44228de0b8e746f1e6d1a03caf499",
+  "trials": [
+    {
+      "task_id": "hold-review",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-review",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-pack",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-pack",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-window",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-source",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-source",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-review",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-review",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-pack",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-pack",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-window",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-source",
+      "policy": "reference",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "hold-source",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    }
+  ],
+  "completed_without_infrastructure_errors": true,
+  "repetitions": [
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 0,
+        "input_tokens": null,
+        "output_tokens": null,
+        "resolved_models": [],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "focused-evidence": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 0,
+        "input_tokens": null,
+        "output_tokens": null,
+        "resolved_models": [],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    },
+    {
+      "reference": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 0,
+        "input_tokens": null,
+        "output_tokens": null,
+        "resolved_models": [],
+        "stop_counts": {
+          "finished": 4
+        }
+      },
+      "focused-evidence": {
+        "tasks": 4,
+        "strict": 4,
+        "code_verified": 4,
+        "infrastructure_errors": 0,
+        "requests": 0,
+        "input_tokens": null,
+        "output_tokens": null,
+        "resolved_models": [],
+        "stop_counts": {
+          "finished": 4
+        }
+      }
+    }
+  ],
+  "development_gate": "scripted_replay",
+  "holdout_gate": [
+    "scripted_replay",
+    "scripted_replay"
+  ],
+  "model_consistent_across_splits": false,
+  "promotion_supported": false,
+  "recommended_policy": "reference"
+}

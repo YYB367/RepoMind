@@ -1,0 +1,22 @@
+{
+  "stage_goal": "V4.2 freeze before selection and independent two-round validation",
+  "version": 3,
+  "repetitions": 2,
+  "manifests": {
+    "dev": "e31fc8a8177f8d66acf836e56d25cdbc2c874e8d4cc5a6e9d8b0308de8601657",
+    "holdout": "4a529cae309cb381b5a878385b6effc904ed4e9d4c1d0e375d484ad2abd283a5"
+  },
+  "history_sha256": "bafccbda3795241c2682bb3ecd5693c6ef028d3940007bdaac5e9ca763214646",
+  "memory_sha256": "df36eb4ef6df6abe286ec9c7ebd6c2ebb8f8311f05df7d3ee47962fd9fa8ef66",
+  "provenance_sha256": "7f72cf88aee443a758d86e65de8f58f23aa4d3ffd0ad819198b78f7e29b58fbb",
+  "budget": {
+    "max_turns": 6,
+    "max_test_runs": 3,
+    "max_actions": 20,
+    "max_context_chars": 24000
+  },
+  "max_model_requests": 150,
+  "max_completion_tokens": 2048,
+  "scoring": "v3_original_quality_and_same_gain_two_rounds_10_percent_tokens",
+  "image": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97"
+}

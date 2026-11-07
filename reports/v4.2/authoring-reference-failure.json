@@ -1,0 +1,180 @@
+{
+  "stage_goal": "Preserve first construction-stage reference failure before live experiments",
+  "classification": "scripted reference implementation bug; zero real model calls",
+  "reason": "The first explicit-key reference regex incorrectly rejected a terminal punctuation period.",
+  "initial_frozen_suite": "data/v4.2-authoring-v1",
+  "corrected_suite": "data/v4.2",
+  "trial": {
+    "task_id": "dev-key",
+    "policy": "reference",
+    "agent": {
+      "status": "finished",
+      "summary": "Implemented the declared helper and verified public tests and diff.",
+      "turns": 4,
+      "action_count": 6,
+      "test_runs": 1,
+      "public_test_failures": 1,
+      "retry_count": 0,
+      "blocked_actions": 0,
+      "last_error_type": null,
+      "observations": [
+        {
+          "tool": "read_file",
+          "arguments": {
+            "path": "src/repomind/maint_keys.py",
+            "start_line": 1,
+            "max_lines": 120
+          },
+          "status": "ok",
+          "result": {
+            "path": "src/repomind/maint_keys.py",
+            "start_line": 1,
+            "total_lines": 4,
+            "content": "\"\"\"RepoMind maintenance helper. Contract is supplied in the task.\"\"\"\n\ndef explicit_key(text):\n    raise NotImplementedError(\"implement the task contract\")"
+          },
+          "elapsed_seconds": 0.06872110000404064
+        },
+        {
+          "tool": "read_file",
+          "arguments": {
+            "path": "tests/test_public.py",
+            "start_line": 1,
+            "max_lines": 120
+          },
+          "status": "ok",
+          "result": {
+            "path": "tests/test_public.py",
+            "start_line": 1,
+            "total_lines": 5,
+            "content": "from repomind.maint_keys import explicit_key\ndef test_one_key():\n    assert explicit_key('Use codex.v4_acceptance_path.')==('codex','v4_acceptance_path')\ndef test_ambiguous():\n    assert explicit_key('codex.path and harness.policy') is None"
+          },
+          "elapsed_seconds": 0.06631029999698512
+        },
+        {
+          "tool": "write_file",
+          "arguments": {
+            "path": "src/repomind/maint_keys.py",
+            "content": "import re\ndef explicit_key(text):\n    if not isinstance(text,str):\n        raise ValueError('text required')\n    found=set(re.findall(r'(?<![A-Za-z0-9_.])([A-Za-z][A-Za-z0-9_]*)\\.([A-Za-z][A-Za-z0-9_]*)(?![A-Za-z0-9_.])',text))\n    return next(iter(found)) if len(found)==1 else None\n"
+          },
+          "status": "ok",
+          "result": {
+            "path": "src/repomind/maint_keys.py",
+            "bytes": 284,
+            "sha256": "12ea95b34a2dc232d9a3659c024cb678a8dd96345c26a36f07445a633d09b313"
+          },
+          "elapsed_seconds": 0.11679770000046119
+        },
+        {
+          "tool": "run_tests",
+          "arguments": {},
+          "status": "ok",
+          "result": {
+            "exit_code": 1,
+            "stdout": "F.                                                                       [100%]\n=================================== FAILURES ===================================\n_________________________________ test_one_key _________________________________\ntests/test_public.py:3: in test_one_key\n    assert explicit_key('Use codex.v4_acceptance_path.')==('codex','v4_acceptance_path')\nE   AssertionError: assert None == ('codex', 'v4_acceptance_path')\nE    +  where None = explicit_key('Use codex.v4_acceptance_path.')\n=========================== short test summary info ============================\nFAILED tests/test_public.py::test_one_key - AssertionError: assert None == ('...\n1 failed, 1 passed in 0.15s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 1, \"skipped\": 0}\n",
+            "limit_reason": null,
+            "elapsed_seconds": 1.1958135000022594,
+            "passed": false,
+            "test_report": {
+              "collected": 2,
+              "errors": 0,
+              "exit_code": 1,
+              "failed": 1,
+              "passed": 1,
+              "skipped": 0
+            },
+            "expected_count": 2,
+            "infrastructure_error": false,
+            "execution_error": null,
+            "cleanup_verified": true,
+            "container_name": "repomind-v2-34f286be0298499eb10567fec60aada8",
+            "judge_visible_to_agent": null
+          },
+          "elapsed_seconds": 1.4730245000027935
+        },
+        {
+          "tool": "git_diff",
+          "arguments": {},
+          "status": "ok",
+          "result": {
+            "diff": "diff --git a/src/repomind/maint_keys.py b/src/repomind/maint_keys.py\nindex af50081..7837cb6 100644\n--- a/src/repomind/maint_keys.py\n+++ b/src/repomind/maint_keys.py\n@@ -1,4 +1,6 @@\n-\"\"\"RepoMind maintenance helper. Contract is supplied in the task.\"\"\"\n-\n+import re\n def explicit_key(text):\n-    raise NotImplementedError(\"implement the task contract\")\n+    if not isinstance(text,str):\n+        raise ValueError('text required')\n+    found=set(re.findall(r'(?<![A-Za-z0-9_.])([A-Za-z][A-Za-z0-9_]*)\\.([A-Za-z][A-Za-z0-9_]*)(?![A-Za-z0-9_.])',text))\n+    return next(iter(found)) if len(found)==1 else None\n"
+          },
+          "elapsed_seconds": 0.14536299999599578
+        },
+        {
+          "tool": "finish",
+          "arguments": {
+            "summary": "Implemented the declared helper and verified public tests and diff."
+          },
+          "status": "ok",
+          "result": {
+            "finished": true,
+            "hidden_tests_executed": false
+          },
+          "elapsed_seconds": 0.058317500006523915
+        }
+      ],
+      "elapsed_seconds": 1.985989699998754,
+      "changed_files": [
+        "src/repomind/maint_keys.py"
+      ],
+      "diff": "diff --git a/src/repomind/maint_keys.py b/src/repomind/maint_keys.py\nindex af50081..7837cb6 100644\n--- a/src/repomind/maint_keys.py\n+++ b/src/repomind/maint_keys.py\n@@ -1,4 +1,6 @@\n-\"\"\"RepoMind maintenance helper. Contract is supplied in the task.\"\"\"\n-\n+import re\n def explicit_key(text):\n-    raise NotImplementedError(\"implement the task contract\")\n+    if not isinstance(text,str):\n+        raise ValueError('text required')\n+    found=set(re.findall(r'(?<![A-Za-z0-9_.])([A-Za-z][A-Za-z0-9_]*)\\.([A-Za-z][A-Za-z0-9_]*)(?![A-Za-z0-9_.])',text))\n+    return next(iter(found)) if len(found)==1 else None\n",
+      "model": {
+        "name": "scripted-reference-actions-not-real-model",
+        "live": false,
+        "request_count": 0,
+        "usage": {},
+        "usage_complete": false,
+        "validation_kind": "scripted_solution_not_model_quality",
+        "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+      }
+    },
+    "model_calls": [],
+    "public_grading": {
+      "exit_code": 1,
+      "stdout": "F.                                                                       [100%]\n=================================== FAILURES ===================================\n_________________________________ test_one_key _________________________________\ntests/test_public.py:3: in test_one_key\n    assert explicit_key('Use codex.v4_acceptance_path.')==('codex','v4_acceptance_path')\nE   AssertionError: assert None == ('codex', 'v4_acceptance_path')\nE    +  where None = explicit_key('Use codex.v4_acceptance_path.')\n=========================== short test summary info ============================\nFAILED tests/test_public.py::test_one_key - AssertionError: assert None == ('...\n1 failed, 1 passed in 0.16s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 1, \"skipped\": 0}\n",
+      "limit_reason": null,
+      "elapsed_seconds": 1.1330343000008725,
+      "passed": false,
+      "test_report": {
+        "collected": 2,
+        "errors": 0,
+        "exit_code": 1,
+        "failed": 1,
+        "passed": 1,
+        "skipped": 0
+      },
+      "expected_count": 2,
+      "infrastructure_error": false,
+      "execution_error": null,
+      "cleanup_verified": true,
+      "container_name": "repomind-v2-b97a2128d09e4aceb6ccfb5944c40122",
+      "judge_visible_to_agent": null
+    },
+    "hidden_grading": {
+      "exit_code": 0,
+      "stdout": "....                                                                     [100%]\n4 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+      "limit_reason": null,
+      "elapsed_seconds": 1.071720699997968,
+      "passed": true,
+      "test_report": {
+        "collected": 4,
+        "errors": 0,
+        "exit_code": 0,
+        "failed": 0,
+        "passed": 4,
+        "skipped": 0
+      },
+      "expected_count": 4,
+      "infrastructure_error": false,
+      "execution_error": null,
+      "cleanup_verified": true,
+      "container_name": "repomind-v2-38095499a02b47de9fb7b5dbe17a2b2c",
+      "judge_visible_to_agent": false
+    },
+    "code_verified": false,
+    "strict_success": false,
+    "infrastructure_error": false,
+    "hidden_feedback_to_model": false,
+    "repeat": 1
+  }
+}

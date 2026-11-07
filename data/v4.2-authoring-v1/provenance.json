@@ -1,0 +1,17 @@
+{
+  "stage_goal": "Trace V4.2 task construction to the real pilot",
+  "source_commit": "9d3044c39e8b5d6aceb29ec34a18fd4773101161",
+  "unchanged_core_files": {
+    "src/repomind/__init__.py": "e076f794159d387096b87f4a776dd911392ba4ea177eedaf6a8fca2c0e2e1750",
+    "src/repomind/domain/__init__.py": "82b2f454cc9d24c1c54c44f6d234eb7f5aad39ec6d3c952b8e21564cb83c6129",
+    "src/repomind/domain/models.py": "eae0b74903907b4c6bb146e0539844b754537f233f197749bc891f26d8e517a8",
+    "src/repomind/memory/__init__.py": "65cb1a7e2025b227f872ae419893b15858e4fbc68ef2bb3edd2200c89766305f",
+    "src/repomind/memory/resolver.py": "2f8e6645353146eaeb6ec261c3e1792fa791689267d2405b4b8a8ad6bd099f46"
+  },
+  "task_construction": "New helper contracts derived from review, citation, context and date handling. Authored by the experiment implementer; not third-party blind production tasks.",
+  "pilot_report": "reports/v4.1/new-session.json",
+  "pilot_sha256": "bafccbda3795241c2682bb3ecd5693c6ef028d3940007bdaac5e9ca763214646",
+  "disjoint_from_prior_suites": true,
+  "dev_tasks": 3,
+  "holdout_tasks": 4
+}

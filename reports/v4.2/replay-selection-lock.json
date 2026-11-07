@@ -1,0 +1,20 @@
+{
+  "stage_goal": "V4.2: independently validate pilot-nominated policies against reference on new RepoMind maintenance tasks",
+  "identity": {
+    "version": "4.2.0",
+    "implementation_sha256": "52f051de8711fbb7c164a0e029e18e0b215165078be21b039f6eadb883e762a0",
+    "protocol_sha256": "ad03236ec996d786cf28eb579a01cdb7da63d7edc9da6e406a7f7b821a141b76",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97",
+    "mode": "replay",
+    "model_config": null
+  },
+  "challenger": "focused-evidence",
+  "dev_sha256": "109303d10d7310cc8ef3c7af2bc981d37fb932b91a05abe4c813954e05c998c7"
+}

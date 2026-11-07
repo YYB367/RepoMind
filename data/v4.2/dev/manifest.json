@@ -1,0 +1,25 @@
+{
+  "stage_goal": "Freeze new V4.2 RepoMind dev maintenance tasks",
+  "version": 1,
+  "split": "dev",
+  "files": {
+    "judges/dev-citation/test_acceptance.py": "90fba68d2fb7211e5f08943b7c1d6eda6f9d35e9f06b6aaf912f8f79f753f7f3",
+    "judges/dev-clock/test_acceptance.py": "34287873ad362a884c5ddda3a5d37fe8e735f16ac818904293cf2e83338af3b9",
+    "judges/dev-key/test_acceptance.py": "cbf49025035c45e307bd6ef4c8fda2a930bdcc418ecfbdb99e53cf81dc146e8a",
+    "public/dev-citation/test_public.py": "4856f3d6783eee4034de276fb06429f24f2045e5d6405b30c85dc57a6b4b35bc",
+    "public/dev-clock/test_public.py": "6b8ccd5d23b6ee23093a16fa3c96213b339f6778b8aada1cea1d8ace8e64ea4f",
+    "public/dev-key/test_public.py": "59c178ab8e1ffcfc68934580d778b3dac1279be4aceb421b254eb04e1ef22158",
+    "recorded-actions.jsonl": "c15b1dbd8fce9bbc2d1238ba42845ab260520f012ee542f5cfec6e3778697c1a",
+    "repository/pyproject.toml": "8a39608054c58873fe18c65606182e1cb841131c622f2653962184fb2868812d",
+    "repository/README.md": "05d8ff21c9e64894f33ab05c2d491e6fe1ce4a7960b79dc1532f18cf056b9ff4",
+    "repository/src/repomind/__init__.py": "e076f794159d387096b87f4a776dd911392ba4ea177eedaf6a8fca2c0e2e1750",
+    "repository/src/repomind/citation_view.py": "7b174492dbc905d508429554e05a47ce640152e70b21dc0bfc4c82feb6329e20",
+    "repository/src/repomind/domain/__init__.py": "82b2f454cc9d24c1c54c44f6d234eb7f5aad39ec6d3c952b8e21564cb83c6129",
+    "repository/src/repomind/domain/models.py": "eae0b74903907b4c6bb146e0539844b754537f233f197749bc891f26d8e517a8",
+    "repository/src/repomind/maint_keys.py": "0e363e16af74daf856c22134fac7f09fd3761aeff8297e3b11bfcd73758122ec",
+    "repository/src/repomind/memory/__init__.py": "65cb1a7e2025b227f872ae419893b15858e4fbc68ef2bb3edd2200c89766305f",
+    "repository/src/repomind/memory/resolver.py": "2f8e6645353146eaeb6ec261c3e1792fa791689267d2405b4b8a8ad6bd099f46",
+    "repository/src/repomind/query_clock.py": "896d75f24eefe7292e7be68d75227bcebaa2193ed11870250ed596a6fc8c85de",
+    "tasks.jsonl": "8386e5e5d7717fd776c4e20991629dc5a9873c89213faa5741635a102b35ddd7"
+  }
+}
