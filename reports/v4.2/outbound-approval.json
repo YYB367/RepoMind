@@ -1,0 +1,13 @@
+{
+  "stage_goal": "Authorize the concrete frozen V4.2 experiment payload for real model validation",
+  "approval_source": "Explicit user reply to the concrete external-transmission question in this Codex conversation",
+  "user_reply": "授权发送上述数据至 DeepSeek，继续真实验收",
+  "destination": "https://api.deepseek.com/chat/completions",
+  "payload_review": "reports/v4.2/outbound-review.json",
+  "payload_review_sha256": "958eb8a8aaf321537ca5b3813ed22ef6244d41f6f494d02b7fe6563554c9c152",
+  "freeze_commit": "71366dc",
+  "scope": "Seven frozen isolated maintenance tasks, allowed source and public tests, two confirmed facts and provenance, and generated code/tool feedback within the existing bounded actions",
+  "max_requests": 150,
+  "excluded": [".env contents", "conversation transcripts", "entire pilot database", "hidden tests", "recorded reference solutions"],
+  "prior_automatic_review": "Rejected pending explicit authorization of this specific payload and destination; no model process started before this authorization"
+}

@@ -1,0 +1,339 @@
+{
+  "stage_goal": "Retain actual V4.2 trial failures without rerunning or changing the gate",
+  "failures": [
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "ValueError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 0,
+        "stdout": "..                                                                       [100%]\n2 passed in 0.09s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0074070999980904,
+        "passed": true,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 2,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-1117568394574af098afbdfb34857d29",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 1,
+        "stdout": "..F.                                                                     [100%]\n=================================== FAILURES ===================================\n______________________________ test_longer_tokens ______________________________\n/judge/test_acceptance.py:10: in test_longer_tokens\n    assert explicit_key(text) is None\nE   AssertionError: assert ('a', 'b') is None\nE    +  where ('a', 'b') = explicit_key('a.b.c')\n=========================== short test summary info ============================\nFAILED ::test_longer_tokens - AssertionError: assert ('a', 'b') is None\n1 failed, 3 passed in 0.11s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 3, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0936150999987149,
+        "passed": false,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 1,
+          "failed": 1,
+          "passed": 3,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-4041597e2deb4606bd5a03f98c69d1cd",
+        "judge_visible_to_agent": false
+      }
+    },
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValidationError",
+      "protocol_errors": [
+        "JSONDecodeError",
+        "ValidationError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 1,
+        "stdout": "F.                                                                       [100%]\n=================================== FAILURES ===================================\n_________________________________ test_one_key _________________________________\ntests/test_public.py:3: in test_one_key\n    assert explicit_key('Use codex.v4_acceptance_path.')==('codex','v4_acceptance_path')\nE   AssertionError: assert None == ('codex', 'v4_acceptance_path')\nE    +  where None = explicit_key('Use codex.v4_acceptance_path.')\n=========================== short test summary info ============================\nFAILED tests/test_public.py::test_one_key - AssertionError: assert None == ('...\n1 failed, 1 passed in 0.14s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 1, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.049937299998419,
+        "passed": false,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 1,
+          "failed": 1,
+          "passed": 1,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-26944c6d5b8a4c2896bbe905fec8a5b0",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 0,
+        "stdout": "....                                                                     [100%]\n4 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0109816000040155,
+        "passed": true,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 4,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-f47177bc9a734e24bff35106e957fe8d",
+        "judge_visible_to_agent": false
+      }
+    },
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "reference",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "ValueError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 0,
+        "stdout": "..                                                                       [100%]\n2 passed in 0.11s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0307229000027291,
+        "passed": true,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 2,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-3e4bc935b63f42dcb2efea5761a90756",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 1,
+        "stdout": "..F.                                                                     [100%]\n=================================== FAILURES ===================================\n______________________________ test_longer_tokens ______________________________\n/judge/test_acceptance.py:10: in test_longer_tokens\n    assert explicit_key(text) is None\nE   AssertionError: assert ('a', 'b') is None\nE    +  where ('a', 'b') = explicit_key('a.b.c')\n=========================== short test summary info ============================\nFAILED ::test_longer_tokens - AssertionError: assert ('a', 'b') is None\n1 failed, 3 passed in 0.13s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 3, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.1153264000022318,
+        "passed": false,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 1,
+          "failed": 1,
+          "passed": 3,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-a9d24a451b54476fb09843d2dc43fa06",
+        "judge_visible_to_agent": false
+      }
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": true,
+      "last_error_type": "JSONDecodeError",
+      "protocol_errors": [
+        "JSONDecodeError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 0,
+        "stdout": "..                                                                       [100%]\n2 passed in 0.26s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.2159274000005098,
+        "passed": true,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 2,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-ac8298da9e484f489c3a28eab3d32f0c",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 0,
+        "stdout": "....                                                                     [100%]\n4 passed in 0.22s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.1948697999978322,
+        "passed": true,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 4,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-75c5121c8a1f47499147ac0bf0b8ff19",
+        "judge_visible_to_agent": false
+      }
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-pack",
+      "policy": "reference",
+      "repeat": 2,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": true,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "JSONDecodeError",
+        "ValidationError",
+        "JSONDecodeError",
+        "ValueError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 0,
+        "stdout": "..                                                                       [100%]\n2 passed in 0.11s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 2, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0711804999955348,
+        "passed": true,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 2,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-aae4870b54c546de80dda2e694bcabb0",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 0,
+        "stdout": "....                                                                     [100%]\n4 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 4, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.0347471999994013,
+        "passed": true,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 4,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-ed55f17216bc4f0ab76b2a257e8efa0a",
+        "judge_visible_to_agent": false
+      }
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 2,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "JSONDecodeError",
+      "protocol_errors": [
+        "JSONDecodeError"
+      ],
+      "infrastructure_error": false,
+      "public_grading": {
+        "exit_code": 1,
+        "stdout": "F.                                                                       [100%]\n=================================== FAILURES ===================================\n__________________________ test_date_start_inclusive ___________________________\ntests/test_public.py:4: in test_date_start_inclusive\n    r=row();assert confirmed_window([r],'RepoMind','2026-11-07','2026-11-07')==[r]\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AssertionError: assert [] == [{'project_id...7T00:00:00Z'}]\nE     \nE     Right contains one more item: {'project_id': 'RepoMind', 'status': 'confirmed', 'candidate_id': 'c', 'reviewed_at': '2026-11-07T00:00:00Z'}\nE     Use -v to get more diff\n=========================== short test summary info ============================\nFAILED tests/test_public.py::test_date_start_inclusive - AssertionError: asse...\n1 failed, 1 passed in 0.35s\n\nREPOMIND_RESULT {\"collected\": 2, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 1, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.3383616999999504,
+        "passed": false,
+        "test_report": {
+          "collected": 2,
+          "errors": 0,
+          "exit_code": 1,
+          "failed": 1,
+          "passed": 1,
+          "skipped": 0
+        },
+        "expected_count": 2,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-529a60c6856c465bae90e6455f94362b",
+        "judge_visible_to_agent": null
+      },
+      "hidden_grading": {
+        "exit_code": 1,
+        "stdout": "F..F                                                                     [100%]\n=================================== FAILURES ===================================\n___________________________ test_timezone_and_edges ____________________________\n/judge/test_acceptance.py:6: in test_timezone_and_edges\n    assert confirmed_window([a,b,c],'RepoMind','2026-11-07','2026-11-07')==[a,b]\nE   AssertionError: assert [{'project_id...:59.999999Z'}] == [{'project_id...:59.999999Z'}]\nE     \nE     At index 0 diff: {'project_id': 'RepoMind', 'status': 'confirmed', 'candidate_id': 'c', 'reviewed_at': '2026-11-07T23:59:59.999999Z'} != {'project_id': 'RepoMind', 'status': 'confirmed', 'candidate_id': 'c', 'reviewed_at': '2026-11-07T08:00:00+08:00'}\nE     Right contains one more item: {'project_id': 'RepoMind', 'status': 'confirmed', 'candidate_id': 'c', 'reviewed_at': '2026-11-07T23:59:59.999999Z'}\nE     Use -v to get more diff\n______________________ test_independent_copies_and_order _______________________\n/judge/test_acceptance.py:17: in test_independent_copies_and_order\n    r=confirmed_window([a,b],'RepoMind','2026-11-07','2026-11-07');assert r==[a,b]\n                                                                   ^^^^^^^^^^^^^^^\nE   AssertionError: assert [] == [{'project_id...7T01:00:00Z'}]\nE     \nE     Right contains 2 more items, first extra item: {'project_id': 'RepoMind', 'status': 'confirmed', 'candidate_id': 'c', 'reviewed_at': '2026-11-07T02:00:00Z', ...}\nE     Use -v to get more diff\n=========================== short test summary info ============================\nFAILED ::test_timezone_and_edges - AssertionError: assert [{'project_id...:59...\nFAILED ::test_independent_copies_and_order - AssertionError: assert [] == [{'...\n2 failed, 2 passed in 0.31s\n\nREPOMIND_RESULT {\"collected\": 4, \"errors\": 0, \"exit_code\": 1, \"failed\": 2, \"passed\": 2, \"skipped\": 0}\n",
+        "limit_reason": null,
+        "elapsed_seconds": 1.2975167999975383,
+        "passed": false,
+        "test_report": {
+          "collected": 4,
+          "errors": 0,
+          "exit_code": 1,
+          "failed": 2,
+          "passed": 2,
+          "skipped": 0
+        },
+        "expected_count": 4,
+        "infrastructure_error": false,
+        "execution_error": null,
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-f7f5a82954be461da72d1a2de0338ddb",
+        "judge_visible_to_agent": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "stage_goal": "Audit actual model inputs and frozen context scope",
+  "rows": [
+    {
+      "split": "dev",
+      "task": "dev-citation",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-citation",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-citation",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "dev",
+      "task": "dev-clock",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-clock",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-clock",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "dev",
+      "task": "dev-key",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-key",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "dev",
+      "task": "dev-key",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-pack",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-pack",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-review",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-review",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-source",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-source",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-window",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-window",
+      "policy": "reference",
+      "repeat": 1,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-pack",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-pack",
+      "policy": "reference",
+      "repeat": 2,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-review",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-review",
+      "policy": "reference",
+      "repeat": 2,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-source",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-source",
+      "policy": "reference",
+      "repeat": 2,
+      "initial_fact_count": 2
+    },
+    {
+      "split": "holdout",
+      "task": "hold-window",
+      "policy": "focused-evidence",
+      "repeat": 2,
+      "initial_fact_count": 1
+    },
+    {
+      "split": "holdout",
+      "task": "hold-window",
+      "policy": "reference",
+      "repeat": 2,
+      "initial_fact_count": 2
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "stage_goal": "V4.2: independently validate pilot-nominated policies against reference on new RepoMind maintenance tasks",
+  "identity": {
+    "version": "4.2.0",
+    "implementation_sha256": "52f051de8711fbb7c164a0e029e18e0b215165078be21b039f6eadb883e762a0",
+    "protocol_sha256": "ad03236ec996d786cf28eb579a01cdb7da63d7edc9da6e406a7f7b821a141b76",
+    "prompt_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "budget": {
+      "max_turns": 6,
+      "max_test_runs": 3,
+      "max_actions": 20,
+      "max_context_chars": 24000
+    },
+    "image": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97",
+    "mode": "live",
+    "model_config": {
+      "base_url": "https://api.deepseek.com",
+      "chat_model": "deepseek-flash",
+      "embedding_model": null,
+      "api_style": "deepseek",
+      "chat_format": "json_object",
+      "timeout_seconds": 60.0,
+      "max_response_bytes": 1000000,
+      "max_request_bytes": 2000000,
+      "max_completion_tokens": 2048,
+      "embedding_dimensions": null
+    }
+  },
+  "sandbox": {
+    "backend": "docker_linux",
+    "image_id": "sha256:bc6c2f2343c2855ee369fe9b20f5b834350eab234b96d14e48ec5e0038d0eb97",
+    "engine_version": "29.5.3",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "project_mount": "read-only",
+    "user": "65532:65532",
+    "capabilities": "ALL dropped",
+    "no_new_privileges": true,
+    "memory_mb": 256,
+    "cpus": 1,
+    "pids_limit": 64,
+    "timeout_seconds": 25,
+    "max_output_bytes": 65536,
+    "host_code_fallback": false,
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee"
+  },
+  "split": "dev",
+  "metrics": {
+    "reference": {
+      "tasks": 3,
+      "strict": 2,
+      "code_verified": 2,
+      "infrastructure_errors": 0,
+      "requests": 16,
+      "input_tokens": 39635,
+      "output_tokens": 1708,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "turn_budget_exhausted": 1,
+        "finished": 2
+      }
+    },
+    "focused-evidence": {
+      "tasks": 3,
+      "strict": 2,
+      "code_verified": 2,
+      "infrastructure_errors": 0,
+      "requests": 16,
+      "input_tokens": 36393,
+      "output_tokens": 2048,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "turn_budget_exhausted": 1,
+        "finished": 2
+      }
+    },
+    "focused-evidence-compact": {
+      "tasks": 3,
+      "strict": 2,
+      "code_verified": 2,
+      "infrastructure_errors": 0,
+      "requests": 17,
+      "input_tokens": 37432,
+      "output_tokens": 1784,
+      "resolved_models": [
+        "deepseek-flash"
+      ],
+      "stop_counts": {
+        "turn_budget_exhausted": 1,
+        "finished": 2
+      }
+    }
+  },
+  "max_model_requests": 54,
+  "created_at": "2026-11-07T05:27:23.995230+00:00",
+  "history": {
+    "kind": "real_pilot_context_redundancy",
+    "sha256": "bafccbda3795241c2682bb3ecd5693c6ef028d3940007bdaac5e9ca763214646",
+    "session_id": "01a1b43d-604d-7ca0-bf23-5f8b9d6c2740",
+    "requested_key": [
+      "codex",
+      "v4_acceptance_path"
+    ],
+    "recalled_facts": 2,
+    "unrelated_facts": 1,
+    "source_ids": [
+      "review-source-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce"
+    ],
+    "candidates": [
+      "reference",
+      "focused-evidence",
+      "focused-evidence-compact"
+    ]
+  },
+  "trials": [
+    {
+      "task_id": "dev-key",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": false,
+      "code_verified": false,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-key",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": false,
+      "code_verified": false,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-key",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "strict_success": false,
+      "code_verified": false,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-citation",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-citation",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-citation",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-clock",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-clock",
+      "policy": "reference",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    },
+    {
+      "task_id": "dev-clock",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "strict_success": true,
+      "code_verified": true,
+      "infrastructure_error": false,
+      "hidden_feedback_to_model": false
+    }
+  ],
+  "completed_without_infrastructure_errors": true
+}

@@ -1,0 +1,271 @@
+{
+  "stage_goal": "V4.2 independently test pilot-nominated strategies and keep reference unless the original gate is met",
+  "version": "4.2.0",
+  "engineering_acceptance_passed": true,
+  "experiment_completed": true,
+  "policy_promotion_supported": false,
+  "recommended_policy": "reference",
+  "daily_default_policy": "reference",
+  "freeze_commit": "71366dc",
+  "locked_challenger": "focused-evidence",
+  "automated_tests": {
+    "tests": 499,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "real_docker_cases": 4,
+    "warnings": 1
+  },
+  "simulated_verification": {
+    "final_reference_replay_trials": 25,
+    "passed": 25,
+    "first_authoring_draft_trials": 9,
+    "first_authoring_draft_failed_reference_trials": 3,
+    "authoring_bug_preserved": true,
+    "authoring_calls_to_model": 0
+  },
+  "real_session_verification": {
+    "new_codex_sessions_in_v42": 0,
+    "pilot_source_session": "01a1b43d-604d-7ca0-bf23-5f8b9d6c2740"
+  },
+  "real_model_experiment": {
+    "development": {
+      "reference": {
+        "tasks": 3,
+        "strict": 2,
+        "code_verified": 2,
+        "infrastructure_errors": 0,
+        "requests": 16,
+        "input_tokens": 39635,
+        "output_tokens": 1708,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "turn_budget_exhausted": 1,
+          "finished": 2
+        }
+      },
+      "focused-evidence": {
+        "tasks": 3,
+        "strict": 2,
+        "code_verified": 2,
+        "infrastructure_errors": 0,
+        "requests": 16,
+        "input_tokens": 36393,
+        "output_tokens": 2048,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "turn_budget_exhausted": 1,
+          "finished": 2
+        }
+      },
+      "focused-evidence-compact": {
+        "tasks": 3,
+        "strict": 2,
+        "code_verified": 2,
+        "infrastructure_errors": 0,
+        "requests": 17,
+        "input_tokens": 37432,
+        "output_tokens": 1784,
+        "resolved_models": [
+          "deepseek-flash"
+        ],
+        "stop_counts": {
+          "turn_budget_exhausted": 1,
+          "finished": 2
+        }
+      }
+    },
+    "development_gate": "no_threshold_gain",
+    "rounds": [
+      {
+        "round": 1,
+        "metrics": {
+          "reference": {
+            "tasks": 4,
+            "strict": 3,
+            "code_verified": 4,
+            "infrastructure_errors": 0,
+            "requests": 20,
+            "input_tokens": 48860,
+            "output_tokens": 5304,
+            "resolved_models": [
+              "deepseek-flash"
+            ],
+            "stop_counts": {
+              "finished": 3,
+              "turn_budget_exhausted": 1
+            }
+          },
+          "focused-evidence": {
+            "tasks": 4,
+            "strict": 4,
+            "code_verified": 4,
+            "infrastructure_errors": 0,
+            "requests": 21,
+            "input_tokens": 43487,
+            "output_tokens": 4691,
+            "resolved_models": [
+              "deepseek-flash"
+            ],
+            "stop_counts": {
+              "finished": 4
+            }
+          }
+        },
+        "token_saving_fraction": 0.11051621002880141,
+        "gate": "strict_completion_gain",
+        "strict_not_lower": true,
+        "code_not_lower": true
+      },
+      {
+        "round": 2,
+        "metrics": {
+          "reference": {
+            "tasks": 4,
+            "strict": 2,
+            "code_verified": 3,
+            "infrastructure_errors": 0,
+            "requests": 22,
+            "input_tokens": 51963,
+            "output_tokens": 5535,
+            "resolved_models": [
+              "deepseek-flash"
+            ],
+            "stop_counts": {
+              "finished": 2,
+              "turn_budget_exhausted": 2
+            }
+          },
+          "focused-evidence": {
+            "tasks": 4,
+            "strict": 4,
+            "code_verified": 4,
+            "infrastructure_errors": 0,
+            "requests": 22,
+            "input_tokens": 47471,
+            "output_tokens": 5009,
+            "resolved_models": [
+              "deepseek-flash"
+            ],
+            "stop_counts": {
+              "finished": 4
+            }
+          }
+        },
+        "token_saving_fraction": 0.08727260078611432,
+        "gate": "strict_completion_gain",
+        "strict_not_lower": true,
+        "code_not_lower": true
+      }
+    ],
+    "actual_requests": 134,
+    "max_requests": 150,
+    "usage": {
+      "prompt_tokens": 305241,
+      "completion_tokens": 26079,
+      "total_tokens": 331320,
+      "cached_input_tokens": 244603
+    },
+    "resolved_models": [
+      "deepseek-flash"
+    ],
+    "model_consistent": true,
+    "usage_complete": true,
+    "no_hidden_feedback": true,
+    "infrastructure_errors": 0,
+    "monetary_cost": null
+  },
+  "failures": [
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "focused-evidence",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "ValueError"
+      ],
+      "infrastructure_error": false
+    },
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "focused-evidence-compact",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValidationError",
+      "protocol_errors": [
+        "JSONDecodeError",
+        "ValidationError"
+      ],
+      "infrastructure_error": false
+    },
+    {
+      "split": "dev",
+      "task_id": "dev-key",
+      "policy": "reference",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "ValueError"
+      ],
+      "infrastructure_error": false
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 1,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": true,
+      "last_error_type": "JSONDecodeError",
+      "protocol_errors": [
+        "JSONDecodeError"
+      ],
+      "infrastructure_error": false
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-pack",
+      "policy": "reference",
+      "repeat": 2,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": true,
+      "last_error_type": "ValueError",
+      "protocol_errors": [
+        "JSONDecodeError",
+        "ValidationError",
+        "JSONDecodeError",
+        "ValueError"
+      ],
+      "infrastructure_error": false
+    },
+    {
+      "split": "holdout",
+      "task_id": "hold-window",
+      "policy": "reference",
+      "repeat": 2,
+      "agent_status": "turn_budget_exhausted",
+      "code_verified": false,
+      "last_error_type": "JSONDecodeError",
+      "protocol_errors": [
+        "JSONDecodeError"
+      ],
+      "infrastructure_error": false
+    }
+  ],
+  "interpretation": "Controlled, author-constructed RepoMind-derived helper tasks; two rounds reuse the same four new holdout tasks. This is not third-party blind testing or production/Codex effectiveness proof.",
+  "remaining_evidence": [
+    "Development comparison did not meet the predeclared improvement gate: no_threshold_gain; total-token saving 7.0193%."
+  ],
+  "stop_after_version": "V4.2"
+}

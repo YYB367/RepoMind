@@ -1,0 +1,16 @@
+{
+  "stage_goal": "Verify the V4.2 distribution while retaining all prior frozen data and first reports",
+  "wheel": "repomind-4.2.0-py3-none-any.whl",
+  "wheel_sha256": "1f8248a5b36725d3bd6334c6db28b59e5e10a6b90e3963771f1c1aafb0ee4a07",
+  "wheel_sources_and_static_assets_match": true,
+  "wheel_readme_matches_final_source": true,
+  "installed_outside_source": true,
+  "installed_version": "4.2.0",
+  "installed_pilot_nomination_and_old_database_recall_passed": true,
+  "prior_data_and_report_files_byte_identical": 330,
+  "new_and_authoring_frozen_file_hashes_checked": 78,
+  "implementation_matches_pre_live_freeze": true,
+  "outbound_payload_matches_user_authorized_digest": true,
+  "source_archive": "RepoMind-v4.2.0.zip",
+  "archive_sha256": "See sibling RepoMind-v4.2.0.zip.sha256"
+}
