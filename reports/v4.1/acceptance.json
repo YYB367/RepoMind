@@ -1,0 +1,58 @@
+{
+  "stage_goal": "V4.1 local browser review, CLI consistency, and fresh Codex-session recall using RepoMind itself",
+  "version": "4.1.0",
+  "passed": true,
+  "default_policy": "reference",
+  "automated_tests": {
+    "tests": 495,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "real_docker_cases": 4,
+    "warnings": 1
+  },
+  "simulated_tests": {
+    "new_http_cases": 10,
+    "browser_fixture_checks": "passed",
+    "native_hooks_real_run": false
+  },
+  "real_browser_review": {
+    "candidate_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+    "revision": 2,
+    "explicit_user_approval": true,
+    "final_status": "confirmed",
+    "cli_matches": true,
+    "source_verified_against_git": true
+  },
+  "real_session_validation": {
+    "passed": true,
+    "path": "codex_exec_wrapper",
+    "session_id": "01a1b43d-604d-7ca0-bf23-5f8b9d6c2740",
+    "task_supplied_fact_value_or_source": false,
+    "automatically_recalled": true,
+    "value_source_path_commit_all_used": true,
+    "usage": [
+      {
+        "input_tokens": 17839,
+        "cached_input_tokens": 12416,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 477,
+        "reasoning_output_tokens": 332
+      }
+    ]
+  },
+  "real_model_experiments": {
+    "repomind_extraction_calls": 0,
+    "embedding_calls": 0,
+    "strategy_experiment_calls": 0,
+    "codex_acceptance_sessions": 1,
+    "monetary_cost": null
+  },
+  "outstanding": [
+    "native hooks still lack real trigger validation",
+    "local single-user service only",
+    "substring web search and existing lexical Codex recall",
+    "manual accessibility contrast review remains"
+  ],
+  "next_version": "V4.2 requires explicit user start"
+}

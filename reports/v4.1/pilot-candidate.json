@@ -1,0 +1,45 @@
+{
+  "stage_goal": "V4.1 real browser review of RepoMind evidence",
+  "created": false,
+  "candidate": {
+    "candidate_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+    "draft": {
+      "event_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "project_id": "RepoMind",
+      "subject": "codex",
+      "predicate": "v4_acceptance_path",
+      "value": "显式包装器",
+      "event_type": "declare",
+      "observed_at": "2026-11-06T06:15:04Z",
+      "effective_at": "2026-11-06T06:15:04Z",
+      "source_id": "review-source-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "supersedes_event_id": null
+    },
+    "artifact": {
+      "kind": "git",
+      "path": "reports/v4.0/acceptance.json",
+      "commit": "cd68c3b49c30826e6c7597f4deeea1fda5c0d753",
+      "sha256": "07229549458d817d302466d1ce8c0dd684ef4337f53bdf5950dfd3440b8c9811",
+      "recorded_at": "2026-11-06T06:15:04Z"
+    },
+    "quote": "\"accepted_path\": \"codex_exec_wrapper\",",
+    "status": "pending",
+    "revision": 1,
+    "reviewed_at": null,
+    "event_id": null
+  },
+  "before_approval_recall": [
+    {
+      "subject": "harness",
+      "field": "recovery_acceptance_recommendation",
+      "value": "reference",
+      "source_id": "review-source-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "event_id": "review-f0b14f169b6c6d2a86bae6d52db1081745426a5b915109af1eb72f8a5fbc86ce",
+      "path": "D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/reports/v3-recovery/acceptance.json",
+      "commit": null,
+      "sha256": "dc8ee150ab3045310d8f87a6d84c4fc8bf857a1c2d25ae4806e7ddb5683f0851"
+    }
+  ],
+  "backup_sha256": "60fe2055883c51815a2f55cc8d92a74b1bbed0cc45176c355f3771ea53dc01f1",
+  "new_candidate_hidden_before_approval": true
+}

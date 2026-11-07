@@ -32,6 +32,8 @@ def build_parser() -> argparse.ArgumentParser:
     add_review_parser(commands)
     from repomind.codex_cli import add_codex_parser
     add_codex_parser(commands)
+    from repomind.web.server import add_web_parser
+    add_web_parser(commands)
     evaluate = commands.add_parser("eval", help="Evaluate in a fresh temporary ledger; emit JSON and Markdown")
     evaluate.add_argument("--events", type=Path, default=Path("data/fixtures/conversations.jsonl"))
     evaluate.add_argument("--dataset", type=Path, required=True)
@@ -215,7 +217,11 @@ def main(argv: list[str] | None = None) -> int:
             stream.reconfigure(encoding="utf-8")
     args = build_parser().parse_args(argv)
     try:
-        if args.command == "import":
+        if args.command == "web":
+            from repomind.web.server import run_web
+
+            return run_web(args)
+        elif args.command == "import":
             with SQLiteMemoryStore(args.db) as store:
                 result = store.import_jsonl(args.path)
                 output = {**result.model_dump(), "total_events": store.count(), "db": str(args.db)}

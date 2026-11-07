@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="repomind-csrf" content="__CSRF__">
+  <title>RepoMind · 本地记忆工作台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content">跳到记录</a>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">R</span>RepoMind</div>
+  <nav aria-label="工作台页面">
+    <a id="review-link" href="/review">待确认</a>
+    <a id="memories-link" href="/memories">项目记忆</a>
+  </nav>
+  <span class="local-label"><span aria-hidden="true">●</span> 本地工作台</span>
+</header>
+<main>
+  <div class="page-heading">
+    <div><h1 id="page-title">待确认</h1><p id="page-description">核对开发决策和原始证据，再决定是否写入记忆。</p></div>
+    <button id="refresh" class="quiet" type="button">刷新记录</button>
+  </div>
+  <form id="filters" class="filters" aria-label="筛选记录">
+    <label class="project-filter">项目<input id="project" name="project" list="projects" autocomplete="off" required maxlength="100"><datalist id="projects"></datalist></label>
+    <label class="search-filter">搜索<input id="query" name="q" type="search" placeholder="搜索事实名称或内容" maxlength="400"></label>
+    <label id="status-filter">审核状态<select id="status" name="status"><option value="pending">待确认</option><option value="confirmed">已确认</option><option value="rejected">已拒绝</option><option value="all">全部记录</option></select></label>
+    <label id="date-filter" hidden>事实日期（UTC）<input id="as-of" name="as_of" type="date"></label>
+    <label id="known-filter" hidden>获知日期（UTC，可选）<input id="known-at" name="known_at" type="date"></label>
+    <button type="submit" class="primary">查询</button>
+  </form>
+  <p id="date-help" class="help" hidden>事实日期决定当时有效的事实；获知日期限制系统当时已收到的记录。日期均取 UTC 当日结束。</p>
+  <p id="notice" class="notice" role="status" aria-live="polite"></p>
+  <div id="content" class="workspace">
+    <section class="record-panel" aria-labelledby="list-title">
+      <div class="panel-heading"><h2 id="list-title">候选记录</h2><span id="count">加载中</span></div>
+      <div id="counts" class="counts"></div>
+      <div id="record-list" class="record-list" aria-busy="true"><p class="empty">正在读取记忆库…</p></div>
+      <div class="pagination"><button id="previous" type="button" class="quiet" disabled>上一页</button><span id="page-info"></span><button id="next" type="button" class="quiet" disabled>下一页</button></div>
+    </section>
+    <section id="detail" class="detail-panel" aria-label="记录详情" tabindex="-1">
+      <div class="detail-placeholder"><span class="evidence-symbol" aria-hidden="true">⌑</span><h2>让每条记忆有据可查</h2><p>选择左侧记录，核对事实与来源。</p></div>
+    </section>
+  </div>
+  <footer>RepoMind 本地记忆库<span>候选经确认后，才会用于跨会话召回。</span></footer>
+</main>
+<dialog id="decision-dialog" aria-labelledby="decision-title">
+  <form method="dialog">
+    <h2 id="decision-title">确认写入正式记忆</h2>
+    <p id="decision-copy"></p>
+    <pre id="decision-summary"></pre>
+    <div class="dialog-actions"><button value="cancel" class="quiet">返回核对</button><button id="decision-submit" value="proceed" class="primary">确认写入正式记忆</button></div>
+  </form>
+</dialog>
+</body>
+</html>

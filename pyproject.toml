@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repomind"
-version = "4.0.0"
+version = "4.1.0"
 description = "Temporal project memory, isolated code tools, and bounded harness experiments"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,6 +19,9 @@ repomind = "repomind.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"repomind.web" = ["*.html", "*.css", "*.js"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

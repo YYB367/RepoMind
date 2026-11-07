@@ -1,0 +1,44 @@
+{
+  "stage_goal": "V4.1 read back browser-approved memory in another process",
+  "passed": true,
+  "candidate": {
+    "candidate_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+    "draft": {
+      "event_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "project_id": "RepoMind",
+      "subject": "codex",
+      "predicate": "v4_acceptance_path",
+      "value": "codex_exec_wrapper",
+      "event_type": "declare",
+      "observed_at": "2026-11-06T06:15:04Z",
+      "effective_at": "2026-11-06T06:15:04Z",
+      "source_id": "review-source-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "supersedes_event_id": null
+    },
+    "artifact": {
+      "kind": "git",
+      "path": "reports/v4.0/acceptance.json",
+      "commit": "cd68c3b49c30826e6c7597f4deeea1fda5c0d753",
+      "sha256": "07229549458d817d302466d1ce8c0dd684ef4337f53bdf5950dfd3440b8c9811",
+      "recorded_at": "2026-11-06T06:15:04Z"
+    },
+    "quote": "\"accepted_path\": \"codex_exec_wrapper\",",
+    "status": "confirmed",
+    "revision": 2,
+    "reviewed_at": "2026-11-07T04:20:19.840903Z",
+    "event_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569"
+  },
+  "recalled": [
+    {
+      "subject": "codex",
+      "field": "v4_acceptance_path",
+      "value": "codex_exec_wrapper",
+      "source_id": "review-source-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "event_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+      "path": "reports/v4.0/acceptance.json",
+      "commit": "cd68c3b49c30826e6c7597f4deeea1fda5c0d753",
+      "sha256": "07229549458d817d302466d1ce8c0dd684ef4337f53bdf5950dfd3440b8c9811"
+    }
+  ],
+  "other_project_hidden": true
+}

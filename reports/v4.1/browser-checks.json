@@ -1,0 +1,51 @@
+{
+  "stage_goal": "V4.1 browser review and memory-query verification",
+  "tool": "agent-browser with system Chrome",
+  "real_pilot": {
+    "database": "work/v4.0/pilot.sqlite3",
+    "candidate_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+    "edit_saved_revision": 2,
+    "user_approved": true,
+    "confirmed_through_browser": true,
+    "cli_readback_matches": true,
+    "current_date_query_value": "codex_exec_wrapper",
+    "as_of_2026_11_05_hidden": true,
+    "known_at_2026_11_06_hidden": true,
+    "date_automation": "set native input.value in the browser, then click the Query button; generic CLI fill left the controls empty",
+    "screenshots": [
+      "review-pending.png",
+      "review-confirmed.png",
+      "project-memory.png",
+      "project-memory-sources.png"
+    ]
+  },
+  "isolated_fixture": {
+    "database": "work/v4.1/browser-fixtures/isolated.sqlite3",
+    "classification": "simulated records in a real browser",
+    "empty_edit_error_preserves_input": true,
+    "reject_with_dialog": true,
+    "rejected_state_visible": true,
+    "html_quote_did_not_execute": true,
+    "rendered_quote_image_count": 0,
+    "mobile_width": 390,
+    "mobile_height": 844,
+    "horizontal_overflow": false,
+    "unsubmitted_project_filter_does_not_relabel_loaded_candidate": true,
+    "other_project_pending_query_empty": true,
+    "javascript_errors_observed": 0,
+    "screenshots": [
+      "mobile-fixture.png",
+      "other-project-empty.png"
+    ]
+  },
+  "accessibility": {
+    "axe_version": "4.12.1",
+    "counts": {
+      "inapplicable": 47,
+      "incomplete": 1,
+      "passes": 42,
+      "violations": 0
+    },
+    "manual_review_remaining": "three nodes under one color-contrast incomplete rule; no full accessibility certification"
+  }
+}

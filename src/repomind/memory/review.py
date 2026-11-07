@@ -94,9 +94,11 @@ def read_record(path: Path, *, commit: str | None, repo: Path,
 
 
 class ReviewQueue:
-    def __init__(self, store: SQLiteMemoryStore):
+    def __init__(self, store: SQLiteMemoryStore, *, initialize: bool = True):
         self.store = store
         self.db = store.connection
+        if not initialize:
+            return
         self.db.execute("""CREATE TABLE IF NOT EXISTS memory_review_candidates (
             candidate_id TEXT PRIMARY KEY,
             project_id TEXT NOT NULL,

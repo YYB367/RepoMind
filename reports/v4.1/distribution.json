@@ -1,0 +1,12 @@
+{
+  "stage_goal": "V4.1 installed-wheel smoke check and preservation of prior frozen evidence",
+  "wheel": "repomind-4.1.0-py3-none-any.whl",
+  "wheel_sha256": "78793517903f06751f7dbe9fed7e996af3aa32359cf43ea2c9d56998ff275fdd",
+  "all_static_assets_match_source": true,
+  "installed_outside_source": true,
+  "installed_version": "4.1.0",
+  "installed_web_page_and_real_memory_query_passed": true,
+  "prior_data_and_report_files_byte_identical": 314,
+  "source_archive": "RepoMind-v4.1.0.zip",
+  "source_archive_digest": "See sibling RepoMind-v4.1.0.zip.sha256"
+}

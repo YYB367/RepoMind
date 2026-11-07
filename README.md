@@ -1,6 +1,17 @@
 # 阶段目标
 
-V4.0 将已确认的项目记忆接入独立 Codex 会话。RepoMind 真实试点已通过显式包装器的两会话验收，原生 hooks 配置通过模拟事件验证。运行方法和证据见 [V4.0 交付](docs/v4.0-delivery.md)。
+V4.1 提供本地网页工作台：审核候选、核对来源，以及按项目和日期查询正式记忆。网页和 CLI 共用 SQLite 账本及审核规则。运行方法、验收证据与技术原理见 [V4.1 交付](docs/v4.1-delivery.md)。
+
+~~~powershell
+$env:PYTHONPATH = 'src'
+python -m repomind --db work/v4.0/pilot.sqlite3 web --project RepoMind --port 8765
+~~~
+
+打开 http://127.0.0.1:8765/review 或 http://127.0.0.1:8765/memories 。本工作区已有 Python 位于 ../../work/v2-venv/Scripts/python.exe。全新环境先运行 python -m pip install -e ".[dev]"；库不存在时网页显示空列表，使用 review propose 或 Codex 生成候选后刷新。按 Ctrl+C 停止服务。
+
+## V4.0 跨会话流程
+
+V4.0 将已确认的项目记忆接入独立 Codex 会话。RepoMind 真实试点通过显式包装器的两会话验收，原生 hooks 配置通过模拟事件验证。运行方法和证据见 [V4.0 交付](docs/v4.0-delivery.md)。
 
 ## V3.1 真实项目记忆审核与查询
 

@@ -1,0 +1,14 @@
+{
+  "stage_goal": "V4.1 user-approved browser write of a real RepoMind memory",
+  "approval_source": "Explicit user reply to the concrete candidate in this Codex conversation",
+  "user_reply": "批准这条第 2 版候选并继续验收",
+  "candidate_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569",
+  "revision": 2,
+  "project": "RepoMind",
+  "subject": "codex",
+  "field": "v4_acceptance_path",
+  "value": "codex_exec_wrapper",
+  "write_channel": "browser final confirmation dialog",
+  "reviewed_at": "2026-11-07T04:20:19.840903Z",
+  "event_id": "review-1a5daf93078df2a41b140a7b72277b4da8a4ca26621e14d0addbce2e7cbd5569"
+}
