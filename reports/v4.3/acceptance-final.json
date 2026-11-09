@@ -1,0 +1,77 @@
+{
+  "stage_goal": "V4.3 develop through local web, preview evidence, review memory, and use it in an independent session",
+  "version": "4.3.0",
+  "release_status": "accepted",
+  "feature_acceptance_passed": true,
+  "full_regression_passed": true,
+  "tests": {
+    "tests": 537,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 537,
+    "warnings": 1,
+    "real_container_cases_passed": 4
+  },
+  "simulated_tests": "13 new task/evidence/HTTP cases plus 25 real-task-authored pagination regression cases included in the full suite",
+  "real_sessions": {
+    "task_a": "01a1bf79-b114-74b0-ba7d-c076c9842ead",
+    "task_b": "01a1bf83-a5e3-74f0-a5be-83c92c235407",
+    "independent": true,
+    "modified_files": [
+      "docs/decisions/0025-local-web-workbench-shared-review.md",
+      "src/repomind/workbench.py",
+      "tests/test_workbench.py"
+    ],
+    "candidate_automatically_proposed": true,
+    "user_confirmed": true,
+    "source_version_verified": true,
+    "recalled_and_used_in_b": true,
+    "usage": [
+      {
+        "input_tokens": 232914,
+        "cached_input_tokens": 209152,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3635,
+        "reasoning_output_tokens": 399
+      },
+      {
+        "input_tokens": 107173,
+        "cached_input_tokens": 95360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2062,
+        "reasoning_output_tokens": 277
+      }
+    ],
+    "monetary_cost": null,
+    "command_failures_reported": [
+      [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ],
+      [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ]
+    ]
+  },
+  "real_model_strategy_experiments": 0,
+  "default_strategy": "reference",
+  "remaining_evidence": [],
+  "existing_untracked_document_preserved": "docs/memory-daily-use.md is not staged or included in release modifications",
+  "checked_at": "2026-11-09T09:36:42.349643+00:00",
+  "initial_acceptance": "acceptance.json (preserved: 533 passed, 4 Docker probe failures)",
+  "final_junit": "pytest-platform-final.xml",
+  "docker_recheck": "pytest-docker-recheck.xml",
+  "focused_final": {
+    "passed": 56,
+    "failed": 0,
+    "skipped": 0,
+    "junit": "pytest-focused-final.xml"
+  },
+  "verification_scope": "V4.3 requirements accepted; constraints and unsupported behaviors are described in docs/v4.3-delivery.md"
+}

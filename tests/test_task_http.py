@@ -31,6 +31,8 @@ def test_task_http_preflight_start_preview_and_scope(project,monkeypatch):
         assert request(server,'/api/tasks/prepare',{'project':'RepoMind','prompt':'Do work','root':'C:/'} )[0]==400
         prepared=request(server,'/api/tasks/prepare',{'project':'RepoMind','prompt':'Improve source'})[1]
         tid=prepared['task_id'];url='/api/tasks/'+tid
+        assert request(server,'/tasks?project=RepoMind&task='+tid)[0]==200
+        assert request(server,'/review?project=RepoMind&candidate=review-'+'a'*64)[0]==200
         assert request(server,url+'/start',{'project':'RepoMind'},trusted=False)[0]==403
         assert request(server,url+'/start',{'project':'RepoMind'})[0]==202
         for _ in range(100):

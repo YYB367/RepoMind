@@ -6,7 +6,7 @@ const types = {declare:"声明事实", plan:"计划", complete:"已完成"};
 const reasons = {latest_effective_fact:"根据所选日期的有效事实得出。", only_plans:"记录了计划，尚无完成事实。", conflicting_effective_facts:"同一生效时间存在不同事实，证据不足以确定唯一答案。"};
 let items = [], selected = null, offset = 0, total = 0, sequence = 0, busy = false, viewProject = "";
 const limit = 30;
-const node = (tag, text, className) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; return e; };
+const node = (tag, text, className) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; if(className?.includes('code-view'))e.tabIndex=0; return e; };
 const stamp = (value) => value ? new Date(value).toLocaleString("zh-CN", {timeZone:"UTC", hour12:false}) + " UTC" : "未记录";
 const shortDate = (value) => value ? value.slice(0,10) : "";
 const badge = (state) => node("span", states[state] || state, "badge " + state);
@@ -86,7 +86,7 @@ function heading(key,state) {
   const h=node("div",undefined,"detail-heading"); const text=node("div"); text.append(node("p",viewProject,"fact-key"),node("h2",key)); h.append(text,badge(state)); return h;
 }
 function renderCandidate(row) {
-  const panel=$("detail"); panel.replaceChildren(heading(row.draft.subject+" / "+row.draft.predicate,row.status));
+  const shell=$("detail");shell.classList.add('candidate-review');const panel=node('div',undefined,'candidate-facts');shell.replaceChildren(panel);panel.append(heading(row.draft.subject+" / "+row.draft.predicate,row.status));
   if(row.status!=="pending") panel.append(node("p",row.status==="confirmed"?"已写入正式记忆。命令行与新会话可读取同一记录。":"已拒绝。此候选不会进入正式记忆或跨会话召回。","state-note "+row.status));
   if(row.status==="pending") {
     const label=node("label","事实内容"); const value=node("textarea"); value.id="edit-value"; value.value=row.draft.value; value.maxLength=4000; value.rows=3; label.append(value); panel.append(label);
@@ -97,8 +97,8 @@ function renderCandidate(row) {
     grid.append(typeLabel,whenLabel); panel.append(grid);
   } else panel.append(node("p",row.draft.value,"fact-value"),meta([["记录类型",types[row.draft.event_type]],["生效时间",stamp(row.draft.effective_at)],["审核时间",stamp(row.reviewed_at)]]));
   panel.append(source(row.artifact,row.quote,[["候选 ID",row.candidate_id],["来源 ID",row.draft.source_id],["审核版本",row.revision]]));
-  panel.append(node("p",row.rationale||"此记录未保存助手理由。请依据已保存引文与来源版本核对事实。","decision-note"));
-  attachPreview(row,panel);
+  panel.append(node("p","助手提取理由："+(row.rationale||"此旧记录未保存助手理由，请依据引文与来源核对事实。"),"decision-note"));
+  attachPreview(row,shell);
   if(row.status==="pending") {
     const actions=node("div",undefined,"actions");
     const save=node("button","保存修改","quiet");save.id="save-edit";save.type="button";save.disabled=true;save.addEventListener("click",()=>mutate("edit"));
@@ -109,7 +109,7 @@ function renderCandidate(row) {
   }
 }
 function renderMemory(row) {
-  const panel=$("detail");panel.replaceChildren(heading(row.subject+" / "+row.field,row.status));
+  const panel=$("detail");panel.classList.remove('candidate-review');panel.replaceChildren(heading(row.subject+" / "+row.field,row.status));
   panel.append(node("p",row.value || (row.status==="unknown"?"尚无完成事实":"无法确定唯一事实"),"fact-value"),node("p",reasons[row.reason] || row.reason,"result-note"));
   row.sources.forEach(s=>{panel.append(meta([["事件类型",types[s.event.event_type] || s.event.event_type],["事件内容",s.event.value],["生效时间",stamp(s.event.effective_at)],["获知时间",stamp(s.event.observed_at)]]));panel.append(source(s.artifact,s.provenance?.evidence_text || s.record?.text,[["事件 ID",s.event.event_id],["来源 ID",s.event.source_id]]));});
 }
@@ -153,6 +153,7 @@ window.addEventListener("beforeunload",event=>{if(dirty()){event.preventDefault(
 async function init() {
   const initial=new URLSearchParams(location.search);
   $(memoryPage?"memories-link":"review-link").setAttribute("aria-current","page");
+  if(!memoryPage)$("content").classList.add('review-workspace');
   $("date-filter").hidden=!memoryPage;$("known-filter").hidden=!memoryPage;$("date-help").hidden=!memoryPage;$("status-filter").hidden=memoryPage;
   if(memoryPage) {document.title="项目记忆 · RepoMind";$("page-title").textContent="项目记忆";$("page-description").textContent="按项目与日期查询事实，随时回到决策的来源。";$("list-title").textContent="记忆记录";}
   $("as-of").value=initial.get("as_of") || new Date().toISOString().slice(0,10);
@@ -181,6 +182,7 @@ function attachPreview(row,panel) {
       function paint(){let text=data.text;const at=text.indexOf(data.quote);if(!full && at>=0 && data.scope!=="quote") {const start=Math.max(0,text.lastIndexOf("\n",Math.max(0,at-450)));const end=text.indexOf("\n",at+data.quote.length+450);text=text.slice(start,end<0?text.length:end);}
         body.replaceChildren();const i=text.indexOf(data.quote);if(i>=0){body.append(document.createTextNode(text.slice(0,i)),node("mark",data.quote),document.createTextNode(text.slice(i+data.quote.length)));}else body.textContent=text;
         toggle.textContent=full?"仅显示引文前后文":"显示完整正文";
+        requestAnimationFrame(()=>{const hit=body.querySelector('mark');if(hit && body.isConnected)body.scrollTop=Math.max(0,body.scrollTop+hit.getBoundingClientRect().top-body.getBoundingClientRect().top-body.clientHeight/3);});
       }
       toggle.onclick=()=>{full=!full;paint();};paint();area.append(body);if(data.scope!=="quote")area.append(toggle);
       for(const change of data.changes){const d=node("details");d.append(node("summary","本次任务差异："+change.path),node("pre",change.diff||"此文件无法完整生成差异。","code-view diff-view"));area.append(d);}

@@ -1,0 +1,18 @@
+{
+  "stage_goal": "Verify the V4.3 release package and preserve earlier frozen evidence",
+  "wheel": "repomind-4.3.0-py3-none-any.whl",
+  "wheel_sha256": "7d84dc87789fab90188c2d9ece3a4f2887a74ee79892ba8e7d05d22c626de513",
+  "wheel_sources_assets_and_readme_match": true,
+  "installed_outside_source": true,
+  "installed_task_page_and_source_preview_passed": true,
+  "prior_data_and_report_files_byte_identical": 440,
+  "frozen_data_hashes_to_verify_in_archive": 232,
+  "source_archive": "RepoMind-v4.3.0.zip",
+  "archive_digest": "See sibling .zip.sha256",
+  "excludes": [
+    ".env",
+    "SQLite databases",
+    "task lock files",
+    "existing untracked docs/memory-daily-use.md"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "stage_goal": "Identify missing legacy container regression evidence",
+  "ready": false,
+  "failure": "Docker Desktop backend startup failed initializing the dockerInference Unix socket; engine info requests timed out.",
+  "observed_log": "starting services: initializing Inference manager: listening on unix://.../Docker/run/dockerInference: The file cannot be accessed by the system.",
+  "recovery_attempts": [
+    "Started existing Docker Desktop",
+    "Verified backend log reported all local engines stopped",
+    "Restarted only verified crashed Docker Desktop/backend processes; no reset or image/volume changes",
+    "Final engine check timed out after 12 seconds"
+  ],
+  "cases_pending": [
+    "profile",
+    "early_exit",
+    "timeout",
+    "output_limit"
+  ],
+  "host_test_fallback_used": false
+}

@@ -1,0 +1,22 @@
+{
+  "stage_goal": "V4.3 real browser interactions and failure recovery",
+  "real_task_started_from_browser": true,
+  "task_prompt_contains_memory_schema_or_expected_quote": false,
+  "preview_scope": "task_snapshot",
+  "source_hash_matches": true,
+  "highlight_matches_saved_quote": true,
+  "task_diffs": 3,
+  "preview_network_failure_preserved_unsaved_edit": true,
+  "test_edit_was_restored_without_saving": true,
+  "user_approved_then_browser_confirmed": true,
+  "next_task_preflight_recalled_confirmed_fact": true,
+  "mobile_width": 390,
+  "horizontal_overflow": false,
+  "accessibility": {
+    "inapplicable": 45,
+    "incomplete": 1,
+    "passes": 43,
+    "violations": 1
+  },
+  "protocol_tests": "Git version, changed/missing/oversized/binary/outside/hardlinked files covered in isolated tests; not claimed as separate real model experiments"
+}

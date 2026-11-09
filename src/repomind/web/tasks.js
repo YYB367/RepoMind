@@ -1,6 +1,6 @@
 "use strict";
 const $=id=>document.getElementById(id);
-const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;if(cls?.includes('code-view'))n.tabIndex=0;return n;};
 const statusNames={prepared:"等待启动",queued:"排队中",running:"Codex 正在执行",completed:"会话已结束",failed:"执行失败",interrupted:"上次运行中断",cancelled:"运行已停止"};
 let prepared=null,active=null,timer=null,request=0;
 function notice(text="",error=false){$("task-notice").textContent=text;$("task-notice").className="notice "+(error?"error":"");}
@@ -12,7 +12,7 @@ function renderPreflight(row){const box=$("preflight");box.replaceChildren(el("h
 function render(row){active=row.task_id;const panel=$("task-result");panel.replaceChildren(el("h2",statusNames[row.status]),el("p",row.prompt,"task-prompt-view"));panel.append(el("p",row.task_id,"help"));if(row.error)panel.append(el("p",row.error,"notice error"));if(row.notice)panel.append(el("p",row.notice,"help"));if(row.result){panel.append(el("h3","助手结果"),el("pre",row.result.assistant_message,"assistant-result"));panel.append(el("p","独立会话："+row.result.session_id,"help"));if(row.result.tool_errors?.length)panel.append(el("p","部分工具命令失败，请结合结果和修改检查是否完成需求。","notice error"));}
   panel.append(el("h3","本次文件修改"));if(!row.changes.length)panel.append(el("p",["queued","running"].includes(row.status)?"执行结束后展示任务前后的差异。":"未检测到可预览范围内的文件修改。","help"));for(const change of row.changes){const d=el("details");d.append(el("summary",change.path+" · "+change.kind),el("pre",change.diff||"正文未完整保留，无法生成全文差异。","code-view diff-view"));panel.append(d);}
   panel.append(el("h3","记忆候选"));if(!row.candidates.length)panel.append(el("p","尚无候选。助手仅在存在文件证据时提出项目记忆。","help"));for(const c of row.candidates){const a=el("a",c.draft.subject+" / "+c.draft.predicate+" = "+c.draft.value+"（"+({pending:"待确认",confirmed:"已确认",rejected:"已拒绝"}[c.status])+"）","candidate-link");a.href="/review?"+new URLSearchParams({project:row.project,status:"all",candidate:c.candidate_id});panel.append(a,el("p",c.rationale||"依据助手选取的文件引文提出，审核前请核对正文。","help"));}
-  if(["queued","running"].includes(row.status))timer=setTimeout(()=>show(row.task_id),1500);
+  if(["queued","running"].includes(row.status))timer=setTimeout(()=>show(row.task_id),1500);else refreshTasks();
 }
 async function show(id){clearTimeout(timer);const seq=++request;try{const row=await api("/api/tasks/"+id+"?project="+encodeURIComponent(project()));if(seq!==request)return;render(row);history.replaceState(null,"","/tasks?"+new URLSearchParams({project:project(),task:id}));}catch(error){notice(error.message,true);}}
 // Avoid shadowing the browser History API with the task-list refresh function.

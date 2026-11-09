@@ -1,0 +1,35 @@
+{
+  "stage_goal": "Explicit human approval before formal ledger write",
+  "user_reply": "批准该第 1 版候选并继续新会话验收",
+  "candidate_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+  "revision": 1,
+  "write_channel": "browser final confirmation dialog",
+  "candidate": {
+    "candidate_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+    "draft": {
+      "event_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+      "project_id": "RepoMind",
+      "subject": "workbench.page",
+      "predicate": "pagination_validation",
+      "value": "offset 仅接受非 bool 的非负整数，limit 仅接受非 bool 的 1–100 整数；非法参数抛出 ValueError。",
+      "event_type": "complete",
+      "observed_at": "2026-11-09T08:45:53.581593Z",
+      "effective_at": "2026-11-09T08:45:53.581593Z",
+      "source_id": "review-source-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+      "supersedes_event_id": null
+    },
+    "artifact": {
+      "kind": "file",
+      "path": "D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/outputs/RepoMind/docs/decisions/0025-local-web-workbench-shared-review.md",
+      "commit": null,
+      "sha256": "29391896f422b1bd424550ca0022fcbe0610a46d4a97db33b49f0f0e86a914bc",
+      "recorded_at": "2026-11-09T08:45:53.581593Z"
+    },
+    "quote": "offset 必须为非 bool 的非负整数；limit 必须为非 bool 的 1 到 100 整数，否则抛出 ValueError。",
+    "status": "confirmed",
+    "revision": 1,
+    "reviewed_at": "2026-11-09T08:53:50.289803Z",
+    "event_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+    "rationale": "这是已实现并通过回归测试的公共函数契约，ADR 明确记录了类型、范围与异常行为。"
+  }
+}

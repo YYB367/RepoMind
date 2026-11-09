@@ -104,16 +104,18 @@ class TaskService:
         if not prompt.strip() or len(prompt)>8000:raise ValueError('任务内容须为 1–8000 个字符。')
         environment=self.environment(project)
         row={'task_id':'task-'+uuid4().hex,'project':project,'prompt':prompt.strip(),'status':'prepared',
+             '_root':str(root),
              'created_at':now(),'environment':environment,'recalled':recall(self.database,project,prompt),
              'changes':[],'candidates':[],'result':None,'error':None}
         with SQLiteMemoryStore(self.database) as store:self._save(store,row)
-        return row
+        return self.get(project,row['task_id'])
 
     def start(self,project,tid):
         with self.mutex,SQLiteMemoryStore(self.database) as store,store.write_transaction():
             row=self.get(project,tid,internal=True)
             if row['status'] in {'queued','running'}:return self.get(project,tid)
             if row['status']!='prepared' or not row['environment']['ready']:raise ValueError('任务尚未通过环境预查，或已启动过。')
+            if row.get('_root')!=str(self.root(project)):raise ValueError('项目目录已变化，请重新预查。')
             if store.connection.execute("SELECT 1 FROM web_tasks WHERE status IN ('queued','running')").fetchone():
                 raise ValueError('已有开发任务运行中，请等待其结束。')
             if recall(self.database,project,row['prompt'])!=row['recalled']:

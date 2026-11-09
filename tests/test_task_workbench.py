@@ -118,6 +118,11 @@ def test_snapshot_handles_large_file_transition_and_does_not_include_existing_di
     (root/'decision.py').write_bytes(b'x'*(MAX_FILE+1))
     changed,=changes(before,snapshot(root))
     assert changed['kind']=='modified' and changed['diff'] is None and changed['after']['unavailable']
+    (root/'theme.css').write_text('a{}')
+    before=snapshot(root)
+    (root/'theme.css').write_text('b{}')
+    changed,=changes(before,snapshot(root))
+    assert changed['path']=='theme.css' and changed['kind']=='modified' and changed['diff'] is None
 
 
 def test_service_lease_restart_and_preflight_gate(project,monkeypatch):
@@ -128,6 +133,12 @@ def test_service_lease_restart_and_preflight_gate(project,monkeypatch):
         with pytest.raises(ValueError,match='已有任务服务'):TaskService(db,{'RepoMind':root})
         task=service.prepare('RepoMind','Do work')
         with pytest.raises(ValueError,match='预查'):service.start('RepoMind',task['task_id'])
+        with SQLiteMemoryStore(db) as store:
+            changed=service.get('RepoMind',task['task_id'],internal=True)
+            changed['environment']['ready']=True;service._save(store,changed)
+        service.roots['RepoMind']=root.parent
+        with pytest.raises(ValueError,match='目录已变化'):service.start('RepoMind',task['task_id'])
+        service.roots['RepoMind']=root
         with SQLiteMemoryStore(db) as store:
             task['status']='running';service._save(store,task)
     finally:service.close()

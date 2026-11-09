@@ -1,0 +1,26 @@
+{
+  "stage_goal": "Recheck the four real container cases after the user restarted Docker",
+  "checked_at": "2026-11-09T09:36:42.349643+00:00",
+  "user_action": "我重新启动了docker你待会可以进行验收",
+  "engine_version": "29.5.3",
+  "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+  "passed": [
+    "profile",
+    "early_exit",
+    "timeout",
+    "output_limit"
+  ],
+  "failures": 0,
+  "skipped": 0,
+  "junit": "pytest-docker-recheck.xml",
+  "subsequent_full_regression": {
+    "passed": 537,
+    "failed": 0,
+    "skipped": 0,
+    "junit": "pytest-platform-final.xml"
+  },
+  "original_diagnosis": "docker-environment.json",
+  "original_failure_junit": "pytest-platform.xml",
+  "source_or_assertion_changes_for_recheck": false,
+  "docker_reset_or_data_removal": false
+}

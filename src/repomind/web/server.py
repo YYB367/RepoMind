@@ -149,7 +149,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send(503, {"error": "无法访问本地记忆库或页面文件。"})
 
     def read(self):
-        path, args = self.params({"project", "status", "q", "as_of", "known_at", "offset", "limit"})
+        path, args = self.params({"project", "status", "q", "as_of", "known_at", "offset", "limit", "candidate", "task"})
         if path in ("/", "/tasks", "/review", "/memories"):
             body = files("repomind.web").joinpath("tasks.html" if path in ("/","/tasks") else "index.html").read_text(encoding="utf-8")
             body = body.replace("__CSRF__", self.server.csrf)

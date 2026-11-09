@@ -1,0 +1,69 @@
+{
+  "stage_goal": "V4.3 develop through local web, preview evidence, review memory, and use it in an independent session",
+  "version": "4.3.0",
+  "release_status": "preview_pending_legacy_docker_regression",
+  "feature_acceptance_passed": true,
+  "full_regression_passed": false,
+  "tests": {
+    "tests": 537,
+    "failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 533,
+    "warnings": 1,
+    "container_failures_due_to_unavailable_engine": 4
+  },
+  "simulated_tests": "13 new task/evidence/HTTP cases plus 25 real-task-authored pagination regression cases included in the full suite",
+  "real_sessions": {
+    "task_a": "01a1bf79-b114-74b0-ba7d-c076c9842ead",
+    "task_b": "01a1bf83-a5e3-74f0-a5be-83c92c235407",
+    "independent": true,
+    "modified_files": [
+      "docs/decisions/0025-local-web-workbench-shared-review.md",
+      "src/repomind/workbench.py",
+      "tests/test_workbench.py"
+    ],
+    "candidate_automatically_proposed": true,
+    "user_confirmed": true,
+    "source_version_verified": true,
+    "recalled_and_used_in_b": true,
+    "usage": [
+      {
+        "input_tokens": 232914,
+        "cached_input_tokens": 209152,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3635,
+        "reasoning_output_tokens": 399
+      },
+      {
+        "input_tokens": 107173,
+        "cached_input_tokens": 95360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2062,
+        "reasoning_output_tokens": 277
+      }
+    ],
+    "monetary_cost": null,
+    "command_failures_reported": [
+      [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ],
+      [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ]
+    ]
+  },
+  "real_model_strategy_experiments": 0,
+  "default_strategy": "reference",
+  "remaining_evidence": [
+    "Four existing real Docker boundary cases require a working Docker Linux engine and a passing rerun."
+  ],
+  "existing_untracked_document_preserved": "docs/memory-daily-use.md is not staged or included in release modifications",
+  "checked_at": "2026-11-09T09:12:38.844641+00:00"
+}

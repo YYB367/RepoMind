@@ -22,10 +22,10 @@ def git(root, *args):
     return child.stdout
 
 
-def allowed(path):
+def allowed(path,*,text=True):
     name = relative_path(path)
     parts = Path(name).parts
-    if (Path(name).suffix.lower() not in SUFFIXES or any(p.startswith('.') for p in parts)
+    if ((text and Path(name).suffix.lower() not in SUFFIXES) or any(p.startswith('.') for p in parts)
             or parts[0] in {'work', 'dist', 'build', 'node_modules'}
             or any(re.search(r'(?i)secret|credential|password|token|auth', p) for p in parts)):
         raise ValueError('路径不在允许预览的文本范围内。')
@@ -58,9 +58,11 @@ def snapshot(root):
             result[relative]=record
         except (OSError,ValueError,UnicodeError):
             try:
-                path=checked_path(root,allowed(relative));info=path.stat()
-                result[relative]={'sha256':None,'bytes':info.st_size,'mtime_ns':info.st_mtime_ns,
-                                  'unavailable':'文件过大、非 UTF-8 或不适合文本预览。'}
+                path=checked_path(root,allowed(relative,text=False));info=path.stat()
+                with path.open('rb') as stream:raw=stream.read(MAX_FILE+1)
+                fingerprint=hashlib.sha256(raw).hexdigest() if len(raw)<=MAX_FILE else None
+                result[relative]={'sha256':fingerprint,'bytes':info.st_size,'mtime_ns':info.st_mtime_ns,
+                                  'unavailable':'文件类型未支持、过大、非 UTF-8 或不适合文本预览。'}
             except (OSError,ValueError):pass
     return result
 
@@ -127,6 +129,7 @@ def preview(root, candidate, task=None):
             raise ValueError('来源摘要或引文与版本不匹配，仅显示已保存引文。')
         result.update(text=record['text'],scope=scope,version_match=True,
                       warning='当前工作区文件与候选版本不同；下方展示候选绑定的历史版本。' if result['changed'] else None)
-    except (OSError,ValueError,UnicodeError):
-        result['warning']='来源不可完整预览：路径、版本或文件大小不符合要求。仅显示已保存引文，候选和编辑内容保留。'
+    except (OSError,ValueError,UnicodeError) as error:
+        result['warning']=(str(error) if isinstance(error,ValueError) and str(error).startswith(('原文件','来源摘要','提交中的文件')) else
+            '来源不可完整预览：路径、版本或文件大小不符合要求。仅显示已保存引文，候选和编辑内容保留。')
     return result

@@ -1,5 +1,16 @@
 # 阶段目标
 
+V4.3 增加本地任务工作台与版本化证据预览。通过网页输入需求、预查环境和记忆、启动 Codex、查看文件差异及助手候选，经审核后供下一任务召回。真实网页闭环和最终全量回归均通过：537 项通过、0 失败、0 跳过；Docker 重启后的四项真实容器补验也全部通过。首次故障及报告保留，本次正式交付 V4.3.0。操作步骤、技术原理和遗留问题见 [V4.3 交付](docs/v4.3-delivery.md)。
+
+~~~powershell
+$env:PYTHONPATH = 'src'
+python -m repomind --db work/v4.0/pilot.sqlite3 web --project RepoMind --root . --port 8768
+~~~
+
+打开 http://127.0.0.1:8768/tasks 。本工作区已有解释器位于 ../../work/v2-venv/Scripts/python.exe。
+
+## V4.2 独立任务补验
+
 V4.2 从 RepoMind 的真实试点提名有限候选，用新冻结的维护任务补验 V3 策略效果。开发集选定并锁住候选后，与 reference 做两轮保留验证。文件变更、实际用量、逐轮判定和技术解释见 [V4.2 交付](docs/v4.2-delivery.md)。历史数据与首次结果保留，日常默认策略继续使用 reference。
 
 ## V4.1 本地网页工作台

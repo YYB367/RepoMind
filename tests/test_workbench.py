@@ -12,9 +12,37 @@ from repomind.codex_flow import recall
 from repomind.domain.models import Event
 from repomind.memory.review import ReviewQueue, read_record
 from repomind.web.server import WorkbenchServer
-from repomind.workbench import Workbench
+from repomind.workbench import Workbench, page
 
 STAMP = "2020-01-01T00:00:00Z"
+
+
+@pytest.mark.parametrize("offset", [-1, -100, True, False, 0.0, 1.5, "0", None])
+def test_page_rejects_invalid_offset(offset):
+    with pytest.raises(ValueError, match="offset"):
+        page([], offset, 50)
+
+
+@pytest.mark.parametrize("limit", [-1, 0, 101, True, False, 1.0, 1.5, "50", None])
+def test_page_rejects_invalid_limit(limit):
+    with pytest.raises(ValueError, match="limit"):
+        page([], 0, limit)
+
+
+@pytest.mark.parametrize("rows,offset,limit,items", [
+    ([], 0, 1, []),
+    ([], 10, 100, []),
+    (["a", "b", "c"], 0, 1, ["a"]),
+    (["a", "b", "c"], 1, 100, ["b", "c"]),
+    (["a", "b", "c"], 3, 50, []),
+    (["a", "b", "c"], 10, 50, []),
+])
+def test_page_preserves_items_total_and_valid_empty_pages(rows, offset, limit, items):
+    original = rows.copy()
+    assert page(rows, offset, limit) == {
+        "items": items, "total": len(rows), "offset": offset, "limit": limit,
+    }
+    assert rows == original
 
 
 @contextmanager
@@ -126,6 +154,26 @@ def test_empty_read_does_not_create_or_migrate_database(tmp_path):
         assert request(server,"/api/projects")[1]["projects"] == []
         assert request(server,"/api/candidates?project=RepoMind")[1]["items"] == []
         assert request(server,"/api/memories?project=RepoMind")[1]["items"] == []
+    assert not database.exists()
+
+
+@pytest.mark.parametrize("endpoint", ["candidates", "memories"])
+def test_http_pagination_preserves_validation_and_empty_pages(tmp_path, endpoint):
+    database = tmp_path / "missing.sqlite3"
+    with serving(database) as server:
+        url = f"/api/{endpoint}?project=RepoMind"
+        for query in ("offset=-1", "offset=0.0", "offset=true", "limit=0", "limit=101",
+                      "limit=1.0", "limit=true"):
+            status, body, _ = request(server, url + "&" + query)
+            assert status == 400
+            assert body == {"error": "分页或搜索参数超出范围。"}
+        for query, offset, limit in (("", 0, 50), ("&offset=0&limit=1", 0, 1),
+                                     ("&offset=10&limit=100", 10, 100)):
+            status, body, _ = request(server, url + query)
+            assert status == 200
+            assert {key: body[key] for key in ("items", "total", "offset", "limit")} == {
+                "items": [], "total": 0, "offset": offset, "limit": limit,
+            }
     assert not database.exists()
 
 
