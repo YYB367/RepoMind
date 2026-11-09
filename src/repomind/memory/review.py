@@ -41,6 +41,7 @@ class ReviewCandidate(Contract):
     revision: int = Field(ge=1)
     reviewed_at: datetime | None = None
     event_id: str | None = None
+    rationale: str | None = None
 
 
 def read_record(path: Path, *, commit: str | None, repo: Path,
@@ -67,7 +68,7 @@ def read_record(path: Path, *, commit: str | None, repo: Path,
 
         def git(*arguments):
             result = subprocess.run(
-                ["git", "--no-replace-objects", "-C", str(repo), *arguments],
+                ["git", "-c", "safe.directory=" + str(repo.resolve()), "--no-replace-objects", "-C", str(repo), *arguments],
                 capture_output=True, timeout=10,
             )
             if result.returncode:
@@ -106,15 +107,22 @@ class ReviewQueue:
             event_id TEXT UNIQUE REFERENCES events(event_id),
             candidate_json TEXT NOT NULL
         )""")
+        self.db.execute('CREATE TABLE IF NOT EXISTS memory_review_notes (candidate_id TEXT PRIMARY KEY, rationale TEXT NOT NULL)')
+
+    def _with_note(self, candidate):
+        if not self.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='memory_review_notes'").fetchone():
+            return candidate
+        row=self.db.execute('SELECT rationale FROM memory_review_notes WHERE candidate_id=?',(candidate.candidate_id,)).fetchone()
+        return candidate if row is None else candidate.model_copy(update={'rationale':row[0]})
 
     def _save(self, candidate: ReviewCandidate) -> None:
         self.db.execute(
             "UPDATE memory_review_candidates SET status=?,event_id=?,candidate_json=? WHERE candidate_id=?",
-            (candidate.status, candidate.event_id, candidate.model_dump_json(), candidate.candidate_id),
+            (candidate.status, candidate.event_id, candidate.model_dump_json(exclude={'rationale'}), candidate.candidate_id),
         )
 
     def propose(self, *, artifact: Artifact, quote: str, project_id: str, subject: str,
-                predicate: str, value: str, event_type: str, effective_at: str | None):
+                predicate: str, value: str, event_type: str, effective_at: str | None, rationale: str | None = None):
         # The source bytes and original fact key identify the same proposal even after an edit.
         identity = [item.strip() for item in (project_id, subject, predicate)] + [artifact.sha256]
         fingerprint = hashlib.sha256(json.dumps(identity, ensure_ascii=False).encode("utf-8")).hexdigest()
@@ -125,12 +133,14 @@ class ReviewQueue:
             observed_at=artifact.recorded_at, effective_at=effective_at,
         )
         candidate = ReviewCandidate(candidate_id=candidate_id, draft=draft, artifact=artifact,
-                                    quote=quote, status="pending", revision=1)
+                                    quote=quote, status="pending", revision=1, rationale=rationale)
         with self.store.write_transaction():
             cursor = self.db.execute(
                 "INSERT OR IGNORE INTO memory_review_candidates VALUES (?, ?, 'pending', NULL, ?)",
-                (candidate_id, draft.project_id, candidate.model_dump_json()),
+                (candidate_id, draft.project_id, candidate.model_dump_json(exclude={'rationale'})),
             )
+            if cursor.rowcount==1 and rationale:
+                self.db.execute('INSERT INTO memory_review_notes VALUES (?,?)',(candidate_id,rationale))
             return self.show(draft.project_id, candidate_id), cursor.rowcount == 1
 
     @staticmethod
@@ -145,7 +155,7 @@ class ReviewQueue:
                WHERE project_id=? AND (? IS NULL OR status=?) ORDER BY candidate_id""",
             (project_id, status, status),
         )
-        return [ReviewCandidate.model_validate_json(row[0]) for row in rows]
+        return [self._with_note(ReviewCandidate.model_validate_json(row[0])) for row in rows]
 
     def show(self, project_id: str, candidate_id: str) -> ReviewCandidate:
         row = self.db.execute(
@@ -154,7 +164,7 @@ class ReviewQueue:
         ).fetchone()
         if row is None:
             raise ValueError("candidate not found in this project")
-        return ReviewCandidate.model_validate_json(row[0])
+        return self._with_note(ReviewCandidate.model_validate_json(row[0]))
 
     def edit(self, project_id: str, candidate_id: str, revision: int, **changes) -> ReviewCandidate:
         if not changes or not changes.keys() <= {"value", "event_type", "effective_at"}:

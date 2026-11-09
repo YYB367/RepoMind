@@ -25,6 +25,15 @@ class Change(Contract):
     effective_at: str | None = None
 
 
+class TaskRequest(Contract):
+    project: Text = Field(max_length=100)
+    prompt: Text = Field(max_length=8000)
+
+
+class StartRequest(Contract):
+    project: Text = Field(max_length=100)
+
+
 class HTTPError(Exception):
     def __init__(self, status, message):
         self.status, self.message = status, message
@@ -34,14 +43,24 @@ class WorkbenchServer(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
 
-    def __init__(self, database: Path, port: int = 8765, project: str = "RepoMind"):
+    def __init__(self, database: Path, port: int = 8765, project: str = "RepoMind", *, roots=None):
         if not 0 <= port <= 65535:
             raise ValueError("port must be between 0 and 65535")
         self.workbench = Workbench(database.resolve())
         self.default_project = project
         self.csrf = secrets.token_urlsafe(32)
+        self.tasks = None
         super().__init__(("127.0.0.1", port), Handler)
         self.origin = f"http://127.0.0.1:{self.server_port}"
+        if roots:
+            from repomind.web.tasks import TaskService
+            try:self.tasks=TaskService(database.resolve(),roots)
+            except Exception:
+                super().server_close();raise
+
+    def server_close(self):
+        if self.tasks:self.tasks.close();self.tasks=None
+        super().server_close()
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -131,17 +150,35 @@ class Handler(BaseHTTPRequestHandler):
 
     def read(self):
         path, args = self.params({"project", "status", "q", "as_of", "known_at", "offset", "limit"})
-        if path in ("/", "/review", "/memories"):
-            body = files("repomind.web").joinpath("index.html").read_text(encoding="utf-8")
+        if path in ("/", "/tasks", "/review", "/memories"):
+            body = files("repomind.web").joinpath("tasks.html" if path in ("/","/tasks") else "index.html").read_text(encoding="utf-8")
             body = body.replace("__CSRF__", self.server.csrf)
             self.send(200, body.encode("utf-8"), "text/html; charset=utf-8")
-        elif path in ("/static/style.css", "/static/app.js"):
+        elif path in ("/static/style.css", "/static/app.js", "/static/tasks.js"):
             name = path.rsplit("/", 1)[1]
             content_type = "text/css" if name.endswith(".css") else "text/javascript"
             self.send(200, files("repomind.web").joinpath(name).read_bytes(), content_type + "; charset=utf-8")
         elif path == "/api/projects":
-            self.send(200, {"projects": self.server.workbench.projects(),
+            self.send(200, {"projects": sorted(set(self.server.workbench.projects()) | (set(self.server.tasks.roots) if self.server.tasks else set())),
+                            "task_projects": list(self.server.tasks.roots) if self.server.tasks else [],
                             "default_project": self.server.default_project})
+        elif path == '/api/tasks':
+            self.send(200,{'items':self.task_service().listing(self.project(args))})
+        elif re.fullmatch(r'/api/tasks/task-[0-9a-f]{32}',path):
+            self.send(200,self.task_service().get(self.project(args),path.rsplit('/',1)[1]))
+        elif re.fullmatch(r'/api/candidates/review-[0-9a-f]{64}(/preview)?',path):
+            project=self.project(args);cid=path.split('/')[3]
+            if not self.server.workbench.database.is_file():raise HTTPError(404,'候选不存在。')
+            with SQLiteMemoryStore(self.server.workbench.database,read_only=True) as store:
+                try:row=ReviewQueue(store,initialize=False).show(project,cid)
+                except (ValueError,sqlite3.Error):raise HTTPError(404,'当前项目没有这条候选。') from None
+            if path.endswith('/preview'):
+                if self.server.tasks:result=self.server.tasks.candidate_preview(project,row)
+                else:
+                    from repomind.web.evidence import preview
+                    result=preview(None,row)
+                self.send(200,result)
+            else:self.send(200,row.model_dump(mode='json'))
         elif path == "/api/candidates":
             project = self.project(args)
             status = args.get("status", "pending")
@@ -157,9 +194,6 @@ class Handler(BaseHTTPRequestHandler):
 
     def mutate(self):
         path, args = self.params(set())
-        match = re.fullmatch(r"/api/candidates/(review-[0-9a-f]{64})/(edit|confirm|reject)", path)
-        if not match:
-            raise HTTPError(404, "审核操作不存在。")
         length = self.headers.get("Content-Length", "")
         if (self.headers.get("Content-Type") != "application/json" or not length.isdecimal()
                 or not 0 < int(length) <= 32768 or self.headers.get("Transfer-Encoding")):
@@ -168,6 +202,16 @@ class Handler(BaseHTTPRequestHandler):
             body = json.loads(self.rfile.read(int(length)))
         except (ValueError, UnicodeError):
             raise HTTPError(400, "审核内容不是有效的 JSON。") from None
+        if path=='/api/tasks/prepare':
+            request=TaskRequest.model_validate(body)
+            self.send(200,self.task_service().prepare(request.project,request.prompt));return
+        if re.fullmatch(r'/api/tasks/task-[0-9a-f]{32}/start',path):
+            request=StartRequest.model_validate(body)
+            try:result=self.task_service().start(request.project,path.split('/')[3])
+            except ValueError as error:raise HTTPError(409,str(error)) from None
+            self.send(202,result);return
+        match = re.fullmatch(r"/api/candidates/(review-[0-9a-f]{64})/(edit|confirm|reject)", path)
+        if not match:raise HTTPError(404,"操作不存在。")
         change = Change.model_validate(body)
         self.project({"project": change.project})
         cid, action = match.groups()
@@ -194,12 +238,18 @@ class Handler(BaseHTTPRequestHandler):
                 raise
         self.send(200, row.model_dump(mode="json"))
 
+    def task_service(self):
+        if self.server.tasks is None:raise HTTPError(409,'当前服务未登记任务项目目录。')
+        return self.server.tasks
+
 
 def add_web_parser(commands):
     parser = commands.add_parser("web", help="Run the local review and project-memory workbench")
     parser.add_argument("--db", type=Path, default=argparse.SUPPRESS)
     parser.add_argument("--project", default="RepoMind", help="Initially selected project")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument('--root',type=Path,default=Path('.'),help='Registered root for the default project')
+    parser.add_argument('--projects-config',type=Path,help='Local JSON mapping project names to absolute repository roots')
 
 
 def run_web(args):
@@ -207,8 +257,17 @@ def run_web(args):
         Handler.project({"project": args.project})
     except HTTPError as error:
         raise ValueError(error.message) from None
-    with WorkbenchServer(args.db, args.port, args.project.strip()) as server:
-        print(f"RepoMind 本地工作台：{server.origin}/review", flush=True)
+    roots={args.project.strip():args.root.resolve()}
+    if args.projects_config:
+        mapping=json.loads(args.projects_config.read_text(encoding='utf-8-sig'))
+        if not isinstance(mapping,dict):raise ValueError('项目配置须为名称到绝对目录的 JSON 对象。')
+        roots={}
+        for name,path in mapping.items():
+            Handler.project({'project':name})
+            if not isinstance(path,str) or not Path(path).is_absolute() or not Path(path).is_dir():raise ValueError('项目目录须为现有绝对目录。')
+            roots[name]=Path(path).resolve()
+    with WorkbenchServer(args.db, args.port, args.project.strip(),roots=roots) as server:
+        print(f"RepoMind 本地工作台：{server.origin}/tasks", flush=True)
         print(f"记忆库：{args.db.resolve()}\n按 Ctrl+C 停止。", flush=True)
         try:
             server.serve_forever(poll_interval=0.25)

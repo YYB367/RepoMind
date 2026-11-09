@@ -51,8 +51,8 @@ def _hooks_config(root, database, project, audit):
     return {"hooks": {name: [{"hooks": [handler]}] for name in EVENTS}}
 
 
-def _run(root, database, project, prompt, *, workspace_write=False):
-    facts = recall(database, project, prompt)
+def _run(root, database, project, prompt, *, workspace_write=False, facts_override=None, runner=None):
+    facts = recall(database, project, prompt) if facts_override is None else facts_override
     parts = [prompt, CAPTURE_GUIDANCE]
     if facts:
         parts.append(recall_context(project, facts))
@@ -60,7 +60,7 @@ def _run(root, database, project, prompt, *, workspace_write=False):
     if workspace_write:
         argv.extend(["--sandbox", "workspace-write"])
     try:
-        child = subprocess.run(
+        child = (runner or subprocess.run)(
             [*argv, "-"],
             input="\n\n".join(parts), encoding="utf-8", errors="replace", capture_output=True, timeout=1800,
         )
@@ -79,6 +79,8 @@ def _run(root, database, project, prompt, *, workspace_write=False):
     thread_id = None
     message = None
     completed = False
+    usage = []
+    tool_errors = []
     for line in child.stdout.splitlines():
         if not line.strip():
             continue
@@ -89,8 +91,12 @@ def _run(root, database, project, prompt, *, workspace_write=False):
             item = event.get("item", {})
             if item.get("type") == "agent_message":
                 message = item.get("text")
+            if item.get("type") == "command_execution" and item.get("exit_code") not in (None, 0):
+                tool_errors.append({"type": "command_execution", "exit_code": item["exit_code"]})
         elif event.get("type") == "turn.completed":
             completed = True
+            if isinstance(event.get("usage"), dict):
+                usage.append(event["usage"])
     if not completed or not isinstance(thread_id, str) or not isinstance(message, str):
         raise ValueError("codex exec did not produce a completed session and final message")
     try:
@@ -98,7 +104,8 @@ def _run(root, database, project, prompt, *, workspace_write=False):
     except ValueError:
         captured = {"pending_ids": [], "created": 0, "capture_error": "invalid proposal block"}
     return {"mode": "codex_exec_wrapper", "session_id": thread_id,
-            "recalled": facts, "capture": captured, "assistant_message": MARKER.sub("", message).rstrip()}
+            "recalled": facts, "capture": captured, "assistant_message": MARKER.sub("", message).rstrip(),
+            "usage": usage, "tool_errors": tool_errors}
 
 
 def run_codex(args):

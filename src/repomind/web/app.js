@@ -25,6 +25,7 @@ function dirty() {
 function canLeave() { return !dirty() || window.confirm("修改尚未保存，是否放弃修改？"); }
 function updateLinks() {
   for (const [id,path] of [["review-link","/review"],["memories-link","/memories"]]) $(id).href=path+"?project="+encodeURIComponent($("project").value.trim());
+  $("tasks-link").href="/tasks?project="+encodeURIComponent($("project").value.trim());
 }
 function params() {
   const p = new URLSearchParams({project:$("project").value.trim(), q:$("query").value.trim(), offset, limit});
@@ -96,6 +97,8 @@ function renderCandidate(row) {
     grid.append(typeLabel,whenLabel); panel.append(grid);
   } else panel.append(node("p",row.draft.value,"fact-value"),meta([["记录类型",types[row.draft.event_type]],["生效时间",stamp(row.draft.effective_at)],["审核时间",stamp(row.reviewed_at)]]));
   panel.append(source(row.artifact,row.quote,[["候选 ID",row.candidate_id],["来源 ID",row.draft.source_id],["审核版本",row.revision]]));
+  panel.append(node("p",row.rationale||"此记录未保存助手理由。请依据已保存引文与来源版本核对事实。","decision-note"));
+  attachPreview(row,panel);
   if(row.status==="pending") {
     const actions=node("div",undefined,"actions");
     const save=node("button","保存修改","quiet");save.id="save-edit";save.type="button";save.disabled=true;save.addEventListener("click",()=>mutate("edit"));
@@ -145,7 +148,7 @@ $("filters").addEventListener("submit",event=>{event.preventDefault();if(!busy &
 $("refresh").addEventListener("click",()=>{if(!busy && canLeave())load();});
 $("previous").addEventListener("click",()=>{if(!busy && canLeave()){offset=Math.max(0,offset-limit);load();}});
 $("next").addEventListener("click",()=>{if(!busy && canLeave()){offset+=limit;load();}});
-for(const id of ["review-link","memories-link"]) $(id).addEventListener("click",event=>{if(busy || !canLeave())event.preventDefault();});
+for(const id of ["tasks-link","review-link","memories-link"]) $(id).addEventListener("click",event=>{if(busy || !canLeave())event.preventDefault();});
 window.addEventListener("beforeunload",event=>{if(dirty()){event.preventDefault();event.returnValue="";}});
 async function init() {
   const initial=new URLSearchParams(location.search);
@@ -158,5 +161,32 @@ async function init() {
   $("project").value=initial.get("project") || "RepoMind";
   try {const result=await api("/api/projects");result.projects.forEach(p=>{const o=node("option");o.value=p;$("projects").append(o);});if(!initial.has("project"))$("project").value=result.default_project;} catch(error){notice(error.message,"error");}
   await load();
+  if(!memoryPage && initial.get("candidate")) {
+    try {select(await api("/api/candidates/"+encodeURIComponent(initial.get("candidate"))+"?project="+encodeURIComponent($("project").value.trim())));}catch(error){notice(error.message,"error");}
+  }
+}
+function attachPreview(row,panel) {
+  const area=node("section",undefined,"file-preview");panel.append(area);
+  async function read() {
+    area.replaceChildren(node("h3","来源文件预览"),node("p","正在读取候选绑定版本…","help"));
+    try {
+      const data=await api("/api/candidates/"+row.candidate_id+"/preview?project="+encodeURIComponent(row.draft.project_id));
+      if(selected!==row || !area.isConnected)return;
+      area.replaceChildren(node("h3","来源文件预览"));
+      const scopes={quote:"仅保存引文",git:"Git 提交版本",file:"当前文件（摘要匹配）",task_snapshot:"任务结束快照"};
+      area.append(node("p",scopes[data.scope]+" · "+(data.commit||data.expected_sha256),"help"));
+      if(data.warning)area.append(node("p",data.warning,"preview-warning"));
+      const body=node("pre",undefined,"code-view");let full=false;
+      const toggle=node("button","显示完整正文","quiet");toggle.type="button";
+      function paint(){let text=data.text;const at=text.indexOf(data.quote);if(!full && at>=0 && data.scope!=="quote") {const start=Math.max(0,text.lastIndexOf("\n",Math.max(0,at-450)));const end=text.indexOf("\n",at+data.quote.length+450);text=text.slice(start,end<0?text.length:end);}
+        body.replaceChildren();const i=text.indexOf(data.quote);if(i>=0){body.append(document.createTextNode(text.slice(0,i)),node("mark",data.quote),document.createTextNode(text.slice(i+data.quote.length)));}else body.textContent=text;
+        toggle.textContent=full?"仅显示引文前后文":"显示完整正文";
+      }
+      toggle.onclick=()=>{full=!full;paint();};paint();area.append(body);if(data.scope!=="quote")area.append(toggle);
+      for(const change of data.changes){const d=node("details");d.append(node("summary","本次任务差异："+change.path),node("pre",change.diff||"此文件无法完整生成差异。","code-view diff-view"));area.append(d);}
+    }catch(error){area.replaceChildren(node("h3","来源文件预览"),node("p",error.message+" 编辑内容已保留。","notice error"));}
+    const retry=node("button","重新读取来源","quiet");retry.type="button";retry.onclick=read;area.append(retry);
+  }
+  read();
 }
 init();

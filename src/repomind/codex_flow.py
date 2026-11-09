@@ -25,7 +25,7 @@ CAPTURE_GUIDANCE = """RepoMind review is enabled for this project. After complet
 a durable project decision with file evidence, append exactly one trailing fenced
 repomind-memory block to your final response. Its body is a JSON array of up to
 three objects, each with path, quote, subject, field, value, event_type, and
-optional commit. Use a repository-relative evidence path and an exact short
+optional commit, and reason (a short explanation of why this is durable and how the quote supports it). Use a repository-relative evidence path and an exact short
 quote that supports the fact. event_type is declare, plan, or complete. Supply
 a full commit ID for committed evidence. Omit the block when there is no durable
 fact. Keep secrets and transcripts out. Never run an approval command. The
@@ -40,6 +40,7 @@ class Proposal(Contract):
     value: Text = Field(max_length=400)
     event_type: Literal["declare", "plan", "complete"]
     commit: Text | None = Field(default=None, max_length=64)
+    reason: Text | None = Field(default=None, max_length=1200)
 
 
 def parse_proposals(message: str) -> list[Proposal]:
@@ -89,6 +90,7 @@ def capture(root: Path, database: Path, project: str, message: str) -> dict:
                     artifact=artifact, quote=proposal.quote, project_id=project,
                     subject=proposal.subject, predicate=proposal.field, value=proposal.value,
                     event_type=proposal.event_type, effective_at=None,
+                    rationale=proposal.reason,
                 )
                 created += added
                 if candidate.status == "pending" and candidate.candidate_id not in pending:
