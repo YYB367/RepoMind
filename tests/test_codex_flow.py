@@ -76,7 +76,7 @@ def test_wrapper_uses_real_exec_contract_and_distinct_session_input(tmp_path, mo
     prompts = []
 
     def fake_run(argv, *, input, **kwargs):
-        assert argv[:3] == ["codex", "exec", "--json"]
+        assert argv[:3] == [str(tmp_path / "codex.exe"), "exec", "--json"]
         prompts.append(input)
         n = len(prompts)
         events = [
@@ -88,6 +88,7 @@ def test_wrapper_uses_real_exec_contract_and_distinct_session_input(tmp_path, mo
         return SimpleNamespace(returncode=0, stdout="\n".join(map(json.dumps, events)), stderr="")
 
     monkeypatch.setattr("repomind.codex_cli.subprocess.run", fake_run)
+    monkeypatch.setattr("repomind.codex_cli.codex_executable", lambda: str(tmp_path / "codex.exe"))
     a = _run(tmp_path, db, "RepoMind", "Prepare a handoff note.")
     assert a["recalled"] == []
     cid, = a["capture"]["pending_ids"]

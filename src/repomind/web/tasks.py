@@ -3,15 +3,15 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
-import shutil
 import subprocess
 import sys
 import threading
-from types import SimpleNamespace
 from uuid import uuid4
 
 from repomind.adapters.sqlite import SQLiteMemoryStore
-from repomind.codex_cli import _run
+from repomind.codex_cli import _run, codex_executable
+from repomind.codex_activity import ActivityLog, activity_view, legacy_activity, safe_text
+from repomind.codex_process import stream_process
 from repomind.codex_flow import recall
 from repomind.memory.review import ReviewQueue
 from repomind.web.evidence import changes, git, preview, snapshot
@@ -43,6 +43,7 @@ class TaskService:
         with SQLiteMemoryStore(database) as store:
             store.connection.execute('CREATE TABLE IF NOT EXISTS web_tasks (task_id TEXT PRIMARY KEY, project_id TEXT NOT NULL, status TEXT NOT NULL, receipt TEXT NOT NULL)')
             store.connection.execute('CREATE TABLE IF NOT EXISTS web_task_candidates (project_id TEXT NOT NULL, candidate_id TEXT NOT NULL, task_id TEXT NOT NULL, PRIMARY KEY(project_id,candidate_id))')
+            store.connection.execute('CREATE TABLE IF NOT EXISTS web_task_activity (task_id TEXT PRIMARY KEY, activity TEXT NOT NULL)')
             for record, in store.connection.execute("SELECT receipt FROM web_tasks WHERE status IN ('queued','running')").fetchall():
                 row=json.loads(record);row.update(status='interrupted',ended_at=now(),error='上次任务服务中断；未自动重跑。请核对原 Codex 进程及文件后再启动新任务。')
                 row.pop('_before',None);self._save(store,row)
@@ -70,6 +71,12 @@ class TaskService:
             with SQLiteMemoryStore(self.database,read_only=True) as store:
                 queue=ReviewQueue(store,initialize=False)
                 row['candidates']=[queue.show(project,c['candidate_id']).model_dump(mode='json') for c in row['candidates']]
+        if not internal:
+            with SQLiteMemoryStore(self.database,read_only=True) as store:
+                activity=store.connection.execute('SELECT activity FROM web_task_activity WHERE task_id=?',(tid,)).fetchone()
+            row['activity']=activity_view(json.loads(activity[0])) if activity else legacy_activity(row)
+            start=row.get('started_at');end=row.get('ended_at') or now()
+            row['elapsed_seconds']=max(0,(datetime.fromisoformat(end)-datetime.fromisoformat(start)).total_seconds()) if start else 0
         return row if internal else {k:v for k,v in row.items() if not k.startswith('_')}
 
     def listing(self,project):
@@ -82,21 +89,42 @@ class TaskService:
         def check(name,fn):
             try:
                 ok,detail=fn()
+            except FileNotFoundError:ok,detail=False,'程序路径不存在，请重新检查安装位置。'
+            except subprocess.TimeoutExpired:ok,detail=False,'检查超时，请在启动服务的终端核对该程序。'
             except (OSError,ValueError,subprocess.SubprocessError):ok,detail=False,'检查失败，请在同一终端核对运行环境。'
             checks.append({'name':name,'ok':ok,'detail':detail})
         check('项目目录',lambda:(root.is_dir(),str(root)))
         check('Git',lambda:(Path(git(root,'rev-parse','--show-toplevel').decode().strip()).resolve()==root,'已核对项目仓库根目录'))
         check('Python',lambda:(True,sys.executable))
-        codex=shutil.which('codex')
-        check('Codex CLI',lambda:(bool(codex),subprocess.run(['codex','--version'],capture_output=True,text=True,timeout=10).stdout.strip()))
-        check('Codex 登录',lambda:(subprocess.run(['codex','login','status'],capture_output=True,timeout=15).returncode==0,'读取当前 Codex 登录，不显示凭据'))
+        try:
+            codex=codex_executable()
+            resolution_error=None
+        except ValueError as error:
+            codex=None
+            resolution_error=str(error)
+        def version():
+            if codex is None:
+                return False,resolution_error
+            result=subprocess.run([codex,'--version'],capture_output=True,text=True,timeout=10)
+            if result.returncode:
+                return False,'Codex 启动失败，退出码 '+str(result.returncode)+'；请在本机终端核对运行环境。'
+            return True,result.stdout.strip()+' · '+codex
+        check('Codex CLI',version)
+        cli_ready=checks[-1]['ok']
+        def login():
+            if not cli_ready:
+                return False,'尚未检查登录：请先解决 Codex CLI 路径或启动问题。'
+            result=subprocess.run([codex,'login','status'],capture_output=True,timeout=15)
+            return result.returncode==0,('当前 Codex 登录检查通过。' if result.returncode==0
+                                       else '登录检查未通过，请在启动服务的终端运行 codex login status。')
+        check('Codex 登录',login)
         def sandbox():
             # A bounded file round trip inside the registered project, no model request.
             script="import pathlib,tempfile; p=pathlib.Path('work'); p.mkdir(exist_ok=True); f=tempfile.TemporaryFile(dir=p); f.write(b'probe'); f.seek(0); assert f.read()==b'probe'; f.close()"
-            child=subprocess.run(['codex','sandbox','-C',str(root),'--permission-profile',':workspace','--',sys.executable,'-c',script],
+            child=subprocess.run([codex,'sandbox','-C',str(root),'--permission-profile',':workspace','--',sys.executable,'-c',script],
                                  cwd=root,capture_output=True,timeout=45)
             return child.returncode==0,'workspace 沙箱读写探测通过' if child.returncode==0 else 'workspace 沙箱不可用；请在终端修复后重新预查'
-        if codex:check('读写沙箱',sandbox)
+        if cli_ready:check('读写沙箱',sandbox)
         return {'ready':len(checks)==6 and all(c['ok'] for c in checks),'checks':checks,'root':str(root),'sandbox':'workspace-write'}
 
     def prepare(self,project,prompt):
@@ -125,33 +153,37 @@ class TaskService:
         self.thread.start()
         return self.get(project,tid)
 
-    def execute(self,argv,*,input,**kwargs):
-        kwargs.pop('timeout',None)
-        kwargs.pop('capture_output',None)
-        with subprocess.Popen(argv,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,**kwargs) as child:
-            supplied=input;elapsed=0
-            while True:
-                try:
-                    out,err=child.communicate(input=supplied,timeout=.5)
-                    return SimpleNamespace(returncode=child.returncode,stdout=out,stderr=err)
-                except subprocess.TimeoutExpired:
-                    supplied=None;elapsed+=.5
-                    if self.cancel.is_set() or elapsed>=1800:
-                        child.terminate()
-                        try:child.communicate(timeout=5)
-                        except subprocess.TimeoutExpired:child.kill();child.communicate()
-                        raise ValueError('任务服务停止或超过 30 分钟；未自动重试。')
+    def execute(self,argv,*,input,on_event=None,on_tick=None,**kwargs):
+        return stream_process(argv,input=input,cancel=self.cancel,on_event=on_event,on_tick=on_tick,**kwargs)
+
+    def _publish(self,tid,log):
+        with SQLiteMemoryStore(self.database) as store:
+            store.connection.execute('INSERT OR REPLACE INTO web_task_activity VALUES (?,?)',
+                                     (tid,json.dumps(log.data,ensure_ascii=False)))
 
     def _work(self,project,tid):
         row=self.get(project,tid,internal=True);root=self.root(project)
+        log=ActivityLog()
+        def phase(summary):
+            log.data.update(last_activity_at=now(),summary=summary)
+            self._publish(tid,log)
+        def observe(event):
+            log.observe(event);self._publish(tid,log)
+        def tick():
+            log.data['process_checked_at']=now();self._publish(tid,log)
+        def execute(argv,**kwargs):
+            return self.execute(argv,on_event=observe,on_tick=tick,**kwargs)
         try:
+            phase('正在保存任务开始前的文件快照')
             before=snapshot(root);row.update(status='running',started_at=now(),_before=before)
             with SQLiteMemoryStore(self.database) as store:self._save(store,row)
             guidance=(row['prompt']+'\n\n运行环境说明：本项目测试解释器为 '+sys.executable+
                       '。只完成这项开发任务，保留既有未提交改动与冻结数据；不要提交 Git，不要编辑记忆数据库或执行审核命令。'+
                       '候选必须来自实际文件产出；不要因为有任务就编造事实。')
+            phase('正在启动独立 Codex 会话')
             row['result']=self.run(root,self.database,project,guidance,workspace_write=True,
-                                   facts_override=row['recalled'],runner=self.execute)
+                                   facts_override=row['recalled'],runner=execute)
+            phase('正在生成文件差异和关联候选')
             row['status']='completed'
             row['changes']=changes(before,snapshot(root))
             if not row['changes']:
@@ -164,11 +196,12 @@ class TaskService:
                     row['candidates'].append(candidate.model_dump(mode='json'))
                     store.connection.execute('INSERT OR IGNORE INTO web_task_candidates VALUES (?,?,?)',(project,cid,tid))
         except Exception as error:
-            row.update(status='cancelled' if self.cancel.is_set() else 'failed',error=str(error) if isinstance(error,ValueError) else '任务执行失败，请检查同一终端的 Codex 环境。')
+            row.update(status='cancelled' if self.cancel.is_set() else 'failed',error=safe_text(error) if isinstance(error,ValueError) else '任务执行失败，请检查同一终端的 Codex 环境。')
             try:row['changes']=changes(row.get('_before',{}),snapshot(root))
             except (OSError,ValueError,subprocess.SubprocessError):pass
         finally:
             row.pop('_before',None);row['ended_at']=now()
+            phase({'completed':'任务收尾完成','failed':'任务执行失败','cancelled':'任务运行已停止'}.get(row['status'],'任务已结束'))
             with SQLiteMemoryStore(self.database) as store:self._save(store,row)
 
     def candidate_preview(self,project,candidate):

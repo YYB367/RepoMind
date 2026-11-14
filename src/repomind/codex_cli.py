@@ -2,14 +2,38 @@
 import argparse
 import base64
 import json
+import os
 from pathlib import Path
 import shlex
+import shutil
 import sqlite3
 import subprocess
 import sys
 
 from repomind.codex_flow import CAPTURE_GUIDANCE, EVENTS, MARKER, capture, hook, recall, recall_context
 from repomind.intelligence.providers import _json_loads
+from repomind.codex_activity import ActivityLog
+
+
+def codex_executable():
+    """Resolve once per invocation so Desktop upgrades do not strand PATH."""
+    configured = os.environ.get("REPOMIND_CODEX_EXECUTABLE")
+    if configured:
+        path = Path(configured)
+        if not path.is_absolute() or not path.is_file():
+            raise ValueError("REPOMIND_CODEX_EXECUTABLE 必须指向存在的程序绝对路径。")
+        return str(path)
+    found = shutil.which("codex")
+    if found:
+        return found
+    local_data = os.environ.get("LOCALAPPDATA")
+    if os.name == "nt" and local_data:
+        desktop_bin = Path(local_data) / "OpenAI" / "Codex" / "bin"
+        candidates = list(desktop_bin.glob("*/codex.exe"))
+        candidates = [path for path in candidates if path.is_file()]
+        if candidates:
+            return str(max(candidates, key=lambda path: path.stat().st_mtime))
+    raise ValueError("未找到 Codex。请安装 CLI，或设置 REPOMIND_CODEX_EXECUTABLE 为程序绝对路径。")
 
 
 def add_codex_parser(commands):
@@ -56,7 +80,7 @@ def _run(root, database, project, prompt, *, workspace_write=False, facts_overri
     parts = [prompt, CAPTURE_GUIDANCE]
     if facts:
         parts.append(recall_context(project, facts))
-    argv = ["codex", "exec", "--json", "-C", str(root)]
+    argv = [codex_executable(), "exec", "--json", "-C", str(root)]
     if workspace_write:
         argv.extend(["--sandbox", "workspace-write"])
     try:
@@ -81,10 +105,12 @@ def _run(root, database, project, prompt, *, workspace_write=False, facts_overri
     completed = False
     usage = []
     tool_errors = []
+    activity = ActivityLog()
     for line in child.stdout.splitlines():
         if not line.strip():
             continue
         event = _json_loads(line)
+        activity.observe(event)
         if event.get("type") == "thread.started":
             thread_id = event.get("thread_id")
         elif event.get("type") == "item.completed":
@@ -105,7 +131,7 @@ def _run(root, database, project, prompt, *, workspace_write=False, facts_overri
         captured = {"pending_ids": [], "created": 0, "capture_error": "invalid proposal block"}
     return {"mode": "codex_exec_wrapper", "session_id": thread_id,
             "recalled": facts, "capture": captured, "assistant_message": MARKER.sub("", message).rstrip(),
-            "usage": usage, "tool_errors": tool_errors}
+            "usage": usage, "tool_errors": tool_errors, "activity": activity.view()}
 
 
 def run_codex(args):

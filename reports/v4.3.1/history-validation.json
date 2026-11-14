@@ -1,0 +1,59 @@
+{
+  "stage_goal": "Validate real historical receipts without reconstructing missing evidence",
+  "real_history": [
+    {
+      "task_id": "task-0050c60fa9a84c5ba2e458fb2d215c3f",
+      "elapsed_seconds": 170.526691,
+      "original_tool_errors": [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ],
+      "original_receipt_sha256": "c2e28a87687b3a4ee3b5a240c1068c10ca049d1b2a7f6480805c3f545ae63aa7"
+    },
+    {
+      "task_id": "task-9505b13d9437475b9606d94024b89e51",
+      "elapsed_seconds": 94.466299,
+      "original_tool_errors": [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ],
+      "original_receipt_sha256": "6ed99a6a65771296c08757e33deb6ac2acdbda05f2bf2f53a6c0e8a30e3e5c12"
+    },
+    {
+      "task_id": "task-88b0284fe0544ba898d7aae6df2f69f0",
+      "elapsed_seconds": 390.267455,
+      "original_tool_errors": [
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        },
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        },
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        },
+        {
+          "type": "command_execution",
+          "exit_code": 1
+        }
+      ],
+      "original_receipt_sha256": "da1daf0a0ea4c6a9abe19fa500b8e5ecf899c3341d2c8f1269da55ae5c8c28b0"
+    },
+    {
+      "task_id": "task-91244a8210e94e4499e03d0dc7b065e8",
+      "elapsed_seconds": 132.775129,
+      "original_tool_errors": [],
+      "original_receipt_sha256": "4fb00f9329ffc77e9bba51eed0813b76a0ea14168f885cc41c3119387fb67565"
+    }
+  ],
+  "all_existing_receipts_byte_identical": true,
+  "existing_task_count": 10,
+  "model_calls": 0
+}

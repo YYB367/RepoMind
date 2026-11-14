@@ -1,0 +1,167 @@
+{
+  "stage_goal": "Exercise runtime feedback using local Python JSONL feeders, not a model",
+  "simulation": true,
+  "model_calls": 0,
+  "tasks": [
+    {
+      "task_id": "task-ffffffffffffffffffffffffffffffff",
+      "prompt": "[SIMULATED] interrupted recovery",
+      "status": "interrupted",
+      "error": "模拟服务中断；未自动重跑。",
+      "activity": null
+    },
+    {
+      "task_id": "task-197c865bafcc4086804af8b3714d1b20",
+      "prompt": "[SIMULATED] running feedback",
+      "status": "completed",
+      "error": null,
+      "activity": {
+        "source": "codex_jsonl",
+        "events": [
+          {
+            "at": "2026-11-14T06:33:15.454298+00:00",
+            "event": "item.completed",
+            "item_id": "1",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 1,
+            "status": "completed",
+            "output": "TOKEN=[REDACTED] FileNotFoundError: missing fixture",
+            "reason": "TOKEN=[REDACTED] FileNotFoundError: missing fixture"
+          },
+          {
+            "at": "2026-11-14T06:33:15.478751+00:00",
+            "event": "item.started",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": null,
+            "status": "in_progress",
+            "output": "",
+            "reason": null
+          },
+          {
+            "at": "2026-11-14T06:33:41.733843+00:00",
+            "event": "item.completed",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 0,
+            "status": "completed",
+            "output": "1 passed",
+            "reason": null
+          }
+        ],
+        "omitted_events": 0,
+        "last_activity_at": "2026-11-14T06:33:44.707387+00:00",
+        "summary": "任务收尾完成",
+        "process_checked_at": "2026-11-14T06:33:40.530631+00:00"
+      }
+    },
+    {
+      "task_id": "task-e00a65e635b5428b926352ce78584ccb",
+      "prompt": "[SIMULATED] failed feedback",
+      "status": "failed",
+      "error": "模拟进程退出码 7：故障注入。",
+      "activity": {
+        "source": "codex_jsonl",
+        "events": [
+          {
+            "at": "2026-11-14T06:34:11.604989+00:00",
+            "event": "item.completed",
+            "item_id": "1",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 1,
+            "status": "completed",
+            "output": "TOKEN=[REDACTED] FileNotFoundError: missing fixture",
+            "reason": "TOKEN=[REDACTED] FileNotFoundError: missing fixture"
+          },
+          {
+            "at": "2026-11-14T06:34:11.631357+00:00",
+            "event": "item.started",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": null,
+            "status": "in_progress",
+            "output": "",
+            "reason": null
+          },
+          {
+            "at": "2026-11-14T06:34:11.656233+00:00",
+            "event": "item.completed",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 0,
+            "status": "completed",
+            "output": "1 passed",
+            "reason": null
+          }
+        ],
+        "omitted_events": 0,
+        "last_activity_at": "2026-11-14T06:34:14.877330+00:00",
+        "summary": "任务执行失败"
+      }
+    },
+    {
+      "task_id": "task-cd2d00cccc89482fb3562fc7f669aedc",
+      "prompt": "[SIMULATED] failed process final",
+      "status": "failed",
+      "error": "模拟进程退出码 7：故障注入。",
+      "activity": {
+        "source": "codex_jsonl",
+        "events": [
+          {
+            "at": "2026-11-14T06:39:03.510730+00:00",
+            "event": "item.completed",
+            "item_id": "1",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 1,
+            "status": "completed",
+            "output": "TOKEN=[REDACTED] FileNotFoundError: missing fixture",
+            "reason": "TOKEN=[REDACTED] FileNotFoundError: missing fixture"
+          },
+          {
+            "at": "2026-11-14T06:39:03.536290+00:00",
+            "event": "item.started",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": null,
+            "status": "in_progress",
+            "output": "",
+            "reason": null
+          },
+          {
+            "at": "2026-11-14T06:39:03.559107+00:00",
+            "event": "item.completed",
+            "item_id": "2",
+            "command": "python -m pytest tests/test_demo.py --token [REDACTED]",
+            "signature": "c348b18dd3c4a647112aa0fab0764ed73d6dfd687b7b0c3972df887fd13c3dce",
+            "exit_code": 0,
+            "status": "completed",
+            "output": "1 passed",
+            "reason": null
+          },
+          {
+            "at": "2026-11-14T06:39:03.582580+00:00",
+            "event": "item.completed",
+            "item_id": "repomind-process",
+            "command": "'D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\v2-venv\\Scripts\\python.exe' -u -c 'import json,time,sys\nfrom pathlib import Path\nprint('\"'\"'{\"type\": \"item.completed\", \"item\": {\"id\": \"1\", \"type\": \"command_execution\", \"command\": \"python -m pytest tests/test_demo.py --token [REDACTED] \"exit_code\": 1, \"aggregated_output\": \"TOKEN=[REDACTED] FileNotFoundError: missing fixture\", \"status\": \"completed\"}}'\"'\"',flush=True)\nprint('\"'\"'{\"type\": \"item.started\", \"item\": {\"id\": \"2\", \"type\": \"command_execution\", \"command\": \"python -m pytest tests/test_demo.py --token [REDACTED] \"exit_code\": null, \"aggregated_output\": \"\", \"status\": \"in_progress\"}}'\"'\"',flush=True)\nprint('\"'\"'{\"type\": \"item.completed\", \"item\": {\"id\": \"2\", \"type\": \"command_execution\", \"command\": \"python -m pytest tests/test_demo.py --token [REDACTED] \"exit_code\": 0, \"aggregated_output\": \"1 passed\", \"status\": \"completed\"}}'\"'\"',flush=True)\nsys.exit(7)\n'",
+            "signature": "09efd94f4ca09b6faea6368cb5dc02b8bb35e57ed9443139b209428b59fc3df8",
+            "exit_code": 7,
+            "status": "failed",
+            "output": "",
+            "reason": ""
+          }
+        ],
+        "omitted_events": 0,
+        "last_activity_at": "2026-11-14T06:39:06.590213+00:00",
+        "summary": "任务执行失败"
+      }
+    }
+  ]
+}

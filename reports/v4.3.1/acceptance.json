@@ -1,0 +1,98 @@
+{
+  "stage_goal": "V4.3.1 runtime fixes, live feedback and sanitized failure/retry evidence",
+  "version": "4.3.1",
+  "status": "accepted",
+  "checked_at": "2026-11-14T06:55:01.766084+00:00",
+  "tests": {
+    "pytest-platform.xml": {
+      "tests": 563,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 563
+    },
+    "pytest-platform-final.xml": {
+      "tests": 565,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 564
+    },
+    "pytest-bridge-recheck.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1
+    },
+    "pytest-platform-accepted.xml": {
+      "tests": 565,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 564
+    },
+    "pytest-final.xml": {
+      "tests": 565,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 565
+    },
+    "pytest-focused-final.xml": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 45
+    }
+  },
+  "real_container_cases_passed": 4,
+  "existing_real_completed_tasks_verified": 4,
+  "existing_raw_task_receipts_preserved": 10,
+  "browser_states_verified": [
+    "running",
+    "completed",
+    "failed",
+    "interrupted"
+  ],
+  "new_model_calls": 0,
+  "new_model_tokens": 0,
+  "new_model_cost": 0,
+  "default_strategy": "reference",
+  "new_native_hook_verification": false,
+  "workspace_selection": "workspace-review.json",
+  "prior_data_and_reports_byte_identical": 469,
+  "frozen_data_hashes_verified_in_distribution": 232,
+  "existing_untracked_document_unchanged": "docs/memory-daily-use.md",
+  "earlier_failures_retained": [
+    {
+      "report": "pytest-platform-final.xml",
+      "failure": "Existing local HTTP bridge request aborted by Windows (10053)",
+      "recheck": "pytest-bridge-recheck.xml",
+      "root_cause": "Not established; single recheck and final full suite passed."
+    },
+    {
+      "report": "pytest-platform-accepted.xml",
+      "failure": "Existing benchmark Git object path exceeded Windows filename limit",
+      "diagnosis": "path-length-diagnosis.json",
+      "resolution": "Use a shorter workspace temporary directory; no source or assertion changes."
+    }
+  ],
+  "remaining_limits": [
+    "Historical receipts cannot supply commands or reasons never saved.",
+    "Retry evidence matches full command and event order within one task; changed or cross-task commands remain unknown.",
+    "Redaction detects configured secrets and common patterns, not arbitrary private natural language.",
+    "Bounded evidence; local single-user serial tasks; abnormal child-process state still needs inspection.",
+    "Native hooks and prior file-preview ASCII/size limits remain unchanged."
+  ],
+  "deployment": {
+    "state": "requires_stopping_existing_service",
+    "port": 8768,
+    "existing_process_id": 4496,
+    "active_user_tasks": 0,
+    "reason": "Windows denied termination in both available execution contexts. Existing service still holds pilot database lease.",
+    "new_database_not_substituted": true,
+    "action": "Stop old service in its original terminal, then run the documented V4.3.1 launch command."
+  }
+}

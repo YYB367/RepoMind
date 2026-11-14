@@ -1,0 +1,55 @@
+{
+  "stage_goal": "Review preexisting changes before V4.3.1 delivery",
+  "base": "v4.3.0",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "e280cf1470f166c2899ec4d0c4cfa51645414ff6683ab04fbf927a4e108460fe",
+      "category": "trial_documentation",
+      "decision": "include",
+      "reason": "核对日常指南入口，增加 V4.3.1 概述"
+    },
+    {
+      "path": "src/repomind/codex_cli.py",
+      "sha256": "5f29584dab1f52fcdeb7a24013b1bfb373fd9e5c70b70184c6f932584d476b44",
+      "category": "existing_path_fix",
+      "decision": "include",
+      "reason": "保留显式路径、PATH、Desktop 查找；补充脱敏活动回执"
+    },
+    {
+      "path": "src/repomind/web/tasks.py",
+      "sha256": "e602c2f694e692e191e1613622e8827b5ac1a5bbca641935752349a3fc06a91d",
+      "category": "existing_preflight_fix",
+      "decision": "include",
+      "reason": "区分程序不可用和未登录；增加流式活动持久化"
+    },
+    {
+      "path": "tests/test_codex_flow.py",
+      "sha256": "6753dc8ec693c35edfd05847b4a32d5570404885ab8d8d8b551ed844be3343fe",
+      "category": "existing_test_change",
+      "decision": "include",
+      "reason": "按解析后的程序路径验证包装器协议"
+    },
+    {
+      "path": "tests/test_task_workbench.py",
+      "sha256": "bccd2359008c091d165f0c2ea6bb223e10b31f963a5a9dc5c3915eae758a69ef",
+      "category": "existing_test_change",
+      "decision": "include",
+      "reason": "路径升级与预查回归，并补充失败边界"
+    },
+    {
+      "path": "docs/memory-daily-use.md",
+      "sha256": "edc9a3f992c1b21049eb962a715d8afe984a0f2ebf3cc6278b6a7fb3283da295",
+      "category": "preexisting_untracked_document",
+      "decision": "exclude_preserve_unchanged",
+      "reason": "早于 V4.3 的用户文件；不纳入本次提交或包"
+    },
+    {
+      "path": "docs/web-daily-guide.md",
+      "sha256": "73d9b896fb144daa1bf7423f566293ccd9112469d05e8498c511cdfa00adc675",
+      "category": "trial_generated_document",
+      "decision": "include_after_review",
+      "reason": "指南任务 task-88b0284fe0544ba898d7aae6df2f69f0 产出；补充新反馈并修正链接"
+    }
+  ]
+}

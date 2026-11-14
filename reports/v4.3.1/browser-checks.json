@@ -1,0 +1,35 @@
+{
+  "stage_goal": "Verify browser feedback using existing real history and clearly labeled simulated events",
+  "new_model_calls": 0,
+  "historical_completed_tasks": 4,
+  "original_receipts_unchanged": 10,
+  "running_elapsed_observations_seconds": [
+    24,
+    26
+  ],
+  "recent_activity_unchanged_during_silence": true,
+  "process_check_separate_from_activity": true,
+  "first_failure_retained_after_same_command_success": true,
+  "process_exit_7_separately_visible": true,
+  "rendered_states": [
+    "running",
+    "completed",
+    "failed",
+    "interrupted"
+  ],
+  "interruption_browser_fixture_is_simulated": true,
+  "actual_restart_recovery_covered_by_unit_tests": true,
+  "simulation_fixture_id_rejected_then_corrected_without_product_changes": true,
+  "mobile": {
+    "width": 390,
+    "scroll_width": 390,
+    "secret_visible": false
+  },
+  "a11y_page_counts": {
+    "inapplicable": 50,
+    "incomplete": 0,
+    "passes": 39,
+    "violations": 0
+  },
+  "scope": "Browser outcomes are real UI interactions; task events are local Python simulation. Historical tasks were not rerun."
+}

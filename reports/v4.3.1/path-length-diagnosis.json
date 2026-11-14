@@ -1,0 +1,42 @@
+{
+  "stage_goal": "Diagnose existing benchmark failure without changing source or scoring",
+  "runs": [
+    {
+      "root_path_length": 180,
+      "outcome": "passed",
+      "git_calls": [
+        {
+          "operation": "init",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        {
+          "operation": "add",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        {
+          "operation": "-c",
+          "exit_code": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "root_path_length": 206,
+      "outcome": "ValueError",
+      "git_calls": [
+        {
+          "operation": "init",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        {
+          "operation": "add",
+          "exit_code": 128,
+          "stderr": "error: unable to write file .git/objects/66/5efb0a70cfae3892e8a582c230a3c341e8eb4e: Filename too long\nerror: README.md: failed to insert into database\nerror: unable to index file 'README.md'\nfatal: adding files failed\n"
+        }
+      ]
+    }
+  ]
+}

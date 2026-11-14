@@ -11,6 +11,93 @@ from repomind.codex_flow import capture, recall
 from repomind.memory.review import ReviewQueue, read_record
 from repomind.web.evidence import MAX_FILE, changes, git, preview, snapshot
 from repomind.web.tasks import TaskService
+from repomind.codex_cli import codex_executable
+from types import SimpleNamespace
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Desktop Windows installation layout")
+def test_codex_discovery_without_path_survives_desktop_update(tmp_path, monkeypatch):
+    monkeypatch.delenv("REPOMIND_CODEX_EXECUTABLE", raising=False)
+    monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+    monkeypatch.setattr("repomind.codex_cli.shutil.which", lambda _: None)
+    folder = tmp_path / "OpenAI/Codex/bin"
+    old = folder / "old-build/codex.exe"
+    old.parent.mkdir(parents=True)
+    old.write_bytes(b"old fixture")
+    assert codex_executable() == str(old)
+    old.unlink()
+    current = folder / "new-build/codex.exe"
+    current.parent.mkdir()
+    current.write_bytes(b"new fixture")
+    assert codex_executable() == str(current)
+
+
+def test_codex_explicit_path_is_checked_before_path_search(tmp_path, monkeypatch):
+    path = tmp_path / "codex.exe"
+    path.write_bytes(b"fixture")
+    monkeypatch.setenv("REPOMIND_CODEX_EXECUTABLE", str(path))
+    assert codex_executable() == str(path)
+    path.unlink()
+    with pytest.raises(ValueError, match="REPOMIND_CODEX_EXECUTABLE"):
+        codex_executable()
+
+
+def test_environment_uses_resolved_binary_for_all_codex_checks(project, monkeypatch):
+    root, db = project
+    calls = []
+    executable = str(root / "installed/codex.exe")
+    monkeypatch.setattr("repomind.web.tasks.codex_executable", lambda: executable)
+    def fake_run(argv, **kwargs):
+        if argv[0] == "git":
+            return SimpleNamespace(returncode=0, stdout=str(root).encode(), stderr=b"")
+        assert argv[0] == executable
+        calls.append(argv[1])
+        return SimpleNamespace(returncode=0, stdout="codex fixture", stderr="")
+    monkeypatch.setattr("repomind.web.tasks.subprocess.run", fake_run)
+    service = TaskService(db, {"RepoMind": root})
+    try:
+        report = service.environment("RepoMind")
+        assert report["ready"]
+        assert calls == ["--version", "login", "sandbox"]
+        assert executable in report["checks"][3]["detail"]
+    finally:
+        service.close()
+
+
+def test_missing_codex_is_not_reported_as_failed_login(project, monkeypatch):
+    root, db = project
+    def unavailable():
+        raise ValueError("未找到 Codex fixture")
+    monkeypatch.setattr("repomind.web.tasks.codex_executable", unavailable)
+    service = TaskService(db, {"RepoMind": root})
+    try:
+        report = service.environment("RepoMind")
+        assert not report["ready"]
+        assert report["checks"][3]["detail"] == "未找到 Codex fixture"
+        assert "尚未检查登录" in report["checks"][4]["detail"]
+    finally:
+        service.close()
+
+
+@pytest.mark.parametrize('failure', ['exit', 'missing', 'timeout'])
+def test_unusable_binary_does_not_run_login_or_sandbox(project, monkeypatch, failure):
+    root, db = project
+    monkeypatch.setattr('repomind.web.tasks.codex_executable', lambda: str(root/'codex.exe'))
+    calls=[]
+    def run(argv, **kwargs):
+        if argv[0]=='git':return SimpleNamespace(returncode=0,stdout=str(root).encode(),stderr=b'')
+        calls.append(argv[1])
+        if failure=='missing':raise FileNotFoundError()
+        if failure=='timeout':raise subprocess.TimeoutExpired(argv, 10)
+        return SimpleNamespace(returncode=7,stdout='',stderr='private diagnostic')
+    monkeypatch.setattr('repomind.web.tasks.subprocess.run',run)
+    service=TaskService(db,{'RepoMind':root})
+    try:
+        report=service.environment('RepoMind')
+        assert not report['ready'] and calls==['--version']
+        assert '尚未检查登录' in report['checks'][4]['detail']
+        assert 'private diagnostic' not in json.dumps(report)
+    finally:service.close()
 
 
 @pytest.fixture

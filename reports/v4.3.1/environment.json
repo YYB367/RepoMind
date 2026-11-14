@@ -1,0 +1,37 @@
+{
+  "ready": true,
+  "checks": [
+    {
+      "name": "项目目录",
+      "ok": true,
+      "detail": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind"
+    },
+    {
+      "name": "Git",
+      "ok": true,
+      "detail": "已核对项目仓库根目录"
+    },
+    {
+      "name": "Python",
+      "ok": true,
+      "detail": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\work\\v2-venv\\Scripts\\python.exe"
+    },
+    {
+      "name": "Codex CLI",
+      "ok": true,
+      "detail": "codex-cli 0.167.0-alpha.4.1 · C:\\Users\\czx\\AppData\\Local\\OpenAI\\Codex\\bin\\9e1da79431da526b\\codex.EXE"
+    },
+    {
+      "name": "Codex 登录",
+      "ok": true,
+      "detail": "当前 Codex 登录检查通过。"
+    },
+    {
+      "name": "读写沙箱",
+      "ok": true,
+      "detail": "workspace 沙箱读写探测通过"
+    }
+  ],
+  "root": "D:\\software\\codex\\2026-10-26\\1-repomind-codex-md-2-repomind\\outputs\\RepoMind",
+  "sandbox": "workspace-write"
+}
