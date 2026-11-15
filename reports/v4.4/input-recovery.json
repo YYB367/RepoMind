@@ -1,0 +1,16 @@
+{
+  "stage_goal": "Preserve first input and image-preflight failure before recovery",
+  "first_input": "data/v4.4-first-input",
+  "first_manifest_sha256": "1ff2275a7b13064c094e86641a4c81f82a46df3010db45020f38a923ebf1308a",
+  "first_outbound_sha256": "222cd30c0b47d8ef17eb9e3b0a92de2e30e4e252f071b3ba5b51640cd1865f5e",
+  "first_implementation_sha256": "0056c082ed96b3caf24a1b8d4a6d1d9a44d22df310c6a210bd22c8be35d0ddb9",
+  "first_result": "offline-first.json",
+  "cause": "Required old immutable image was absent; Docker images list was empty.",
+  "image_build_helper_first_attempt": "Failed; detailed output was not persisted by that helper.",
+  "successful_build_log": "image-build.log",
+  "new_input": "data/v4.4",
+  "new_manifest_sha256": "2a12e73ec41b53317d1ca26cd58739eb040307b246aac20b50da37406541e85a",
+  "new_image": "sha256:4a391dd06f97ab2f6d801efc68f7379474eb5d4838ba850792604e2cf0b83eba",
+  "scoring_files_byte_identical": true,
+  "pre_live_payload_audit_fix": "Canonical JSON key order; outbound review added to manifest. No model calls."
+}

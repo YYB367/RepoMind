@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="18" time="4.985" timestamp="2026-11-15T13:53:08.780510+08:00" hostname="LAPTOP-854KQJUT"><testcase classname="tests.test_memory_effect" name="test_freeze_payload_is_equal_except_memory_and_excludes_judge_and_solution" time="0.033" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[protocol.json]" time="0.060" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[acceptance.py]" time="0.034" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[public.py]" time="0.051" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[memory.json]" time="0.036" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[offline-actions.jsonl]" time="0.038" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[repository/src/pagination.py]" time="0.057" /><testcase classname="tests.test_memory_effect" name="test_any_frozen_file_tampering_is_rejected[outbound-review.json]" time="0.042" /><testcase classname="tests.test_memory_effect" name="test_replay_preserves_empty_baseline_and_immutable_inputs" time="1.593"><failure message="assert [{'role': 'sy...s&quot;: 24000}}'}] == [{'content': ...ole': 'user'}]&#10;  &#10;  At index 1 diff: {'role': 'user', 'content': '{&quot;task_id&quot;: &quot;pagination-followup&quot;, &quot;project_id&quot;: &quot;RepoMind&quot;, &quot;task&quot;: &quot;为 workbench.page 增加后续适配函数 page_query(rows, params)。params 必须是 dict；只读取 offset、limit，缺省为 0、50，忽略其他键。字符串参数只接受非空 ASCII 十进制数字串并转换为整数，禁止符号、空白、小数和 Unicode 数字；非字符串值保持原类型。复用现有 page，保留其既有 pagination_validation 契约及异常行为。不得修改输入对象，返回与 page 一致的结构。仅修改 src/pagination.py，运行公开测试并查看 diff。完成时说明依据和不确定性。&quot;, &quot;as_of&quot;: &quot;2026-11-15T05:53:09.479499+00:00&quot;, &quot;known_at&quot;: null, &quot;files&quot;: {&quot;files&quot;: [&quot;README.md&quot;, &quot;src/pagination.py&quot;, &quot;tests/test_public.py&quot;], &quot;writable_paths&quot;: [&quot;src/paginati...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">suite = WindowsPath('D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/work/t44-unit4/test_replay_preserves_empty_ba0/suite')
+tmp_path = WindowsPath('D:/software/codex/2026-10-26/1-repomind-codex-md-2-repomind/work/t44-unit4/test_replay_preserves_empty_ba0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001DF8B75BA10&gt;
+
+    def test_replay_preserves_empty_baseline_and_immutable_inputs(suite,tmp_path,monkeypatch):
+        monkeypatch.setattr('repomind.intelligence.providers.OpenAICompatibleProvider._post',lambda *_:pytest.fail('No network request permitted'))
+        from repomind.agent.providers import ReplayAgentProvider
+        captured=[]
+        class Recording(ReplayAgentProvider):
+            def generate(self,messages):
+                if self.position==0:captured.append(json.loads(json.dumps(messages)))
+                return super().generate(messages)
+        monkeypatch.setattr('repomind.memory_effect.ReplayAgentProvider',Recording)
+        sandbox=FakeSandbox();run=tmp_path/'run';report=run_offline(suite,run,tmp_path/'config',sandbox=sandbox)
+        assert report['status']=='completed' and report['initial_files_identical']
+        a,b=report['arms'];assert a['memory_input']==[] and b['memory_input'][0]['source_id']=='confirmed-source'
+        assert a['initial_code_hashes']==b['initial_code_hashes']
+        assert a['strict_success']==b['strict_success']==1 and a['checks_total']==27
+        assert report['verdict']['direction']=='not_measured' and report['actual_tokens'] is None
+        assert all(x['total_tokens'] is None and x['model_requests']==0 for x in report['arms'])
+        assert a['claim']['is_model_claim'] is False and len(sandbox.calls)==6
+        outbound=json.loads((suite/'outbound-review.json').read_text(encoding='utf-8'))
+        for index, name in enumerate(['without_memory','with_memory']):
+            stored=json.loads((run/('a' if index==0 else 'b')/'input.json').read_text(encoding='utf-8'))
+&gt;           assert stored['messages']==captured[index]==outbound['arms'][name]['messages']
+E           assert [{'role': 'sy...s": 24000}}'}] == [{'content': ...ole': 'user'}]
+E             
+E             At index 1 diff: {'role': 'user', 'content': '{"task_id": "pagination-followup", "project_id": "RepoMind", "task": "为 workbench.page 增加后续适配函数 page_query(rows, params)。params 必须是 dict；只读取 offset、limit，缺省为 0、50，忽略其他键。字符串参数只接受非空 ASCII 十进制数字串并转换为整数，禁止符号、空白、小数和 Unicode 数字；非字符串值保持原类型。复用现有 page，保留其既有 pagination_validation 契约及异常行为。不得修改输入对象，返回与 page 一致的结构。仅修改 src/pagination.py，运行公开测试并查看 diff。完成时说明依据和不确定性。", "as_of": "2026-11-15T05:53:09.479499+00:00", "known_at": null, "files": {"files": ["README.md", "src/pagination.py", "tests/test_public.py"], "writable_paths": ["src/paginati...
+E             
+E             ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\test_memory_effect.py:80: AssertionError</failure></testcase><testcase classname="tests.test_memory_effect" name="test_sandbox_failure_preserves_partial_report" time="0.710" /><testcase classname="tests.test_memory_effect" name="test_real_direction_logic_is_separate_from_offline_examples[1-27-80-improved]" time="0.001" /><testcase classname="tests.test_memory_effect" name="test_real_direction_logic_is_separate_from_offline_examples[1-27-100-equal]" time="0.001" /><testcase classname="tests.test_memory_effect" name="test_real_direction_logic_is_separate_from_offline_examples[0-26-120-decreased]" time="0.001" /><testcase classname="tests.test_memory_effect" name="test_real_direction_logic_is_separate_from_offline_examples[0-26-80-mixed]" time="0.001" /><testcase classname="tests.test_memory_effect" name="test_real_direction_logic_is_separate_from_offline_examples[1-27-None-inconclusive]" time="0.001" /><testcase classname="tests.test_memory_effect" name="test_http_projection_is_project_scoped_read_only_and_escaped" time="1.682" /><testcase classname="tests.test_memory_effect" name="test_reports_reject_oversized_and_outside_paths" time="0.013" /><testcase classname="tests.test_memory_effect" name="test_live_entrypoint_is_not_exposed" time="0.028" /></testsuite></testsuites>

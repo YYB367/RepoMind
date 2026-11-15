@@ -34,6 +34,8 @@ def build_parser() -> argparse.ArgumentParser:
     add_codex_parser(commands)
     from repomind.web.server import add_web_parser
     add_web_parser(commands)
+    from repomind.memory_effect_cli import add_parser as add_effect_parser
+    add_effect_parser(commands)
     evaluate = commands.add_parser("eval", help="Evaluate in a fresh temporary ledger; emit JSON and Markdown")
     evaluate.add_argument("--events", type=Path, default=Path("data/fixtures/conversations.jsonl"))
     evaluate.add_argument("--dataset", type=Path, required=True)
@@ -217,7 +219,12 @@ def main(argv: list[str] | None = None) -> int:
             stream.reconfigure(encoding="utf-8")
     args = build_parser().parse_args(argv)
     try:
-        if args.command == "web":
+        if args.command == "memory-compare":
+            from repomind.memory_effect_cli import run
+            output=run(args)
+            print(json.dumps(output,ensure_ascii=False,indent=2))
+            return 0 if output.get('status','completed')!='failed' else 1
+        elif args.command == "web":
             from repomind.web.server import run_web
 
             return run_web(args)

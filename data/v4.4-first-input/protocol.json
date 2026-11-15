@@ -1,0 +1,52 @@
+{
+  "acceptance_count": 24,
+  "budget": {
+    "max_actions": 20,
+    "max_context_chars": 24000,
+    "max_test_runs": 3,
+    "max_turns": 6
+  },
+  "extracted_function_sha256": "bfcde083677e9f79b95d4d86cb5b2542244827d770648d01fb8fcd335442b3d8",
+  "frozen_at": "2026-11-15T05:41:15.845551+00:00",
+  "image": "sha256:58bf401e43e491ddc5999990162a01148ff6fcb836fe056781183eed03c5434d",
+  "implementation_hashes": {
+    "agent/loop.py": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+    "agent/models.py": "48fb6183ac4b3a22b4109dfbb5e2576dd284281e263bc4013a1f3f72fd498ae3",
+    "agent/providers.py": "e7acf2a5fb1c053c5e59e60838fda539daf460c50e0d3daa44564eedd8c05750",
+    "agent/sandbox.py": "00f76123508024c90def75f78efae4a07d53d8f2f66cfe9cdd0a5fdca37300f1",
+    "agent/workspace.py": "d139e7bb5f2b862fdaa1601be6ff358389ea4465e40646a05bcc629d864bf530",
+    "memory_effect.py": "0056c082ed96b3caf24a1b8d4a6d1d9a44d22df310c6a210bd22c8be35d0ddb9"
+  },
+  "interpretation": "One paired project-derived task, not a blind trial or stable causal estimate.",
+  "project": "RepoMind",
+  "proposed_live": {
+    "automatic_retry": false,
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "input_tokens": "Unknown until actual API usage; characters are not tokens.",
+    "max_completion_tokens": 2048,
+    "max_context_chars_per_request": 24000,
+    "max_output_tokens_total": 24576,
+    "max_requests_per_arm": 6,
+    "max_requests_total": 12,
+    "model": "deepseek-chat",
+    "temperature": 0,
+    "thinking": "disabled",
+    "wall_seconds_per_arm": 300
+  },
+  "public_count": 3,
+  "schema": 1,
+  "source_commit": "8994148e61a2548461db152a785920b0ba1f453c",
+  "source_path": "src/repomind/workbench.py",
+  "source_sha256": "dfab5797b38b579f16e18ed1a4c21b7fc76241403a7ad35aaee5ed17a9e6dde0",
+  "source_version": "v4.3.1",
+  "stage_goal": "V4.4：冻结同条件双组对照，验证无模型调用的开发、独立验收和可视化流程",
+  "system_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+  "tools": [
+    "list_files",
+    "read_file",
+    "write_file",
+    "run_tests",
+    "git_diff",
+    "finish"
+  ]
+}

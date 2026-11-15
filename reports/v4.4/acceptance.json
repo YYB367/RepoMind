@@ -1,0 +1,64 @@
+{
+  "stage_goal": "V4.4 paired design, visualization and no-model workflow verification",
+  "version": "4.4.0a1",
+  "delivery_scope": "design_and_offline_workflow",
+  "scope_accepted": true,
+  "real_memory_effect_accepted": false,
+  "real_execution_entrypoint_available": false,
+  "real_effect_verdict": "not_measured",
+  "tests": {
+    "total": 583,
+    "passed": 583,
+    "failed": 0,
+    "skipped": 0,
+    "new_effect_tests": 18,
+    "real_container_boundary_cases": 4
+  },
+  "offline": {
+    "first_preserved": "offline-first.json",
+    "subsequent": "offline-second.json",
+    "arms_checks": [
+      [
+        "without_memory",
+        27,
+        27
+      ],
+      [
+        "with_memory",
+        27,
+        27
+      ]
+    ]
+  },
+  "new_model_calls": 0,
+  "actual_model_tokens": null,
+  "actual_model_cost": null,
+  "browser": {
+    "first_failure_visible": true,
+    "two_arms_visible": true,
+    "memory_source_visible": true,
+    "unknown_usage_explicit": true,
+    "mobile_width": 390,
+    "scroll_width": 390,
+    "a11y_counts": {
+      "inapplicable": 49,
+      "incomplete": 0,
+      "passes": 40,
+      "violations": 0
+    }
+  },
+  "prior_data_and_reports_byte_identical": 493,
+  "default_policy": "reference",
+  "untracked_user_file_excluded": "docs/memory-daily-use.md",
+  "future_outbound_review": "data/v4.4/outbound-review.json",
+  "future_proposed_requests": 12,
+  "future_proposed_output_token_cap": 24576,
+  "future_input_tokens": "Unknown; do not substitute context character counts.",
+  "remaining_evidence": [
+    "User authorization for exact outbound payload and budget.",
+    "Tested live runner with time/request/model/usage validation gates.",
+    "Actual independent model runs, returned model IDs and usage.",
+    "A real effect verdict; one pair still cannot establish stable improvement."
+  ],
+  "checked_at": "2026-11-15T06:25:14.516051+00:00"
+}

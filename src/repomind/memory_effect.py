@@ -1,0 +1,251 @@
+"""V4.4 frozen, offline-only paired workflow. No live provider is reachable."""
+import ast
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import re
+from time import perf_counter
+from uuid import uuid4
+
+from repomind.agent.loop import run_agent
+from repomind.agent.models import AgentBudget, AgentTask
+from repomind.agent.providers import ReplayAgentProvider, SYSTEM_PROMPT, PROMPT_SHA256
+from repomind.agent.sandbox import DockerSandbox
+from repomind.agent.workspace import TaskWorkspace, checked_path, digest
+from repomind.codex_activity import safe_text
+from repomind.codex_flow import recall
+from repomind.platform.tracing import clean_payload
+
+GOAL = 'V4.4：冻结同条件双组对照，验证无模型调用的开发、独立验收和可视化流程'
+PROMPT = '''为 workbench.page 增加后续适配函数 page_query(rows, params)。params 必须是 dict；只读取 offset、limit，缺省为 0、50，忽略其他键。字符串参数只接受非空 ASCII 十进制数字串并转换为整数，禁止符号、空白、小数和 Unicode 数字；非字符串值保持原类型。复用现有 page，保留其既有 pagination_validation 契约及异常行为。不得修改输入对象，返回与 page 一致的结构。仅修改 src/pagination.py，运行公开测试并查看 diff。完成时说明依据和不确定性。'''
+HELPER = '''
+def page_query(rows, params):
+    raise NotImplementedError("Implement the query adapter")
+'''
+REFERENCE = '''
+def page_query(rows, params):
+    import re
+    if not isinstance(params, dict):
+        raise ValueError("params must be a dict")
+    values = []
+    for key, default in (("offset", 0), ("limit", 50)):
+        value = params.get(key, default)
+        if isinstance(value, str):
+            if not re.fullmatch(r"[0-9]+", value):
+                raise ValueError("expected ASCII decimal digits")
+            value = int(value)
+        values.append(value)
+    return page(rows, *values)
+'''
+
+
+def encode(value):
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + '\n').encode()
+
+
+def write_new(path, body):
+    path = Path(path); path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('xb') as stream: stream.write(body if isinstance(body, bytes) else encode(body))
+
+
+def checks(expressions):
+    return ('import sys\nsys.path.insert(0, "/workspace/src")\nfrom pagination import page, page_query\n'
+            'import pytest\n\n' + '\n\n'.join('def test_check_%02d():\n    '%i + text.replace('\n', '\n    ')
+                                            for i, text in enumerate(expressions, 1)))
+
+
+def freeze_case(root, database, output, image):
+    """Read a single reviewed fact and committed function; never modify the pilot."""
+    from repomind.web.evidence import git
+    root, output = Path(root).resolve(), Path(output).resolve()
+    if output.exists(): raise ValueError('冻结目录必须是新目录，首次输入不覆盖。')
+    # Binding to this version prevents later workspace edits changing the first case.
+    source = git(root, 'show', 'v4.3.1:src/repomind/workbench.py').decode('utf-8')
+    node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == 'page')
+    page_source = ast.get_source_segment(source, node) + '\n'
+    facts = [f for f in recall(Path(database), 'RepoMind', 'workbench.page pagination_validation')
+             if f['subject'] == 'workbench.page' and f['field'] == 'pagination_validation']
+    if len(facts) != 1: raise ValueError('需要唯一、当前有效且已确认的分页记忆。')
+    for fact in facts:
+        path = Path(fact['path'])
+        if path.is_absolute(): fact['path'] = path.relative_to(root).as_posix()
+    if clean_payload(facts) != facts or safe_text(json.dumps(facts, ensure_ascii=False), 20000) != json.dumps(facts, ensure_ascii=False):
+        raise ValueError('记忆快照可能包含敏感内容，请先检查。')
+    facts=json.loads(encode(facts))  # Preserve identical key ordering in approved and actual prompt strings.
+    if not re.fullmatch(r'sha256:[0-9a-f]{64}',image): raise ValueError('需要不可变的本地镜像 ID。')
+    public = [
+        'assert page_query([1,2,3], {}) == {"items":[1,2,3],"total":3,"offset":0,"limit":50}',
+        'assert page_query([1,2,3], {"offset":"1","limit":"1"})["items"] == [2]',
+        'assert page_query([], {"q":"ignored"})["total"] == 0',
+    ]
+    invalid = [{'offset':v} for v in [True,False,-1,1.5,None,'','+1',' 1','1.0','١']]
+    invalid += [{'limit':v} for v in [True,False,0,101,1.5,None,'-1','']]
+    hidden = ['with pytest.raises(ValueError):\n    page_query([], '+repr(p)+')' for p in invalid]
+    hidden += [
+        'assert page_query([1,2,3], {"offset":10,"limit":100}) == {"items":[],"total":3,"offset":10,"limit":100}',
+        'assert page_query([1,2,3], {"offset":"0001","limit":"100"})["items"] == [2,3]',
+        'rows=[1,2,3]; params={"offset":"1","limit":"1","q":"x"}\npage_query(rows,params)\nassert rows==[1,2,3] and params=={"offset":"1","limit":"1","q":"x"}',
+        'with pytest.raises(ValueError):\n    page_query([], None)',
+        'with pytest.raises(ValueError):\n    page([], True, 50)',
+        'with pytest.raises(ValueError):\n    page([], 0, 101)',
+    ]
+    now = datetime.now(timezone.utc).isoformat()
+    task = AgentTask(task_id='pagination-followup', project_id='RepoMind', category='pagination', prompt=PROMPT,
+                     as_of=now, memory_keys=[('workbench.page','pagination_validation')], writable_paths=['src/pagination.py'],
+                     public_test='public.py', acceptance_test='acceptance.py', public_count=len(public), acceptance_count=len(hidden))
+    responses = [
+        {'actions':[{'tool':'read_file','path':'src/pagination.py'},{'tool':'read_file','path':'tests/test_public.py'}]},
+        {'actions':[{'tool':'write_file','path':'src/pagination.py','content':page_source+REFERENCE}]},
+        {'actions':[{'tool':'run_tests'},{'tool':'git_diff'}]},
+        {'actions':[{'tool':'finish','summary':'Scripted workflow only; no model claim of memory use.'}]},
+    ]
+    budget = AgentBudget().model_dump()
+    files = {'repository/src/pagination.py':(page_source+HELPER).encode(),
+             'repository/README.md':b'Controlled RepoMind pagination follow-up. Only src/pagination.py is writable.\n',
+             'public.py':checks(public).encode(), 'acceptance.py':checks(hidden).encode(),
+             'task.json':encode(task.model_dump(mode='json')), 'memory.json':encode(facts),
+             'offline-actions.jsonl':(json.dumps({'task_id':task.task_id,'responses':responses},ensure_ascii=False)+'\n').encode(),
+             'system.txt':SYSTEM_PROMPT.encode()}
+    protocol = {'stage_goal':GOAL,'schema':1,'project':'RepoMind','frozen_at':now,'source_version':'v4.3.1',
+                'source_commit':git(root,'rev-parse','v4.3.1^{commit}').decode().strip(),
+                'source_path':'src/repomind/workbench.py','source_sha256':hashlib.sha256(source.encode()).hexdigest(),
+                'extracted_function_sha256':hashlib.sha256(page_source.encode()).hexdigest(),
+                'budget':budget,'image':image,'tools':['list_files','read_file','write_file','run_tests','git_diff','finish'],
+                'proposed_live':{'endpoint':'https://api.deepseek.com/chat/completions','model':'deepseek-chat','temperature':0,
+                                 'thinking':'disabled','max_completion_tokens':2048,'max_requests_per_arm':6,'max_requests_total':12,
+                                 'max_output_tokens_total':24576,'max_context_chars_per_request':24000,
+                                 'input_tokens':'Unknown until actual API usage; characters are not tokens.',
+                                 'automatic_retry':False,'wall_seconds_per_arm':300},
+                'public_count':len(public),'acceptance_count':len(hidden),'system_sha256':PROMPT_SHA256,
+                'implementation_hashes':implementation_hashes(),
+                'interpretation':'One paired project-derived task, not a blind trial or stable causal estimate.'}
+    files['protocol.json'] = encode(protocol)
+    output.mkdir(parents=True)
+    for name, body in files.items(): write_new(output/name, body)
+    manifest = {'stage_goal':GOAL,'files':{name:{'sha256':hashlib.sha256(body).hexdigest()} for name,body in files.items()}}
+    # Exact initial payloads and readable files for a future approval; never the judge or fixture solution.
+    outbound = {'stage_goal':'V4.4 future transmission review; not sent','protocol_sha256':digest(output/'protocol.json'),
+                'service':protocol['proposed_live'],'arms':{},'future_feedback':'Only allowed generated source, public-test results and diff; no judge output.',
+                'excluded':['.env','entire repository','entire ledger','chat history','acceptance.py','offline-actions.jsonl']}
+    visible = {'README.md':files['repository/README.md'].decode(),'src/pagination.py':files['repository/src/pagination.py'].decode(),
+               'tests/test_public.py':files['public.py'].decode()}
+    for name, memory in [('without_memory',[]),('with_memory',facts)]:
+        initial = initial_input(task, memory, budget)
+        outbound['arms'][name] = {'messages':[{'role':'system','content':SYSTEM_PROMPT},{'role':'user','content':json.dumps(initial,ensure_ascii=False)}],
+                                  'readable_files':visible}
+    write_new(output/'outbound-review.json', outbound)
+    manifest['files']['outbound-review.json']={'sha256':digest(output/'outbound-review.json')}
+    write_new(output/'manifest.json',manifest)
+    return {'suite':str(output),'manifest_sha256':digest(output/'manifest.json'),'memory_facts':len(facts)}
+
+
+def initial_input(task, facts, budget):
+    return {'task_id':task.task_id,'project_id':task.project_id,'task':task.prompt,'as_of':task.as_of.isoformat(),
+            'known_at':None,'files':{'files':['README.md','src/pagination.py','tests/test_public.py'],'writable_paths':['src/pagination.py']},
+            'memory':{'facts':facts},'budgets':AgentBudget(**budget).model_dump()}
+
+
+def implementation_hashes():
+    root=Path(__file__).parent
+    return {name:digest(root/name) for name in ('memory_effect.py','agent/loop.py','agent/models.py','agent/providers.py','agent/workspace.py','agent/sandbox.py')}
+
+
+def load_suite(suite):
+    suite = Path(suite).resolve()
+    manifest = json.loads(checked_path(suite,'manifest.json').read_text(encoding='utf-8'))
+    for name, entry in manifest['files'].items():
+        if digest(checked_path(suite,name)) != entry['sha256']: raise ValueError('冻结输入摘要不匹配。')
+    protocol = json.loads((suite/'protocol.json').read_text(encoding='utf-8'))
+    if protocol.get('implementation_hashes') != implementation_hashes(): raise ValueError('执行实现与冻结版本不同，需要保留旧案例并另行冻结。')
+    if protocol['system_sha256'] != PROMPT_SHA256: raise ValueError('执行提示版本与冻结版本不同。')
+    return suite, protocol, AgentTask.model_validate_json((suite/'task.json').read_text(encoding='utf-8'))
+
+
+def effect_verdict(arms, *, real, comparable=True):
+    if not real: return {'direction':'not_measured','reason':'离线回放不测量记忆效果或真实 Token。'}
+    if not comparable or len(arms)!=2 or any(a.get('infrastructure_error') for a in arms):
+        return {'direction':'inconclusive','reason':'条件不一致、运行不完整或基础设施失败。'}
+    a,b=arms
+    quality = [b['strict_success']-a['strict_success'], b['checks_passed']-a['checks_passed']]
+    if any(n is None for n in (a.get('total_tokens'),b.get('total_tokens'))):
+        return {'direction':'inconclusive','reason':'真实用量缺失；质量可单列，成本未知。'}
+    deltas=quality+[a['total_tokens']-b['total_tokens']]
+    pos,neg=any(d>0 for d in deltas),any(d<0 for d in deltas)
+    return {'direction':'mixed' if pos and neg else 'improved' if pos else 'decreased' if neg else 'equal',
+            'reason':'仅为这个任务的观察结果，不证明稳定提升或记忆的内部因果作用。'}
+
+
+def run_offline(suite, run_dir, config_dir, *, sandbox=None):
+    suite, protocol, task = load_suite(suite)
+    run_dir = Path(run_dir).resolve()
+    if run_dir.exists(): raise ValueError('运行目录必须是新目录，首次结果不覆盖。')
+    run_dir.mkdir(parents=True)
+    sandbox = sandbox or DockerSandbox(protocol['image'],config_dir)
+    report = {'stage_goal':GOAL,'id':'pair-'+uuid4().hex[:12],'project':task.project_id,'kind':'offline_replay',
+              'status':'running','frozen':protocol,'manifest_sha256':digest(suite/'manifest.json'),
+              'arms':[],'new_model_requests':0,'actual_tokens':None,'actual_cost':None,'verdict':effect_verdict([],real=False)}
+    write_new(run_dir/'first-start.json',report)
+    try:
+        report['sandbox']=sandbox.probe()
+        before_hashes=[]
+        for index, (name, facts) in enumerate([('without_memory',[]),('with_memory',json.loads((suite/'memory.json').read_text(encoding='utf-8')))]):
+            clock=perf_counter();directory=run_dir/('a' if index==0 else 'b')
+            workspace=TaskWorkspace(directory/'repo',task,suite)
+            before_hashes.append({p:digest(workspace.root/p) for p in workspace.allowed})
+            before=before_hashes[-1]
+            write_new(directory/'input.json',{'messages':[{'role':'system','content':SYSTEM_PROMPT},
+                      {'role':'user','content':json.dumps(initial_input(task,facts,protocol['budget']),ensure_ascii=False)}]})
+            provider=ReplayAgentProvider(suite/'offline-actions.jsonl',task.task_id)
+            result=run_agent(task,workspace,provider,sandbox,{'facts':facts},budget=AgentBudget(**protocol['budget']))
+            public=sandbox.run_tests(workspace.root,expected_count=task.public_count)
+            judge=directory/'judge';judge.mkdir();(judge/'test_acceptance.py').write_bytes((suite/task.acceptance_test).read_bytes())
+            acceptance=sandbox.run_tests(workspace.root,expected_count=task.acceptance_count,judge_dir=judge)
+            intact=workspace.protected_integrity()
+            infra=result['status'] in {'sandbox_error','model_transport_error'} or any(g['infrastructure_error'] or g.get('execution_error') or not g['test_report'] for g in (public,acceptance))
+            passed=sum(g['test_report']['passed'] if g['test_report'] else 0 for g in (public,acceptance))
+            arm={'name':name,'memory_input':facts,'memory_bytes':len(json.dumps({'facts':facts},ensure_ascii=False).encode()),
+                 'initial_code_hashes':before,'input_sha256':digest(directory/'input.json'),'final_public':public,'acceptance':acceptance,
+                 'checks_passed':passed,'checks_total':task.public_count+task.acceptance_count,'protected_files_intact':intact,
+                 'strict_success':int(result['status']=='finished' and bool(result['changed_files']) and public['passed'] and acceptance['passed'] and intact and not infra),
+                 'infrastructure_error':bool(infra),'elapsed_seconds':perf_counter()-clock,'agent_elapsed_seconds':result['elapsed_seconds'],
+                 'model_requests':0,'input_tokens':None,'output_tokens':None,'cached_input_tokens':None,'total_tokens':None,'money':None,
+                 'claim':{'speaker':'scripted_fixture','text':result['summary'],'is_model_claim':False},
+                 'observed':{'source_reads':[o['arguments']['path'] for o in result['observations'] if o['tool']=='read_file'],
+                             'changed_files':result['changed_files'],'causal_memory_use':'无法从动作或通过测试证明模型内部使用了记忆。'},
+                 'commands':[{'tool':o['tool'],'path':o['arguments'].get('path'),'status':o['status'],
+                              'exit_code':(o.get('result') or {}).get('exit_code'),
+                              'output':safe_text((o.get('result') or {}).get('stdout',''))} for o in result['observations']],
+                 'diff':result['diff']}
+            report['arms'].append(arm)
+            write_new(directory/'agent.json',clean_payload(result))
+            write_new(directory/'result.json',arm)
+            if infra: raise ValueError('沙箱执行不完整；保留首次部分结果，不自动补跑。')
+        report['initial_files_identical']=before_hashes[0]==before_hashes[1]
+        if not report['initial_files_identical']: raise ValueError('两组初始文件不一致。')
+        report['status']='completed'
+    except Exception as exc:
+        report.update(status='failed',error=safe_text(exc))
+    write_new(run_dir/'report.json',report)
+    return report
+
+
+class ComparisonReports:
+    def __init__(self,root): self.root=Path(root).resolve() if root else None
+
+    def list(self,project):
+        result=[]
+        if self.root and self.root.is_dir():
+            for file in sorted(self.root.glob('*/report.json'))[:100]:
+                relative=file.relative_to(self.root).as_posix()
+                path=checked_path(self.root,relative)
+                if path.stat().st_size>4*1024*1024: continue
+                row=json.loads(path.read_text(encoding='utf-8'))
+                if row.get('project')==project: result.append(row)
+        return result
+
+    def get(self,project,rid):
+        if not re.fullmatch(r'pair-[0-9a-f]{12}',rid): raise ValueError('对照记录编号无效。')
+        rows=[r for r in self.list(project) if r['id']==rid]
+        if len(rows)!=1: raise ValueError('当前项目没有唯一的这条对照记录。')
+        return rows[0]

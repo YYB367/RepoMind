@@ -43,12 +43,15 @@ class WorkbenchServer(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
 
-    def __init__(self, database: Path, port: int = 8765, project: str = "RepoMind", *, roots=None):
+    def __init__(self, database: Path, port: int = 8765, project: str = "RepoMind", *, roots=None, comparison_dir=None):
         if not 0 <= port <= 65535:
             raise ValueError("port must be between 0 and 65535")
         self.workbench = Workbench(database.resolve())
         self.default_project = project
         self.csrf = secrets.token_urlsafe(32)
+        from repomind.memory_effect import ComparisonReports
+        self.comparisons = ComparisonReports(comparison_dir)
+        self.comparison_only = False
         self.tasks = None
         super().__init__(("127.0.0.1", port), Handler)
         self.origin = f"http://127.0.0.1:{self.server_port}"
@@ -94,6 +97,13 @@ class Handler(BaseHTTPRequestHandler):
             raise HTTPError(403, "请使用启动时显示的 127.0.0.1 地址。")
         if self.headers.get("Sec-Fetch-Site") == "cross-site":
             raise HTTPError(403, "请直接打开本地工作台。")
+        if write and self.server.comparison_only:
+            # Drain a bounded declared body before closing, so a rejected POST
+            # does not reset the Windows connection with unread input.
+            length=self.headers.get('Content-Length','')
+            if length.isdecimal() and int(length)<=32768 and not self.headers.get('Transfer-Encoding'):
+                self.rfile.read(int(length))
+            raise HTTPError(403, "对照查看服务只读，请在原工作台操作。")
         if write and (self.headers.get("Origin") != self.server.origin
                       or not secrets.compare_digest(self.headers.get("X-RepoMind-CSRF", ""), self.server.csrf)):
             raise HTTPError(403, "页面授权已失效，请刷新本地工作台后重试。")
@@ -149,15 +159,22 @@ class Handler(BaseHTTPRequestHandler):
             self.send(503, {"error": "无法访问本地记忆库或页面文件。"})
 
     def read(self):
-        path, args = self.params({"project", "status", "q", "as_of", "known_at", "offset", "limit", "candidate", "task"})
-        if path in ("/", "/tasks", "/review", "/memories"):
-            body = files("repomind.web").joinpath("tasks.html" if path in ("/","/tasks") else "index.html").read_text(encoding="utf-8")
+        path, args = self.params({"project", "status", "q", "as_of", "known_at", "offset", "limit", "candidate", "task", "comparison"})
+        if path in ("/", "/tasks", "/review", "/memories", "/comparisons"):
+            body = files("repomind.web").joinpath("comparisons.html" if path=="/comparisons" else "tasks.html" if path in ("/","/tasks") else "index.html").read_text(encoding="utf-8")
             body = body.replace("__CSRF__", self.server.csrf)
             self.send(200, body.encode("utf-8"), "text/html; charset=utf-8")
-        elif path in ("/static/style.css", "/static/app.js", "/static/tasks.js"):
+        elif path in ("/static/style.css", "/static/app.js", "/static/tasks.js", "/static/comparisons.js"):
             name = path.rsplit("/", 1)[1]
             content_type = "text/css" if name.endswith(".css") else "text/javascript"
             self.send(200, files("repomind.web").joinpath(name).read_bytes(), content_type + "; charset=utf-8")
+        elif path == '/api/memory-comparisons':
+            rows=self.server.comparisons.list(self.project(args))
+            self.send(200,{'items':[{k:r[k] for k in ('id','project','kind','status')} for r in rows]})
+        elif re.fullmatch(r'/api/memory-comparisons/pair-[0-9a-f]{12}',path):
+            try: row=self.server.comparisons.get(self.project(args),path.rsplit('/',1)[1])
+            except ValueError: raise HTTPError(404,'当前项目没有这条对照记录。') from None
+            self.send(200,row)
         elif path == "/api/projects":
             self.send(200, {"projects": sorted(set(self.server.workbench.projects()) | (set(self.server.tasks.roots) if self.server.tasks else set())),
                             "task_projects": list(self.server.tasks.roots) if self.server.tasks else [],

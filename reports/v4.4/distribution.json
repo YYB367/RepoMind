@@ -1,0 +1,17 @@
+{
+  "stage_goal": "Verify V4.4 design distribution",
+  "wheel": "repomind-4.4.0a1-py3-none-any.whl",
+  "wheel_sha256": "ef3667350269d1cc584e69fc02b94feca390bd8349014facdc015b2cfd934f50",
+  "source_assets_readme_match": true,
+  "installed": {
+    "version": "4.4.0a1",
+    "installed_outside_source": true,
+    "frozen_implementation_matches_wheel": true,
+    "read_only_projection_passed": true
+  },
+  "source_archive": "RepoMind-v4.4.0-design.zip",
+  "digest": "See sibling .zip.sha256",
+  "old_data_and_reports_preserved": 493,
+  "frozen_file_hashes_to_verify": 251,
+  "user_document_excluded": "docs/memory-daily-use.md"
+}
