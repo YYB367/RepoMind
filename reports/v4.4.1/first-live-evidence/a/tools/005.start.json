@@ -1,0 +1,9 @@
+{
+  "arguments": [
+    "src/pagination.py",
+    "def page(rows, offset, limit):\n    if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:\n        raise ValueError(\"offset must be a non-negative integer\")\n    if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 100:\n        raise ValueError(\"limit must be an integer between 1 and 100\")\n    return {\"items\": rows[offset:offset + limit], \"total\": len(rows), \"offset\": offset, \"limit\": limit}\n\n\ndef _coerce_query_int(value):\n    if isinstance(value, str):\n        if not value or not value.isascii() or not value.isdigit():\n            raise ValueError(\"query parameter must be a non-empty ASCII decimal digit string\")\n        return int(value)\n    return value\n\n\ndef page_query(rows, params):\n    if not isinstance(params, dict):\n        raise TypeError(\"params must be a dict\")\n    offset = _coerce_query_int(params.get(\"offset\", 0))\n    limit = _coerce_query_int(params.get(\"limit\", 50))\n    return page(rows, offset, limit)\n"
+  ],
+  "at": "2026-11-16T06:03:47.274839+00:00",
+  "keywords": {},
+  "tool": "write_file"
+}

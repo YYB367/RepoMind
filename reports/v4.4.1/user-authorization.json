@@ -1,0 +1,25 @@
+{
+  "approved": true,
+  "automatic_retry": false,
+  "outbound_review_sha256": "4f33e90065c658f5b8b48eedd1847898e66eab70345f9bacc7ac49909aa1c08d",
+  "recorded_at": "2026-11-16T06:03:34.294809+00:00",
+  "service_and_budget": {
+    "automatic_retry": false,
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "input_tokens": "Unknown until actual usage; character bounds are not Token counts.",
+    "max_completion_tokens": 2048,
+    "max_context_chars_per_request": 24000,
+    "max_output_tokens_total": 24576,
+    "max_request_bytes": 120000,
+    "max_requests_per_arm": 6,
+    "max_requests_total": 12,
+    "max_response_bytes": 1000000,
+    "model": "deepseek-flash",
+    "request_timeout_seconds": 60,
+    "temperature": 0,
+    "thinking": "disabled",
+    "wall_seconds_per_arm": 300
+  },
+  "stage_goal": "Authorize exactly one V4.4.1 first real pair before any request",
+  "user_answer": "授权上述内容和预算，继续首次真实验收"
+}

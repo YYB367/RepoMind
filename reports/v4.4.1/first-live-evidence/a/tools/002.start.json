@@ -1,0 +1,10 @@
+{
+  "arguments": [
+    "src/pagination.py",
+    1,
+    120
+  ],
+  "at": "2026-11-16T06:03:45.247836+00:00",
+  "keywords": {},
+  "tool": "read_file"
+}

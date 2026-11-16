@@ -1,0 +1,22 @@
+{
+  "at": "2026-11-16T06:03:51.429188+00:00",
+  "cleanup_verified": true,
+  "container_name": "repomind-v2-19777562bc574c14a214f1539ed299f4",
+  "elapsed_seconds": 1.1319947000592947,
+  "execution_error": null,
+  "exit_code": 1,
+  "expected_count": 24,
+  "infrastructure_error": false,
+  "judge_visible_to_agent": false,
+  "limit_reason": null,
+  "passed": false,
+  "stdout": ".....................F..                                                 [100%]\n=================================== FAILURES ===================================\n________________________________ test_check_22 _________________________________\n/judge/test_acceptance.py:91: in test_check_22\n    page_query([], None)\nsrc/pagination.py:19: in page_query\n    raise TypeError(\"params must be a dict\")\nE   TypeError: params must be a dict\n=========================== short test summary info ============================\nFAILED ::test_check_22 - TypeError: params must be a dict\n1 failed, 23 passed in 0.12s\n\nREPOMIND_RESULT {\"collected\": 24, \"errors\": 0, \"exit_code\": 1, \"failed\": 1, \"passed\": 23, \"skipped\": 0}\n",
+  "test_report": {
+    "collected": 24,
+    "errors": 0,
+    "exit_code": 1,
+    "failed": 1,
+    "passed": 23,
+    "skipped": 0
+  }
+}

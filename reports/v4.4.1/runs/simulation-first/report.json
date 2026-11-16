@@ -1,0 +1,592 @@
+{
+  "actual_cost": null,
+  "actual_tokens": null,
+  "approved_review_sha256": "4f33e90065c658f5b8b48eedd1847898e66eab70345f9bacc7ac49909aa1c08d",
+  "arms": [
+    {
+      "acceptance": {
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-456561469e3e4aba983ecd0e37ebc4c6",
+        "elapsed_seconds": 1.079098999965936,
+        "execution_error": null,
+        "exit_code": 0,
+        "expected_count": 24,
+        "infrastructure_error": false,
+        "judge_visible_to_agent": false,
+        "limit_reason": null,
+        "passed": true,
+        "stdout": "........................                                                 [100%]\n24 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 24, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 24, \"skipped\": 0}\n",
+        "test_report": {
+          "collected": 24,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 24,
+          "skipped": 0
+        }
+      },
+      "agent_elapsed_seconds": 2.2501650999765843,
+      "cached_input_tokens": null,
+      "checks_passed": 27,
+      "checks_total": 27,
+      "claim": {
+        "is_model_claim": false,
+        "speaker": "scripted_fixture",
+        "text": "Scripted workflow only; no model claim of memory use."
+      },
+      "cleanup": [
+        {
+          "name": "repomind-v2-456561469e3e4aba983ecd0e37ebc4c6",
+          "verified": true
+        },
+        {
+          "name": "repomind-v2-75378505c8c54fb78e70c5ed6e731e4d",
+          "verified": true
+        },
+        {
+          "name": "repomind-v2-d897bddac424470798fa52e38c9d0f2f",
+          "verified": true
+        }
+      ],
+      "commands": [
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "src/pagination.py",
+          "status": "ok",
+          "tool": "read_file"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "tests/test_public.py",
+          "status": "ok",
+          "tool": "read_file"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "src/pagination.py",
+          "status": "ok",
+          "tool": "write_file"
+        },
+        {
+          "exit_code": 0,
+          "output": "...                                                                      [100%]\n3 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 3, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 3, \"skipped\": 0}\n",
+          "path": null,
+          "status": "ok",
+          "tool": "run_tests"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": null,
+          "status": "ok",
+          "tool": "git_diff"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": null,
+          "status": "ok",
+          "tool": "finish"
+        }
+      ],
+      "diff": "diff --git a/src/pagination.py b/src/pagination.py\nindex 6c28ef3..727b392 100644\n--- a/src/pagination.py\n+++ b/src/pagination.py\n@@ -6,4 +6,15 @@ def page(rows, offset, limit):\n     return {\"items\": rows[offset:offset + limit], \"total\": len(rows), \"offset\": offset, \"limit\": limit}\n \n def page_query(rows, params):\n-    raise NotImplementedError(\"Implement the query adapter\")\n+    import re\n+    if not isinstance(params, dict):\n+        raise ValueError(\"params must be a dict\")\n+    values = []\n+    for key, default in ((\"offset\", 0), (\"limit\", 50)):\n+        value = params.get(key, default)\n+        if isinstance(value, str):\n+            if not re.fullmatch(r\"[0-9]+\", value):\n+                raise ValueError(\"expected ASCII decimal digits\")\n+            value = int(value)\n+        values.append(value)\n+    return page(rows, *values)\n",
+      "elapsed_seconds": 6.194180599995889,
+      "final_public": {
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-d897bddac424470798fa52e38c9d0f2f",
+        "elapsed_seconds": 1.058065399993211,
+        "execution_error": null,
+        "exit_code": 0,
+        "expected_count": 3,
+        "infrastructure_error": false,
+        "judge_visible_to_agent": null,
+        "limit_reason": null,
+        "passed": true,
+        "stdout": "...                                                                      [100%]\n3 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 3, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 3, \"skipped\": 0}\n",
+        "test_report": {
+          "collected": 3,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 3,
+          "skipped": 0
+        }
+      },
+      "infrastructure_error": false,
+      "initial_code_hashes": {
+        "README.md": "91b56c685d3b9cd23e378f6da9b8a72e5acdc4d094ac2cd0cade24dfdc2d777b",
+        "src/pagination.py": "444f0a322aa80e426364c3fed77b6b12a27c021768aabcd43d86ebb51287289a",
+        "tests/test_public.py": "74fea6c8446dfba1201d911257783612cca0426b9b4322a6185447e60f24d8b9"
+      },
+      "input_tokens": null,
+      "memory_bytes": 13,
+      "memory_input": [],
+      "model_requests": 0,
+      "money": null,
+      "name": "without_memory",
+      "observed": {
+        "causal_memory_use": "自述、读写和测试不能证明模型内部使用了记忆。",
+        "changed_files": [
+          "src/pagination.py"
+        ],
+        "source_reads": [
+          "src/pagination.py",
+          "tests/test_public.py"
+        ]
+      },
+      "output_tokens": null,
+      "protected_files_intact": true,
+      "request_records": [
+        {
+          "at": "2026-11-16T05:43:54.424761+00:00",
+          "elapsed_seconds": 8.050003089010715e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"read_file\", \"path\": \"src/pagination.py\"}, {\"tool\": \"read_file\", \"path\": \"tests/test_public.py\"}]}",
+          "request_number": 1,
+          "request_payload_sha256": "9c5c5544a46e5015864569a2d0622df9fca92777ea6f0e632d464b110b70c785",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:43:54.473096+00:00",
+          "elapsed_seconds": 6.960006430745125e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"write_file\", \"path\": \"src/pagination.py\", \"content\": \"def page(rows, offset, limit):\\n    if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:\\n        raise ValueError(\\\"offset must be a non-negative integer\\\")\\n    if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 100:\\n        raise ValueError(\\\"limit must be an integer between 1 and 100\\\")\\n    return {\\\"items\\\": rows[offset:offset + limit], \\\"total\\\": len(rows), \\\"offset\\\": offset, \\\"limit\\\": limit}\\n\\ndef page_query(rows, params):\\n    import re\\n    if not isinstance(params, dict):\\n        raise ValueError(\\\"params must be a dict\\\")\\n    values = []\\n    for key, default in ((\\\"offset\\\", 0), (\\\"limit\\\", 50)):\\n        value = params.get(key, default)\\n        if isinstance(value, str):\\n            if not re.fullmatch(r\\\"[0-9]+\\\", value):\\n                raise ValueError(\\\"expected ASCII decimal digits\\\")\\n            value = int(value)\\n        values.append(value)\\n    return page(rows, *values)\\n\"}]}",
+          "request_number": 2,
+          "request_payload_sha256": "68c1712555cddd13072da3acad9c4d5ed85a320f706196df77397d0fd8b703e3",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:43:54.515658+00:00",
+          "elapsed_seconds": 5.67000824958086e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"run_tests\"}, {\"tool\": \"git_diff\"}]}",
+          "request_number": 3,
+          "request_payload_sha256": "79e3730e9c1cdcb5f306c7636b6f8a4982c6dbf6a766010bb1ac6863369b73d0",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:43:56.628316+00:00",
+          "elapsed_seconds": 8.670007809996605e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"finish\", \"summary\": \"Scripted workflow only; no model claim of memory use.\"}]}",
+          "request_number": 4,
+          "request_payload_sha256": "c0c27597dfc023defd95bba51046ed6152bd86405ccae51f111a82037cf7fa26",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        }
+      ],
+      "resolved_models": [
+        "simulation-no-model"
+      ],
+      "simulated_requests": 4,
+      "status": "finished",
+      "strict_success": 1,
+      "supervision_status": "exited",
+      "system_fingerprints": [],
+      "total_tokens": null,
+      "usage_complete": false
+    },
+    {
+      "acceptance": {
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-5aa3af4157c04b32931f97b1814bc2ad",
+        "elapsed_seconds": 1.0785121999215335,
+        "execution_error": null,
+        "exit_code": 0,
+        "expected_count": 24,
+        "infrastructure_error": false,
+        "judge_visible_to_agent": false,
+        "limit_reason": null,
+        "passed": true,
+        "stdout": "........................                                                 [100%]\n24 passed in 0.08s\n\nREPOMIND_RESULT {\"collected\": 24, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 24, \"skipped\": 0}\n",
+        "test_report": {
+          "collected": 24,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 24,
+          "skipped": 0
+        }
+      },
+      "agent_elapsed_seconds": 1.967073900043033,
+      "cached_input_tokens": null,
+      "checks_passed": 27,
+      "checks_total": 27,
+      "claim": {
+        "is_model_claim": false,
+        "speaker": "scripted_fixture",
+        "text": "Scripted workflow only; no model claim of memory use."
+      },
+      "cleanup": [
+        {
+          "name": "repomind-v2-5aa3af4157c04b32931f97b1814bc2ad",
+          "verified": true
+        },
+        {
+          "name": "repomind-v2-5dad9273bf9e42d88c3bff776c9d331f",
+          "verified": true
+        },
+        {
+          "name": "repomind-v2-702959b9fe4f455e8ff780c11e85a6bd",
+          "verified": true
+        }
+      ],
+      "commands": [
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "src/pagination.py",
+          "status": "ok",
+          "tool": "read_file"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "tests/test_public.py",
+          "status": "ok",
+          "tool": "read_file"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": "src/pagination.py",
+          "status": "ok",
+          "tool": "write_file"
+        },
+        {
+          "exit_code": 0,
+          "output": "...                                                                      [100%]\n3 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 3, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 3, \"skipped\": 0}\n",
+          "path": null,
+          "status": "ok",
+          "tool": "run_tests"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": null,
+          "status": "ok",
+          "tool": "git_diff"
+        },
+        {
+          "exit_code": null,
+          "output": "",
+          "path": null,
+          "status": "ok",
+          "tool": "finish"
+        }
+      ],
+      "diff": "diff --git a/src/pagination.py b/src/pagination.py\nindex 6c28ef3..727b392 100644\n--- a/src/pagination.py\n+++ b/src/pagination.py\n@@ -6,4 +6,15 @@ def page(rows, offset, limit):\n     return {\"items\": rows[offset:offset + limit], \"total\": len(rows), \"offset\": offset, \"limit\": limit}\n \n def page_query(rows, params):\n-    raise NotImplementedError(\"Implement the query adapter\")\n+    import re\n+    if not isinstance(params, dict):\n+        raise ValueError(\"params must be a dict\")\n+    values = []\n+    for key, default in ((\"offset\", 0), (\"limit\", 50)):\n+        value = params.get(key, default)\n+        if isinstance(value, str):\n+            if not re.fullmatch(r\"[0-9]+\", value):\n+                raise ValueError(\"expected ASCII decimal digits\")\n+            value = int(value)\n+        values.append(value)\n+    return page(rows, *values)\n",
+      "elapsed_seconds": 5.810108300065622,
+      "final_public": {
+        "cleanup_verified": true,
+        "container_name": "repomind-v2-5dad9273bf9e42d88c3bff776c9d331f",
+        "elapsed_seconds": 1.010925699956715,
+        "execution_error": null,
+        "exit_code": 0,
+        "expected_count": 3,
+        "infrastructure_error": false,
+        "judge_visible_to_agent": null,
+        "limit_reason": null,
+        "passed": true,
+        "stdout": "...                                                                      [100%]\n3 passed in 0.07s\n\nREPOMIND_RESULT {\"collected\": 3, \"errors\": 0, \"exit_code\": 0, \"failed\": 0, \"passed\": 3, \"skipped\": 0}\n",
+        "test_report": {
+          "collected": 3,
+          "errors": 0,
+          "exit_code": 0,
+          "failed": 0,
+          "passed": 3,
+          "skipped": 0
+        }
+      },
+      "infrastructure_error": false,
+      "initial_code_hashes": {
+        "README.md": "91b56c685d3b9cd23e378f6da9b8a72e5acdc4d094ac2cd0cade24dfdc2d777b",
+        "src/pagination.py": "444f0a322aa80e426364c3fed77b6b12a27c021768aabcd43d86ebb51287289a",
+        "tests/test_public.py": "74fea6c8446dfba1201d911257783612cca0426b9b4322a6185447e60f24d8b9"
+      },
+      "input_tokens": null,
+      "memory_bytes": 553,
+      "memory_input": [
+        {
+          "commit": null,
+          "event_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+          "field": "pagination_validation",
+          "path": "docs/decisions/0025-local-web-workbench-shared-review.md",
+          "sha256": "29391896f422b1bd424550ca0022fcbe0610a46d4a97db33b49f0f0e86a914bc",
+          "source_id": "review-source-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+          "subject": "workbench.page",
+          "value": "offset 仅接受非 bool 的非负整数，limit 仅接受非 bool 的 1–100 整数；非法参数抛出 ValueError。"
+        }
+      ],
+      "model_requests": 0,
+      "money": null,
+      "name": "with_memory",
+      "observed": {
+        "causal_memory_use": "自述、读写和测试不能证明模型内部使用了记忆。",
+        "changed_files": [
+          "src/pagination.py"
+        ],
+        "source_reads": [
+          "src/pagination.py",
+          "tests/test_public.py"
+        ]
+      },
+      "output_tokens": null,
+      "protected_files_intact": true,
+      "request_records": [
+        {
+          "at": "2026-11-16T05:44:01.390399+00:00",
+          "elapsed_seconds": 7.650000043213367e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"read_file\", \"path\": \"src/pagination.py\"}, {\"tool\": \"read_file\", \"path\": \"tests/test_public.py\"}]}",
+          "request_number": 1,
+          "request_payload_sha256": "a353ce4ed19a6a628a0d234b8769fd015651cb296a93324190f14cea7db323e5",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:44:01.438455+00:00",
+          "elapsed_seconds": 6.0699996538460255e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"write_file\", \"path\": \"src/pagination.py\", \"content\": \"def page(rows, offset, limit):\\n    if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:\\n        raise ValueError(\\\"offset must be a non-negative integer\\\")\\n    if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 100:\\n        raise ValueError(\\\"limit must be an integer between 1 and 100\\\")\\n    return {\\\"items\\\": rows[offset:offset + limit], \\\"total\\\": len(rows), \\\"offset\\\": offset, \\\"limit\\\": limit}\\n\\ndef page_query(rows, params):\\n    import re\\n    if not isinstance(params, dict):\\n        raise ValueError(\\\"params must be a dict\\\")\\n    values = []\\n    for key, default in ((\\\"offset\\\", 0), (\\\"limit\\\", 50)):\\n        value = params.get(key, default)\\n        if isinstance(value, str):\\n            if not re.fullmatch(r\\\"[0-9]+\\\", value):\\n                raise ValueError(\\\"expected ASCII decimal digits\\\")\\n            value = int(value)\\n        values.append(value)\\n    return page(rows, *values)\\n\"}]}",
+          "request_number": 2,
+          "request_payload_sha256": "ffda39d44a4376df07a5ab4ebc069544f6b10a8b0be14a8d463d37c71c239742",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:44:01.482581+00:00",
+          "elapsed_seconds": 5.809997674077749e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"run_tests\"}, {\"tool\": \"git_diff\"}]}",
+          "request_number": 3,
+          "request_payload_sha256": "027b9ae44bfbbdd160a0b587744a36b7f1bb8a51e1fdf679e80291fc2f359f01",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        },
+        {
+          "at": "2026-11-16T05:44:03.320876+00:00",
+          "elapsed_seconds": 6.049999501556158e-05,
+          "error_type": null,
+          "finish_reason": "stop",
+          "raw_response": "{\"actions\": [{\"tool\": \"finish\", \"summary\": \"Scripted workflow only; no model claim of memory use.\"}]}",
+          "request_number": 4,
+          "request_payload_sha256": "7491eb207d65b6f6d98196b860e346b397e91619e03b18f77b87390084430c81",
+          "resolved_model": "simulation-no-model",
+          "response_id": null,
+          "system_fingerprint": null,
+          "usage": {
+            "cached_input_tokens": null,
+            "complete": false,
+            "input_tokens": null,
+            "output_tokens": null,
+            "raw": {},
+            "total_tokens": null
+          }
+        }
+      ],
+      "resolved_models": [
+        "simulation-no-model"
+      ],
+      "simulated_requests": 4,
+      "status": "finished",
+      "strict_success": 1,
+      "supervision_status": "exited",
+      "system_fingerprints": [],
+      "total_tokens": null,
+      "usage_complete": false
+    }
+  ],
+  "comparability": {
+    "fingerprints_match_when_reported": true,
+    "model_identifiers": [
+      "simulation-no-model"
+    ],
+    "returned_models_match": true,
+    "system_fingerprints": []
+  },
+  "ended_at": "2026-11-16T05:44:06.929514+00:00",
+  "frozen": {
+    "acceptance_count": 24,
+    "budget": {
+      "max_actions": 20,
+      "max_context_chars": 24000,
+      "max_test_runs": 3,
+      "max_turns": 6
+    },
+    "extracted_function_sha256": "bfcde083677e9f79b95d4d86cb5b2542244827d770648d01fb8fcd335442b3d8",
+    "frozen_at": "2026-11-16T05:43:32.782477+00:00",
+    "image": "sha256:4a391dd06f97ab2f6d801efc68f7379474eb5d4838ba850792604e2cf0b83eba",
+    "implementation_hashes": {
+      "agent/loop.py": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+      "agent/models.py": "48fb6183ac4b3a22b4109dfbb5e2576dd284281e263bc4013a1f3f72fd498ae3",
+      "agent/providers.py": "e7acf2a5fb1c053c5e59e60838fda539daf460c50e0d3daa44564eedd8c05750",
+      "agent/sandbox.py": "00f76123508024c90def75f78efae4a07d53d8f2f66cfe9cdd0a5fdca37300f1",
+      "agent/workspace.py": "d139e7bb5f2b862fdaa1601be6ff358389ea4465e40646a05bcc629d864bf530",
+      "codex_activity.py": "2109127cf3f8bda5534d36b77f80228c19df6d300c88e3152f4a80a5c9a9be7c",
+      "intelligence/config.py": "66513a88d8490b8827a25ff60fa2c042b7b3ff2542bb8b0b00966e5d12335764",
+      "intelligence/providers.py": "fab3fb2eba76483d693a5ef0d1001582c754afe3cae839c3ba7e2e56d4d94781",
+      "memory_effect.py": "5dd7b959f56e491902564a8c55ef2dc66ee2fc696fec59de64869f6ef42d92d3",
+      "memory_effect_cli.py": "1c8cca0a206413722a4fa902f69cd454dca9b56be0f6c0491bbe617eab6e8100",
+      "memory_effect_live.py": "f195332223f19f4aced4355451bf8fcf21eea4f85ed4d5614f26606f3e8c80ac",
+      "platform/tracing.py": "d685566d3e9abeb3da6129b4438f554a112d1e380967fa8b73929f09efe11abf"
+    },
+    "interpretation": "One paired project-derived task, not a blind trial or stable causal estimate.",
+    "parent_manifest_sha256": "2a12e73ec41b53317d1ca26cd58739eb040307b246aac20b50da37406541e85a",
+    "project": "RepoMind",
+    "proposed_live": {
+      "automatic_retry": false,
+      "endpoint": "https://api.deepseek.com/chat/completions",
+      "input_tokens": "Unknown until actual usage; character bounds are not Token counts.",
+      "max_completion_tokens": 2048,
+      "max_context_chars_per_request": 24000,
+      "max_output_tokens_total": 24576,
+      "max_request_bytes": 120000,
+      "max_requests_per_arm": 6,
+      "max_requests_total": 12,
+      "max_response_bytes": 1000000,
+      "model": "deepseek-flash",
+      "request_timeout_seconds": 60,
+      "temperature": 0,
+      "thinking": "disabled",
+      "wall_seconds_per_arm": 300
+    },
+    "public_count": 3,
+    "schema": 2,
+    "source_commit": "8994148e61a2548461db152a785920b0ba1f453c",
+    "source_path": "src/repomind/workbench.py",
+    "source_sha256": "dfab5797b38b579f16e18ed1a4c21b7fc76241403a7ad35aaee5ed17a9e6dde0",
+    "source_version": "v4.3.1",
+    "stage_goal": "V4.4.1：同条件真实模型双组记忆效果对照；保留首次结果和实际用量",
+    "system_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+    "tools": [
+      "list_files",
+      "read_file",
+      "write_file",
+      "run_tests",
+      "git_diff",
+      "finish"
+    ]
+  },
+  "id": "pair-eab2eef470a3",
+  "initial_files_identical": true,
+  "kind": "protocol_simulation",
+  "manifest_sha256": "77f265cd868169015c159057df585e893fb06a565075b20ec5bf3ccd1259c27f",
+  "new_model_requests": 0,
+  "project": "RepoMind",
+  "quality_observation": [
+    {
+      "arm": "without_memory",
+      "checks_passed": 27,
+      "strict_success": 1,
+      "verified": true
+    },
+    {
+      "arm": "with_memory",
+      "checks_passed": 27,
+      "strict_success": 1,
+      "verified": true
+    }
+  ],
+  "sandbox": {
+    "backend": "docker_linux",
+    "capabilities": "ALL dropped",
+    "cpus": 1,
+    "engine_version": "29.5.3",
+    "host_code_fallback": false,
+    "image_id": "sha256:4a391dd06f97ab2f6d801efc68f7379474eb5d4838ba850792604e2cf0b83eba",
+    "max_output_bytes": 65536,
+    "memory_mb": 256,
+    "network": "none",
+    "no_new_privileges": true,
+    "pids_limit": 64,
+    "project_mount": "read-only",
+    "root_filesystem": "read-only",
+    "security_claim": "host capability isolation; not a hostile-code anti-cheating service or kernel-vulnerability guarantee",
+    "timeout_seconds": 25,
+    "user": "65532:65532"
+  },
+  "stage_goal": "V4.4.1：同条件真实模型双组记忆效果对照；保留首次结果和实际用量",
+  "started_at": "2026-11-16T05:43:52.922341+00:00",
+  "status": "completed",
+  "verdict": {
+    "direction": "not_measured",
+    "reason": "模拟响应和真实容器只验证执行链路；没有真实模型效果或 Token。"
+  }
+}

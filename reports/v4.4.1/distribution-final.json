@@ -1,0 +1,11 @@
+{
+  "stage_goal": "Verify final independently installed V4.4.1 wheel and readonly actual first result",
+  "version": "4.4.1",
+  "wheel_sha256": "9739d77cb377704bfd73f13a0783d70fb99670936ef40e2ed9bc720a4d8423fb",
+  "isolated_install": true,
+  "source_and_web_assets_equal": true,
+  "frozen_implementation_verified": true,
+  "actual_failed_report_and_simulation_visible": true,
+  "database_not_created": true,
+  "additional_model_calls": 0
+}

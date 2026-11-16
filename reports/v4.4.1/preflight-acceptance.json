@@ -1,0 +1,50 @@
+{
+  "actual_cost": null,
+  "actual_tokens": null,
+  "browser": {
+    "a11y_counts": {
+      "inapplicable": 49,
+      "incomplete": 0,
+      "passes": 40,
+      "violations": 0
+    },
+    "console_errors": 0,
+    "desktop_width": 1264,
+    "mobile_scroll_width": 390,
+    "mobile_width": 390
+  },
+  "default_policy": "reference",
+  "implementation_accepted": true,
+  "manifest_sha256": "77f265cd868169015c159057df585e893fb06a565075b20ec5bf3ccd1259c27f",
+  "new_model_calls": 0,
+  "outbound_review_sha256": "4f33e90065c658f5b8b48eedd1847898e66eab70345f9bacc7ac49909aa1c08d",
+  "previous_data_report_files_byte_identical": 533,
+  "real_experiment_accepted": false,
+  "remaining": [
+    "User approval of exact outbound scope and budget",
+    "First actual model pair and immutable actual usage/model evidence",
+    "Final observed verdict and its limits"
+  ],
+  "simulation": {
+    "actual_model_requests": 0,
+    "actual_tokens": null,
+    "arms_passed": [
+      27,
+      27
+    ],
+    "id": "pair-eab2eef470a3",
+    "kind": "protocol_simulation"
+  },
+  "stage_goal": "V4.4.1 tested live entrypoint and no-model prerequisites before outbound approval",
+  "status": "awaiting_user_outbound_approval",
+  "tests": {
+    "failed": 0,
+    "new": 31,
+    "passed": 614,
+    "real_container_boundary_cases": 4,
+    "related": 49,
+    "skipped": 0,
+    "total": 614
+  },
+  "user_file_excluded": "docs/memory-daily-use.md"
+}

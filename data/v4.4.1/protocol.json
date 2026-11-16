@@ -1,0 +1,62 @@
+{
+  "acceptance_count": 24,
+  "budget": {
+    "max_actions": 20,
+    "max_context_chars": 24000,
+    "max_test_runs": 3,
+    "max_turns": 6
+  },
+  "extracted_function_sha256": "bfcde083677e9f79b95d4d86cb5b2542244827d770648d01fb8fcd335442b3d8",
+  "frozen_at": "2026-11-16T05:43:32.782477+00:00",
+  "image": "sha256:4a391dd06f97ab2f6d801efc68f7379474eb5d4838ba850792604e2cf0b83eba",
+  "implementation_hashes": {
+    "agent/loop.py": "b78f25ad54318039e20f36e08600e3844f522cd672688f6d4469ba9dfd3296e4",
+    "agent/models.py": "48fb6183ac4b3a22b4109dfbb5e2576dd284281e263bc4013a1f3f72fd498ae3",
+    "agent/providers.py": "e7acf2a5fb1c053c5e59e60838fda539daf460c50e0d3daa44564eedd8c05750",
+    "agent/sandbox.py": "00f76123508024c90def75f78efae4a07d53d8f2f66cfe9cdd0a5fdca37300f1",
+    "agent/workspace.py": "d139e7bb5f2b862fdaa1601be6ff358389ea4465e40646a05bcc629d864bf530",
+    "codex_activity.py": "2109127cf3f8bda5534d36b77f80228c19df6d300c88e3152f4a80a5c9a9be7c",
+    "intelligence/config.py": "66513a88d8490b8827a25ff60fa2c042b7b3ff2542bb8b0b00966e5d12335764",
+    "intelligence/providers.py": "fab3fb2eba76483d693a5ef0d1001582c754afe3cae839c3ba7e2e56d4d94781",
+    "memory_effect.py": "5dd7b959f56e491902564a8c55ef2dc66ee2fc696fec59de64869f6ef42d92d3",
+    "memory_effect_cli.py": "1c8cca0a206413722a4fa902f69cd454dca9b56be0f6c0491bbe617eab6e8100",
+    "memory_effect_live.py": "f195332223f19f4aced4355451bf8fcf21eea4f85ed4d5614f26606f3e8c80ac",
+    "platform/tracing.py": "d685566d3e9abeb3da6129b4438f554a112d1e380967fa8b73929f09efe11abf"
+  },
+  "interpretation": "One paired project-derived task, not a blind trial or stable causal estimate.",
+  "parent_manifest_sha256": "2a12e73ec41b53317d1ca26cd58739eb040307b246aac20b50da37406541e85a",
+  "project": "RepoMind",
+  "proposed_live": {
+    "automatic_retry": false,
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "input_tokens": "Unknown until actual usage; character bounds are not Token counts.",
+    "max_completion_tokens": 2048,
+    "max_context_chars_per_request": 24000,
+    "max_output_tokens_total": 24576,
+    "max_request_bytes": 120000,
+    "max_requests_per_arm": 6,
+    "max_requests_total": 12,
+    "max_response_bytes": 1000000,
+    "model": "deepseek-flash",
+    "request_timeout_seconds": 60,
+    "temperature": 0,
+    "thinking": "disabled",
+    "wall_seconds_per_arm": 300
+  },
+  "public_count": 3,
+  "schema": 2,
+  "source_commit": "8994148e61a2548461db152a785920b0ba1f453c",
+  "source_path": "src/repomind/workbench.py",
+  "source_sha256": "dfab5797b38b579f16e18ed1a4c21b7fc76241403a7ad35aaee5ed17a9e6dde0",
+  "source_version": "v4.3.1",
+  "stage_goal": "V4.4.1：同条件真实模型双组记忆效果对照；保留首次结果和实际用量",
+  "system_sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01",
+  "tools": [
+    "list_files",
+    "read_file",
+    "write_file",
+    "run_tests",
+    "git_diff",
+    "finish"
+  ]
+}

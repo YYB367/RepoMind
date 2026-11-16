@@ -1,0 +1,12 @@
+[
+  {
+    "commit": null,
+    "event_id": "review-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+    "field": "pagination_validation",
+    "path": "docs/decisions/0025-local-web-workbench-shared-review.md",
+    "sha256": "29391896f422b1bd424550ca0022fcbe0610a46d4a97db33b49f0f0e86a914bc",
+    "source_id": "review-source-fdbdfb41d60bd3d16bab2c41969b87614cbf952e9fa6efaae8468fa0e2ffde86",
+    "subject": "workbench.page",
+    "value": "offset 仅接受非 bool 的非负整数，limit 仅接受非 bool 的 1–100 整数；非法参数抛出 ValueError。"
+  }
+]

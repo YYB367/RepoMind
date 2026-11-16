@@ -1,0 +1,10 @@
+{
+  "stage_goal": "Verify release V4.4.1 wheel after plain-language failure presentation",
+  "version": "4.4.1",
+  "wheel_sha256": "af90ce86f772f01766cb58803cc8308cdf463e1766305da0d6ac914e1f4b34d6",
+  "isolated_install": true,
+  "source_and_web_assets_equal": true,
+  "frozen_execution_hashes_unchanged": true,
+  "readonly_HTTP_verified_on_same_execution_version": "distribution-final.json",
+  "additional_model_calls": 0
+}

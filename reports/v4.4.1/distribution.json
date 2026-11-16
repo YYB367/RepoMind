@@ -1,0 +1,9 @@
+{
+  "stage_goal": "Verify independently installed V4.4.1 wheel and frozen execution hashes",
+  "version": "4.4.1",
+  "wheel_sha256": "5bc9de1ca4cbe9708eb3d1528ea15206d677e3ff2fde1f8c2a9a57b3a605d070",
+  "loaded_from_isolated_install": true,
+  "all_packaged_source_assets_equal": true,
+  "frozen_implementation_verified": true,
+  "new_model_calls": 0
+}

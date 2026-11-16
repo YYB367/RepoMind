@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-16T06:03:45.264836+00:00",
+  "result": {
+    "content": "def page(rows, offset, limit):\n    if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:\n        raise ValueError(\"offset must be a non-negative integer\")\n    if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 100:\n        raise ValueError(\"limit must be an integer between 1 and 100\")\n    return {\"items\": rows[offset:offset + limit], \"total\": len(rows), \"offset\": offset, \"limit\": limit}\n\ndef page_query(rows, params):\n    raise NotImplementedError(\"Implement the query adapter\")",
+    "path": "src/pagination.py",
+    "start_line": 1,
+    "total_lines": 9
+  },
+  "status": "ok",
+  "tool": "read_file"
+}

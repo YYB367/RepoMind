@@ -1,0 +1,93 @@
+{
+  "actual_cost": null,
+  "additional_real_rounds": 0,
+  "automatic_retry": false,
+  "browser": {
+    "a11y_counts": {
+      "inapplicable": 49,
+      "incomplete": 0,
+      "passes": 40,
+      "violations": 0
+    },
+    "actual_and_simulation_separate": true,
+    "actual_usage_subtotal_visible": 3473,
+    "console_errors": 0,
+    "mobile_scroll_width": 390,
+    "mobile_viewport": 390,
+    "plain_language_whitespace_reason_visible": true,
+    "unstarted_arm_is_not_zero": true
+  },
+  "checked_at": "2026-11-16T06:32:45.244252+00:00",
+  "default_policy": "reference",
+  "effect_acceptance_passed": false,
+  "first_real_attempt_preserved": true,
+  "implementation_accepted": true,
+  "native_codex_real_sessions_added": 0,
+  "new_model_requests": 3,
+  "observed_actual_input_tokens": 3109,
+  "observed_actual_output_tokens": 364,
+  "observed_actual_total_tokens": 3473,
+  "observed_cached_input_tokens": 1792,
+  "outbound_authorized": true,
+  "outbound_review_sha256": "4f33e90065c658f5b8b48eedd1847898e66eab70345f9bacc7ac49909aa1c08d",
+  "paired_total_tokens": null,
+  "previous_data_report_files_byte_identical": 533,
+  "real_arms": [
+    {
+      "agent_elapsed_seconds": 4.074712199973874,
+      "checks_passed": 26,
+      "checks_total": 27,
+      "elapsed_seconds": 8.466648299945518,
+      "name": "without_memory",
+      "strict_success": 0
+    },
+    {
+      "actual_tokens": null,
+      "checks_passed": null,
+      "elapsed_seconds": null,
+      "name": "with_memory",
+      "status": "not_started",
+      "strict_success": null
+    }
+  ],
+  "real_effect_verdict": "inconclusive",
+  "real_failure_evidence": "first-live-evidence/manifest.json",
+  "remaining_evidence": [
+    "The memory-injected arm was not started, so no real memory injection or outcome evidence exists for it.",
+    "A full comparable pair with final quality and actual usage in both arms is missing.",
+    "The upstream reason for whitespace-only model output is unknown.",
+    "Resolve any task/scoring exception-class ambiguity in a separately frozen version before future experiments; never rewrite this first score."
+  ],
+  "requested_model": "deepseek-flash",
+  "returned_models": [
+    "deepseek-flash"
+  ],
+  "scoring_unchanged": true,
+  "simulation": {
+    "actual_tokens": null,
+    "checks": [
+      27,
+      27
+    ],
+    "id": "pair-eab2eef470a3",
+    "new_model_requests": 0
+  },
+  "stage_goal": "V4.4.1 real model paired memory-effect acceptance with immutable first evidence",
+  "stage_stopped": true,
+  "stop_reason": "Third response had stop finish_reason but whitespace-only content; invalid_actions_no_retry; second arm not started",
+  "system_fingerprints": [
+    "bc19ba97cbe016479903222bb1578db6"
+  ],
+  "task_specification_limit": "The original task required params to be a dict but did not explicitly state the exception class; frozen test_check_22 requires ValueError while the generated code raises TypeError. Scores unchanged, do not generalize this difference.",
+  "tests": {
+    "comparison_related": 50,
+    "failed": 0,
+    "new_in_stage": 32,
+    "passed": 615,
+    "real_container_boundary_cases": 4,
+    "skipped": 0,
+    "total": 615
+  },
+  "unchanged_original_evidence_files": 37,
+  "version": "4.4.1"
+}

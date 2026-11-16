@@ -1,0 +1,21 @@
+{
+  "acceptance_count": 24,
+  "acceptance_test": "acceptance.py",
+  "as_of": "2026-11-15T06:04:10.887522Z",
+  "category": "pagination",
+  "known_at": null,
+  "memory_keys": [
+    [
+      "workbench.page",
+      "pagination_validation"
+    ]
+  ],
+  "project_id": "RepoMind",
+  "prompt": "为 workbench.page 增加后续适配函数 page_query(rows, params)。params 必须是 dict；只读取 offset、limit，缺省为 0、50，忽略其他键。字符串参数只接受非空 ASCII 十进制数字串并转换为整数，禁止符号、空白、小数和 Unicode 数字；非字符串值保持原类型。复用现有 page，保留其既有 pagination_validation 契约及异常行为。不得修改输入对象，返回与 page 一致的结构。仅修改 src/pagination.py，运行公开测试并查看 diff。完成时说明依据和不确定性。",
+  "public_count": 3,
+  "public_test": "public.py",
+  "task_id": "pagination-followup",
+  "writable_paths": [
+    "src/pagination.py"
+  ]
+}

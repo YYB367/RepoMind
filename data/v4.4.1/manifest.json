@@ -1,0 +1,38 @@
+{
+  "files": {
+    "acceptance.py": {
+      "sha256": "59a632d2e23b3a752f7f020b1cce4dd1b8c09763ea648ccc8e9174200ab1b13b"
+    },
+    "memory.json": {
+      "sha256": "a637539aace7b45b7f0302958e560abcac153e96661f1b2671ba7bcc390e7d06"
+    },
+    "offline-actions.jsonl": {
+      "sha256": "c60d67be12cccf187303838fd482920f5c98a76a39a609955d607cdcb31e1045"
+    },
+    "outbound-review.json": {
+      "sha256": "4f33e90065c658f5b8b48eedd1847898e66eab70345f9bacc7ac49909aa1c08d"
+    },
+    "protocol.json": {
+      "sha256": "a490e14cc3904cb258ae27c35d33b64c4125073a5331b1a4e857d1d461bb9f82"
+    },
+    "public.py": {
+      "sha256": "74fea6c8446dfba1201d911257783612cca0426b9b4322a6185447e60f24d8b9"
+    },
+    "repository/README.md": {
+      "sha256": "91b56c685d3b9cd23e378f6da9b8a72e5acdc4d094ac2cd0cade24dfdc2d777b"
+    },
+    "repository/src/pagination.py": {
+      "sha256": "444f0a322aa80e426364c3fed77b6b12a27c021768aabcd43d86ebb51287289a"
+    },
+    "system.txt": {
+      "sha256": "372326b299594d252b7d54e7d6e3a0197dead417f40dc5772f2d7760deb61b01"
+    },
+    "task.json": {
+      "sha256": "ce881488a6b2716eac0de09dcecf9c0f8ede980b88e1e736b41a48e1a9981004"
+    },
+    "upgrade-input.json": {
+      "sha256": "ac90cda6cb691f2917d546b871278cba3e1b99039e04526e0c97fec55a3f2290"
+    }
+  },
+  "stage_goal": "V4.4.1：同条件真实模型双组记忆效果对照；保留首次结果和实际用量"
+}

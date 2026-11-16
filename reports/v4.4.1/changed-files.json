@@ -1,0 +1,344 @@
+{
+  "base": "v4.4.0-design",
+  "changes": [
+    {
+      "path": "AGENTS.md",
+      "status": "M"
+    },
+    {
+      "path": "README.md",
+      "status": "M"
+    },
+    {
+      "path": "data/v4.4.1/acceptance.py",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/manifest.json",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/memory.json",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/offline-actions.jsonl",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/outbound-review.json",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/protocol.json",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/public.py",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/repository/README.md",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/repository/src/pagination.py",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/system.txt",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/task.json",
+      "status": "A"
+    },
+    {
+      "path": "data/v4.4.1/upgrade-input.json",
+      "status": "A"
+    },
+    {
+      "path": "docs/decisions/0030-supervised-live-memory-effect-pair.md",
+      "status": "A"
+    },
+    {
+      "path": "docs/v4.4.1-delivery.md",
+      "status": "A"
+    },
+    {
+      "path": "docs/v4.4.1-outbound-review.md",
+      "status": "A"
+    },
+    {
+      "path": "pyproject.toml",
+      "status": "M"
+    },
+    {
+      "path": "reports/v4.4.1/a11y-live-first.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/a11y-release.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/a11y.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/acceptance.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/distribution-final.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/distribution-release.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/distribution.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/agent.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/containers/19777562bc574c14a214f1539ed299f4.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/containers/95a32882a0004f8aa319a4590aa1a35f.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/initial.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/input.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/001.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/001.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/002.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/002.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/003.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/requests/003.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/result.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tests/001.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tests/001.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tests/002.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tests/002.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/001.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/001.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/002.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/002.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/003.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/003.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/004.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/004.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/005.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/005.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/006.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/006.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/007.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/007.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/008.end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/tools/008.start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/worker-end.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/a/worker-start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/final-report.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/first-start.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/manifest.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/first-live-evidence/report.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/live-first-desktop.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/live-first-mobile-release.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/live-first-mobile.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/live-first-release.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/preflight-acceptance.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/preservation.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/pytest-final.xml",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/pytest-first.xml",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/pytest-focused.xml",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/pytest-platform.xml",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/runs/live-first/report.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/runs/simulation-first/report.json",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/simulation-desktop.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/simulation-mobile.png",
+      "status": "A"
+    },
+    {
+      "path": "reports/v4.4.1/user-authorization.json",
+      "status": "A"
+    },
+    {
+      "path": "src/repomind/__init__.py",
+      "status": "M"
+    },
+    {
+      "path": "src/repomind/memory_effect_cli.py",
+      "status": "M"
+    },
+    {
+      "path": "src/repomind/memory_effect_live.py",
+      "status": "A"
+    },
+    {
+      "path": "src/repomind/web/comparisons.html",
+      "status": "M"
+    },
+    {
+      "path": "src/repomind/web/comparisons.js",
+      "status": "M"
+    },
+    {
+      "path": "tests/test_memory_effect_live.py",
+      "status": "A"
+    }
+  ],
+  "count_before_this_manifest": 84,
+  "stage_goal": "Describe V4.4.1 code, frozen case, docs, tests and first real evidence delivery",
+  "user_file_excluded": "docs/memory-daily-use.md"
+}

@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-16T06:03:45.284836+00:00",
+  "result": {
+    "content": "import sys\nsys.path.insert(0, \"/workspace/src\")\nfrom pagination import page, page_query\nimport pytest\n\ndef test_check_01():\n    assert page_query([1,2,3], {}) == {\"items\":[1,2,3],\"total\":3,\"offset\":0,\"limit\":50}\n\ndef test_check_02():\n    assert page_query([1,2,3], {\"offset\":\"1\",\"limit\":\"1\"})[\"items\"] == [2]\n\ndef test_check_03():\n    assert page_query([], {\"q\":\"ignored\"})[\"total\"] == 0",
+    "path": "tests/test_public.py",
+    "start_line": 1,
+    "total_lines": 13
+  },
+  "status": "ok",
+  "tool": "read_file"
+}

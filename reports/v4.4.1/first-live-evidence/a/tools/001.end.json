@@ -1,0 +1,15 @@
+{
+  "at": "2026-11-16T06:03:44.109744+00:00",
+  "result": {
+    "files": [
+      "README.md",
+      "src/pagination.py",
+      "tests/test_public.py"
+    ],
+    "writable_paths": [
+      "src/pagination.py"
+    ]
+  },
+  "status": "ok",
+  "tool": "list_files"
+}
